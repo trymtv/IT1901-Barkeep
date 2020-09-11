@@ -1,4 +1,4 @@
-module com.github.TrymTv {
+module barkeep {
     requires javafx.controls;
     requires javafx.fxml;
 
