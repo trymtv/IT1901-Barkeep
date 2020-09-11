@@ -1,4 +1,5 @@
 # BarKeep - Group gr2011 repository
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.idi.ntnu.no/#https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2011/gr2011)
 
 This repo contains the code for our project in IT1901 fall 2020.
 
