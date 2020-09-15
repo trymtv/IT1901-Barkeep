@@ -26,9 +26,21 @@ public class App extends Application {
 			}
 		});
 
+
+
 		StackPane root = new StackPane();
 		root.getChildren().add(btn);
 		primaryStage.setScene(new Scene(root, 300, 250));
 		primaryStage.show();
+	}
+
+	public static boolean functionToTest(){
+		if (true){
+			System.out.println("It was true");
+			return true;
+		}else{
+			System.out.println("this should not be covered.");
+			return false;
+		}
 	}
 }
