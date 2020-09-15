@@ -7,4 +7,4 @@ default:
         paths:
             - .m2/repository
 test:
-    script: mvn clean test
+    script: cd BarKeep && mvn clean test
