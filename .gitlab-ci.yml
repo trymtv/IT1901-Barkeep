@@ -7,9 +7,9 @@ default:
         paths:
             - .m2/repository
 test:
-    script: |
-    cd BarKeep
-    && mvn clean test
-    && awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", 
-    instructions, "instructions covered"; print 100*covered/instructions, "% 
-    covered" }' target/site/jacoco/jacoco.csv
+    script: >
+            cd BarKeep
+            && mvn clean test
+            && awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", 
+            instructions, "instructions covered"; print 100*covered/instructions, "% 
+            covered" }' target/site/jacoco/jacoco.csv
