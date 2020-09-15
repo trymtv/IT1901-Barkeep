@@ -1,0 +1,17 @@
+variables:
+    MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+default:
+    image: maven:3.6-adoptopenjdk-14-openj9
+    cache:
+        key: maven-cache
+        paths:
+            - .m2/repository
+test:
+    script: >
+            cd BarKeep
+            && mvn clean test
+            && mvn jacoco:report
+            && find
+            && awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/", 
+            instructions, "instructions covered"; print 100*covered/instructions, "% 
+            covered" }' target/site/jacoco/jacoco.csv
