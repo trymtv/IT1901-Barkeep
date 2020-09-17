@@ -20,13 +20,4 @@ public class App extends Application {
 		primaryStage.show();
 	}
 
-	public static boolean functionToTest(){
-		if (true){
-			System.out.println("It was true");
-			return true;
-		}else{
-			System.out.println("this should not be covered.");
-			return false;
-		}
-	}
 }
