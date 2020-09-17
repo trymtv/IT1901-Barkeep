@@ -1,11 +1,20 @@
-package barkeep.json;
+package json;
 
 import barkeep.Drink;
 import barkeep.User;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.TreeNode;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 import java.io.IOException;
 
-public class UserDeserializer extends JsonDeserializer<User>  {
+public class UserDeserializer extends JsonDeserializer<User> {
 
 
 

@@ -1,7 +1,9 @@
-package barkeep.json;
+package json;
 
 import barkeep.Drink;
-
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonSerializer;
+import com.fasterxml.jackson.databind.SerializerProvider;
 
 
 public class DrinkSerializer extends JsonSerializer<Drink> {

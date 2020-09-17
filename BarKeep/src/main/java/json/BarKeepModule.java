@@ -1,7 +1,9 @@
-package barkeep.json;
+package json;
 
 import barkeep.Drink;
 import barkeep.User;
+import com.fasterxml.jackson.core.util.VersionUtil;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 
 
 public class BarKeepModule extends SimpleModule {
