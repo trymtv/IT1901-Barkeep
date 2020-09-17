@@ -1,5 +1,6 @@
-# Group gr2011 repository
+# Kildekoden til Barkeep
 
-Welcome to IT1901 course fall 2020
+Programmet skal fungere slik det er beskrevet i readme-en i roten.
 
-Good luck!
+Her er et utkast til hvordan det skal se ut år du registrerer en som skylder deg
+leskedrikk:
