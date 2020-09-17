@@ -1,12 +1,24 @@
 package barkeep;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.Module;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import json.BarKeepModule;
+import json.DrinkSerializer;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
+
 /**
  * Class representing a Drink
  */
 public class Drink {
     private String name;
     private int id;
-    private float value;
+    private double value;
 
     /**
      * Get name of drink
@@ -36,7 +48,7 @@ public class Drink {
      * Get value of drink
      * @return value
      */
-    public float getValue() {
+    public double getValue() {
         return value;
     }
 
@@ -44,7 +56,7 @@ public class Drink {
      * Set value of Drink
      * @param value
      */
-    public void setValue(float value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
@@ -62,5 +74,21 @@ public class Drink {
     @Override
     public String toString() {
         return this.name;
+    }
+
+    public static void main(String[] args) throws JsonProcessingException {
+        Drink testDrink = new Drink("Brus", 5);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new BarKeepModule());
+        mapper.writeValueAsString(testDrink);
+        System.out.println(System.getProperty("user.home"));
+        try {
+            Writer writer =
+                    new FileWriter(Paths.get(System.getProperty("user.home"), "todolist.json").toFile(), StandardCharsets.UTF_8);
+            mapper.writeValue(writer, testDrink);
+        } catch (IOException e) {
+            System.err.println("Fikk ikke skrevet til todolist.json på hjemmeområdet");
+        }
+
     }
 }

@@ -28,23 +28,17 @@ public class DrinkDeserializer extends JsonDeserializer<Drink> {
     Drink deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode) {
             ObjectNode objectNode = (ObjectNode) jsonNode;
-            Drink drink = new Drink();
+            Drink drink = new Drink("", 0);
             JsonNode nameNode = objectNode.get("name");
-            if (textNode instanceof TextNode) {
+            if (nameNode instanceof TextNode) {
                 drink.setName(((TextNode) nameNode).asText());
-            }
-            JsonNode idNode = objectNode.get("id");
-            if (idNode instanceof IntNode) {
-                drink.setId(((IntNode) idNode).asInt());
             }
             JsonNode valueNode = objectNode.get("value");
             if (valueNode instanceof DoubleNode) {
-                drink.setValue(((DoubleNode) idNode).asDouble());
+                drink.setValue(((DoubleNode) valueNode).asDouble());
             }
             return drink;
         }
         return null;
     }
-}
-
 }
