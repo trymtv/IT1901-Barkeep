@@ -76,19 +76,4 @@ public class Drink {
         return this.name;
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
-        Drink testDrink = new Drink("Brus", 5);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new BarKeepModule());
-        mapper.writeValueAsString(testDrink);
-        System.out.println(System.getProperty("user.home"));
-        try {
-            Writer writer =
-                    new FileWriter(Paths.get(System.getProperty("user.home"), "todolist.json").toFile(), StandardCharsets.UTF_8);
-            mapper.writeValue(writer, testDrink);
-        } catch (IOException e) {
-            System.err.println("Fikk ikke skrevet til todolist.json på hjemmeområdet");
-        }
-
-    }
 }

@@ -28,7 +28,7 @@ public class Barkeep1Controller implements Initializable {
     @FXML
     private Label feedback;
 
-    private User user;
+//    private User user;
     private List<Drink> supportedDrinksList;
 
 

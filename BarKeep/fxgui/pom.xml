@@ -68,6 +68,10 @@
         </resources>
 
         <plugins>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+            </plugin>
             <!-- Compiling code -->
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -89,11 +93,12 @@
                 </configuration>
             </plugin>
 
-            <!-- Jacoco test coverage -->
+            <!-- Jacoco test coverage
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
             </plugin>
+            -->
         </plugins>
     </build>
 
