@@ -52,6 +52,21 @@
     <build>
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>com.github.spotbugs</groupId>
+                    <artifactId>spotbugs-maven-plugin</artifactId>
+                    <version>4.0.4</version>
+                    <executions>
+                        <execution>
+                            <id>spotbugs-check</id>
+                            <phase>verify</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+
                 <!-- Compiling code -->
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -76,9 +91,6 @@
                     <groupId>org.openjfx</groupId>
                     <artifactId>javafx-maven-plugin</artifactId>
                     <version>0.0.4</version>
-                    <configuration>
-                        <mainClass>BarKeep.fxgui.barkeep.App</mainClass>
-                    </configuration>
                 </plugin>
 
                 <!-- Jacoco test coverage -->
