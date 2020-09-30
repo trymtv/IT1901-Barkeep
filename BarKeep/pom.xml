@@ -112,6 +112,13 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <excludes>
+                            <!-- No current tests
+                             TODO Add tests-->
+                            <exclude>fxgui</exclude>
+                        </excludes>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
