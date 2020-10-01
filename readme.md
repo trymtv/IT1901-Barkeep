@@ -12,3 +12,8 @@ your disloyal friends.
 
 The sourcecode can be found under
 `/BarKeep/src` ([Here](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2011/gr2011/-/tree/master/BarKeep%2Fsrc))
+
+
+To run the project:
+1. `mvn install`
+2. `mvn -pl fxgui javafx:run`
