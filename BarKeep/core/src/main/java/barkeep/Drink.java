@@ -65,7 +65,7 @@ public class Drink {
      * @param name
      * @param value
      */
-    public Drink(String name, float value)
+    public Drink(String name, double value)
     {
         this.name = name;
         this.value = value;
