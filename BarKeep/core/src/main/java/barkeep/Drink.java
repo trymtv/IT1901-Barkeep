@@ -20,50 +20,31 @@ public class Drink {
     private int id;
     private double value;
 
-    /**
-     * Get name of drink
-     * @return name
-     */
     public String getName() {
         return name;
     }
-
-    /**
-     * Set name of drink
-     * @param name
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-     * Get id of drink
-     * @return id
-     */
     public int getId() {
         return id;
     }
+    public void setId(int id) {
+        this.id = id;
+    }
 
-    /**
-     * Get value of drink
-     * @return value
-     */
     public double getValue() {
         return value;
     }
-
-    /**
-     * Set value of Drink
-     * @param value
-     */
     public void setValue(double value) {
         this.value = value;
     }
 
     /**
      * Constructor
-     * @param name
-     * @param value
+     * @param name the name of the drink
+     * @param value the value of the drink
      */
     public Drink(String name, double value)
     {

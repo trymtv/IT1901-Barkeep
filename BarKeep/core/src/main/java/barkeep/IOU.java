@@ -4,9 +4,11 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class IOU {
+	private int id;
+	private final User owner;
 	private final User user;
 	private final Drink drink;
-	private final LocalDateTime time;
+	private LocalDateTime time;
 
 
 	/**
@@ -18,10 +20,15 @@ public class IOU {
 	 * @param user - User that owes
 	 * @param drink - The drink that is owed
 	 */
-	public IOU(User user, Drink drink){
+	public IOU(User owner, User user, Drink drink){
+		this.owner = owner;
 		this.user = user;
 		this.drink = drink;
 		this.time = LocalDateTime.now();
+	}
+
+	public User getOwner() {
+		return owner;
 	}
 
 	public Drink getDrink() {
@@ -35,10 +42,21 @@ public class IOU {
 	public LocalDateTime getTime() {
 		return time;
 	}
+	public void setTime(LocalDateTime time){
+		this.time = time;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public int getId() {
+		return id;
+	}
 
 	@Override
 	public String toString() {
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return "IOU{" +
 				"user=" + user +
 				", drink=" + drink +
