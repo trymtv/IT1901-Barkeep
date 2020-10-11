@@ -4,27 +4,45 @@ import barkeep.User;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
-public class DatabaseUser {
+public class UserRepository {
 	public static User get(String username) throws SQLException, ClassNotFoundException {
-		User tmp = null;
+		User user = null;
 		Database.open();
 		ResultSet rs = Database.read("SELECT * FROM USERS WHERE username='" + username + "'");
-		while (rs.next()){
-			tmp = new User(rs.getInt("id"), rs.getString("username"));
+		List<User> userResult = parseResultSet(rs);
+		if(!userResult.isEmpty()){
+			user = userResult.get(0);
 		}
 		Database.close();
-		return tmp;
+		return user;
 	}
 	public static User get(int id) throws SQLException, ClassNotFoundException {
-		User tmp = null;
+		User user = null;
 		Database.open();
+
 		ResultSet rs = Database.read("SELECT * FROM USERS WHERE ID=" + id);
-		while (rs.next()){
-			tmp = get(rs.getString("username"));
+		List<User> userResult = parseResultSet(rs);
+		if(!userResult.isEmpty()){
+			user = userResult.get(0);
 		}
+
 		Database.close();
-		return tmp;
+		return user;
+	}
+
+	public static List<User> parseResultSet(ResultSet rs){
+		List<User> users = new ArrayList<>();
+		try {
+			while(rs.next()){
+				users.add(new User(rs.getInt("id"), rs.getString("username")));
+			}
+		} catch (SQLException e) {
+			System.out.println(e);
+		}
+		return users;
 	}
 
 	public static void delete(User user) throws SQLException, ClassNotFoundException {
