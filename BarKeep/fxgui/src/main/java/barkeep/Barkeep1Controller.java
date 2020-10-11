@@ -1,5 +1,8 @@
 package barkeep;
 
+import database.DrinkRepository;
+import database.FriendRepository;
+import database.UserRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,12 +12,14 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -27,37 +32,65 @@ public class Barkeep1Controller implements Initializable {
     private ChoiceBox<Drink> choiceBoxDrinks;
     @FXML
     private Label feedback;
+    @FXML
+    Button addDrink;
 
-//    private User user;
-    private List<Drink> supportedDrinksList;
+    private static User owner;
 
+    static {
+        try {
+            owner = UserRepository.get(1);
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        addDrinks();
-        populateChoiceBoxes();
+        populateChoiceBoxDrinks();
+        populateChoiceBoxFriends();
+        disableButton();
     }
 
-    public void addDrinks(){
-        this.supportedDrinksList = new ArrayList<>();
-        Drink beer = new Drink("Beer", 80);
-        Drink wine = new Drink("Wine", 100);
-        Drink shot = new Drink ("Shot", 120);
-        this.supportedDrinksList.add(beer);
-        this.supportedDrinksList.add(wine);
-        this.supportedDrinksList.add(shot);
+    public static User getOwner() {
+        return owner;
     }
 
-    public void populateChoiceBoxes(){
+    public static void setOwner(User newOwner) {
+        owner = newOwner;
+    }
+
+
+    public void populateChoiceBoxDrinks() {
         ObservableList<Drink> choiceBoxListDrinks = FXCollections.observableArrayList();
+        choiceBoxListDrinks.removeAll();
+        try {
+            choiceBoxListDrinks.addAll(DrinkRepository.getAll());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        choiceBoxDrinks.getItems().addAll(choiceBoxListDrinks);
+    }
+
+    public void populateChoiceBoxFriends(){
         ObservableList<User> choiceBoxListFriends = FXCollections.observableArrayList();
         choiceBoxListFriends.removeAll();
-        choiceBoxListDrinks.removeAll();
-        /*choiceBoxListFriends.addAll(Users.getfriendsList);    //Her må brukerens venner legges til for å være
-        tilgjengelige for dropdown-menyen.*/
-        choiceBoxListDrinks.addAll(supportedDrinksList);
-        choiceBoxDrinks.getItems().addAll(choiceBoxListDrinks);
-        //choiceBoxFriends.getItems().addAll(choiceBoxListFriends); Legger til venner i dropdown  menyen
+        List<User> friendList = new ArrayList<>();
+        try {
+            List<Integer> friendIDs = FriendRepository.get(getOwner().getId());
+            assert friendIDs != null;
+            friendIDs.forEach(id -> {
+                try {
+                    friendList.add(UserRepository.get(id));
+                } catch (SQLException | ClassNotFoundException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        choiceBoxListFriends.addAll(friendList);
+        choiceBoxFriends.getItems().addAll(choiceBoxListFriends);
     }
 
     public void handleGetOverview(ActionEvent event) throws IOException {
@@ -68,12 +101,17 @@ public class Barkeep1Controller implements Initializable {
         stage.show();
     }
 
-    public void handleAddDrink(){
-        //Legge til drinken i oversikten over hvem som skylder deg
-
+    public void disableButton(){
+        addDrink.disableProperty().bind(
+                choiceBoxFriends.valueProperty().isNull()
+                .or(choiceBoxDrinks.valueProperty().isNull()));
     }
 
+    public void handleAddDrink() {
+        Drink drink = choiceBoxDrinks.getValue();
+        User user = choiceBoxFriends.getValue();
+        getOwner().addIOU(new IOU(getOwner(), user, drink));
+        feedback.setText("Drink was added");
 
-
-
+    }
 }
