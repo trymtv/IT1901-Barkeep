@@ -22,8 +22,8 @@ public class DatabaseIOUTest {
 
 	@Test
 	public void testIOUGetters() throws SQLException, ClassNotFoundException {
-		User user = new User(1, "per");
-		User user2 = new User(2, "perolav");
+		User user = new User(1, "per", "", "", "");
+		User user2 = new User(2, "perolav", "", "", "");
 		Drink drink = new Drink("Vann", 20.0);
 		drink.setId(1);
 		IOU iou = new IOU(user, user2, drink);
@@ -33,7 +33,7 @@ public class DatabaseIOUTest {
 
 	@Test
 	public void testDeleteAndStore() throws SQLException, ClassNotFoundException {
-		User user = new User(2, "per");
+		User user = new User(2, "per", "", "", "");
 		List<IOU> iouList = DatabaseIOU.getByOwner(user);
 		DatabaseIOU.delete(iouList.get(0));
 		DatabaseIOU.store(iouList.get(0));
