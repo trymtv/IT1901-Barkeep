@@ -21,7 +21,7 @@ public class DatabaseUserTest {
 
 	@Test
 	public void testGetUser() throws SQLException, ClassNotFoundException {
-		User testUser = new User(1, "per");
+		User testUser = new User(1, "per", "", "", "");
 		User getUsernameUser = DatabaseUser.get("per");
 		User getIdUser = DatabaseUser.get(1);
 		equalUsers(testUser, getIdUser);
@@ -30,7 +30,7 @@ public class DatabaseUserTest {
 
 	@Test
 	public void testDeleteAndStoreUser() throws SQLException, ClassNotFoundException {
-		User testUser = new User(0, "mrTestDatabaseUser");
+		User testUser = new User(0, "mrTestDatabaseUser", "", "", "");
 		DatabaseUser.delete(testUser);
 		DatabaseUser.store(testUser);
 		User getUser = DatabaseUser.get("mrTestDatabaseUser");
