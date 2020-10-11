@@ -1,7 +1,7 @@
 package databasetest;
 
 import database.Database;
-import database.DatabaseFriends;
+import database.FriendRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DatabaseFriendsTest {
+public class FriendRepositoryTest {
 
 	@BeforeAll
 	public static void setupDb(){
@@ -23,25 +23,25 @@ public class DatabaseFriendsTest {
 	@Test
 	public void testGetFriendList() throws SQLException, ClassNotFoundException {
 		List<Integer> testList = new ArrayList<>(Arrays.asList(4, 3, 2));
-		List<Integer> getIdList = DatabaseFriends.get(1);
+		List<Integer> getIdList = FriendRepository.get(1);
 		assertNotNull(getIdList);
-		List<Integer> getUsernameList = DatabaseFriends.get("per");
+		List<Integer> getUsernameList = FriendRepository.get("per");
 		assertNotNull(getUsernameList);
 		assertEquals(new HashSet<>(testList), new HashSet<>(getIdList));
 		assertEquals(new HashSet<>(testList), new HashSet<>(getUsernameList));
 
-		assertNull(DatabaseFriends.get("noesomikkefinnes"));
-		assertNull(DatabaseFriends.get(-1));
+		assertNull(FriendRepository.get("noesomikkefinnes"));
+		assertNull(FriendRepository.get(-1));
 	}
 
 	@Test
 	public void testDeleteAndInsert() throws SQLException, ClassNotFoundException {
-		DatabaseFriends.delete(5, 2);
-		DatabaseFriends.store(5, 2);
+		FriendRepository.delete(5, 2);
+		FriendRepository.store(5, 2);
 		List<Integer> testList = new ArrayList<>();
 		testList.add(5);
 		testList.add(1);
-		List<Integer> getList = DatabaseFriends.get(2);
+		List<Integer> getList = FriendRepository.get(2);
 		assertNotNull(getList);
 		assertEquals(new HashSet<>(testList), new HashSet<>(getList));
 	}

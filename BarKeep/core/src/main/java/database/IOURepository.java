@@ -10,39 +10,45 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DatabaseIOU {
+public class IOURepository {
 
 	public static List<IOU> getByOwner(User owner) throws SQLException, ClassNotFoundException {
-		List<IOU> tmp = new ArrayList<>();
+		List<IOU> tmp;
 		Database.open();
 		ResultSet rs = Database.read("SELECT * FROM IOUS WHERE OWNER=" + owner.getId());
-		while (rs.next()){
-			User friend = DatabaseUser.get(rs.getInt("FRIEND"));
-			Drink drink = DatabaseDrink.get(rs.getInt("DRINK"));
-			IOU iou = new IOU(owner, friend, drink);
-			Timestamp ts = rs.getTimestamp("DATE");
-			iou.setTime(ts.toLocalDateTime());
-			tmp.add(iou);
-		}
+		tmp = parseResultSet(rs,owner,null);
 		Database.close();
 		return tmp;
 	}
 
 	public static List<IOU> getByFriend(User friend) throws SQLException, ClassNotFoundException {
-		List<IOU> tmp = new ArrayList<>();
+		List<IOU> tmp;
 		Database.open();
 		ResultSet rs = Database.read("SELECT * FROM IOUS WHERE FRIEND=" + friend.getId());
-		while (rs.next()){
-			User owner = DatabaseUser.get(rs.getInt("OWNER"));
-			System.out.println(owner);
-			Drink drink = DatabaseDrink.get(rs.getInt("DRINK"));
-			IOU iou = new IOU(owner, friend, drink);
-			Timestamp ts = rs.getTimestamp("DATE");
-			iou.setTime(ts.toLocalDateTime());
-			tmp.add(iou);
-		}
+		tmp = parseResultSet(rs,null,friend);
 		Database.close();
 		return tmp;
+	}
+	public static List<IOU> parseResultSet(ResultSet rs, User owner, User friend){
+		List<IOU> ious = new ArrayList<>();
+		try {
+			while (rs.next()){
+				if(owner == null){
+					owner = UserRepository.get(rs.getInt("OWNER"));
+				}
+				if(friend == null){
+					friend = UserRepository.get(rs.getInt("FRIEND"));
+				}
+				Drink drink = DrinkRepository.get(rs.getInt("DRINK"));
+				IOU iou = new IOU(owner, friend, drink);
+				Timestamp ts = rs.getTimestamp("DATE");
+				iou.setTime(ts.toLocalDateTime());
+				ious.add(iou);
+			}
+		} catch (Exception e){
+			System.out.println(e);
+		}
+		return  ious;
 	}
 
 	public static void store(IOU iou) throws SQLException, ClassNotFoundException {

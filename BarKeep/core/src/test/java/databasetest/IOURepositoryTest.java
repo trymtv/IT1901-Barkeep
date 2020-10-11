@@ -4,17 +4,16 @@ import barkeep.Drink;
 import barkeep.IOU;
 import barkeep.User;
 import database.Database;
-import database.DatabaseIOU;
+import database.IOURepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DatabaseIOUTest {
+public class IOURepositoryTest {
 	@BeforeAll
 	public static void setupIOU(){
 		Database.setDbUrl("jdbc:h2:./src/test/resources/testdb");
@@ -27,17 +26,17 @@ public class DatabaseIOUTest {
 		Drink drink = new Drink("Vann", 20.0);
 		drink.setId(1);
 		IOU iou = new IOU(user, user2, drink);
-		compareIOUs(iou, DatabaseIOU.getByOwner(user).get(0));
-		compareIOUs(iou, DatabaseIOU.getByFriend(user2).get(0));
+		compareIOUs(iou, IOURepository.getByOwner(user).get(0));
+		compareIOUs(iou, IOURepository.getByFriend(user2).get(0));
 	}
 
 	@Test
 	public void testDeleteAndStore() throws SQLException, ClassNotFoundException {
 		User user = new User(2, "per");
-		List<IOU> iouList = DatabaseIOU.getByOwner(user);
-		DatabaseIOU.delete(iouList.get(0));
-		DatabaseIOU.store(iouList.get(0));
-		compareIOUs(iouList.get(0), DatabaseIOU.getByOwner(user).get(0));
+		List<IOU> iouList = IOURepository.getByOwner(user);
+		IOURepository.delete(iouList.get(0));
+		IOURepository.store(iouList.get(0));
+		compareIOUs(iouList.get(0), IOURepository.getByOwner(user).get(0));
 	}
 
 	private void compareIOUs(IOU iou1, IOU iou2){

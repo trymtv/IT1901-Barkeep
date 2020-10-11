@@ -2,7 +2,7 @@ package databasetest;
 
 import barkeep.Drink;
 import database.Database;
-import database.DatabaseDrink;
+import database.DrinkRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class DatabaseDrinkTest {
+public class DrinkRepositoryTest {
 	private static Drink testDrink = new Drink("Brus", 45);
 
 	@BeforeAll
@@ -23,15 +23,15 @@ public class DatabaseDrinkTest {
 
 	@Test
 	public void testGetDrink() throws SQLException, ClassNotFoundException {
-		Drink drink = DatabaseDrink.get(4);
+		Drink drink = DrinkRepository.get(4);
 		equalDrink(testDrink, drink);
 	}
 
 	@Test
 	public void  testDeleteAndStore() throws SQLException, ClassNotFoundException {
 		Drink tempDrink = new Drink("tempDrink", 1337.80085);
-		DatabaseDrink.store(tempDrink);
-		DatabaseDrink.delete(tempDrink);
+		DrinkRepository.store(tempDrink);
+		DrinkRepository.delete(tempDrink);
 	}
 
 	private void equalDrink(Drink drink1, Drink drink2){
