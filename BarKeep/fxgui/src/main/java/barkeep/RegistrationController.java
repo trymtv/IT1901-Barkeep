@@ -2,6 +2,7 @@ package barkeep;
 
 import database.DatabaseUser;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -18,15 +19,19 @@ import java.util.ResourceBundle;
 public class RegistrationController implements Initializable {
 
 
-    TextField nameField;
-    TextField usernameField;
-    TextField emailField;
-    TextField passwordField;
+    @FXML
+    private TextField nameField;
+    @FXML
+    private TextField usernameField;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField passwordField;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
-
+    @FXML
     public void handleRegistration(ActionEvent event) throws IOException {
         User user = new User(nameField.getText(), usernameField.getText(), emailField.getText(), passwordField.getText());
         try {
