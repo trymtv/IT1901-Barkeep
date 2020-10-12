@@ -7,6 +7,13 @@ import java.util.List;
 
 public class FriendRepository {
 
+	/**
+	 * Gets a list of IDs of friends from the given {@link barkeep.User}-id
+	 * @param userid the given userid
+	 * @return List<Integer> of IDs from the {@link barkeep.User}'s friends
+	 * @throws SQLException exception in database query
+	 * @throws ClassNotFoundException the database driver was not found
+	 */
 	public static List<Integer> get(int userid) throws SQLException, ClassNotFoundException {
 		List<Integer> friends = new ArrayList<>();
 		Database.open();
@@ -25,6 +32,13 @@ public class FriendRepository {
 		return friends;
 	}
 
+	/**
+	 * Gets a list of IDs of friends from the given {@link barkeep.User} username.
+	 * @param username the given username
+	 * @return List<Integer> of IDs from the {@link barkeep.User}'s friends
+	 * @throws SQLException exception in database query
+	 * @throws ClassNotFoundException the database driver was not found
+	 */
 	public static List<Integer> get(String username) throws SQLException, ClassNotFoundException {
 		int id;
 		Database.open();
@@ -39,6 +53,14 @@ public class FriendRepository {
 		return get(id);
 	}
 
+
+	/**
+	 * Stores a new friendship defined by the two {@link barkeep.User}s
+	 * @param user1 the first user
+	 * @param user2 the second user
+	 * @throws SQLException exception in database query
+	 * @throws ClassNotFoundException the database driver was not found
+	 */
 	public static void store(int user1, int user2) throws SQLException, ClassNotFoundException {
 		Database.open();
 		ResultSet rs = Database.read("SELECT * FROM FRIENDS WHERE (USER1="+ user1 + " AND USER2=" + user2+ ")" +
@@ -49,6 +71,14 @@ public class FriendRepository {
 		Database.close();
 	}
 
+
+	/**
+	 * Deletes an existing friendship defined by the two {@link barkeep.User}s
+	 * @param user1 the first user
+	 * @param user2 the second user
+	 * @throws SQLException exception in database query
+	 * @throws ClassNotFoundException the database driver was not found
+	 */
 	public static void delete(int user1, int user2) throws SQLException, ClassNotFoundException {
 		Database.open();
 		Database.delete("FRIENDS", "(USER1=" + user1+ " AND USER2=" + user2+
