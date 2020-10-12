@@ -1,5 +1,7 @@
-# Group gr2011 repository
+# BarKeep FxGUI Module
 
-Welcome to IT1901 course fall 2020
+This is the FxGUI module of the BarKeep app.\
+The GUI is made in JavaFX and communicates with the Core module.\
+The purpose of this module is to handle the user interaction.
 
-Good luck!
+![skjermbilde](/uploads/47040f9f078727501d71ada5605000cd/Skjermbilde.PNG)
