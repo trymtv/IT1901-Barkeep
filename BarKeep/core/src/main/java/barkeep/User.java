@@ -9,6 +9,9 @@ import java.util.Arrays;
 public class User {
     private String name;
     private int id;
+    private final String username;
+    private String password;
+    private String email;
     private ArrayList<User> friendList = new ArrayList<>();
     private ArrayList<IOU> iouList = new ArrayList<>();
 
@@ -20,13 +23,20 @@ public class User {
         return id;
     }
 
-    public String getName() {
-        return name;
-    }
+
+    public String getName() { return name; }
+
+    public String getUsername() { return username; }
+
+    public String getEmail() { return email; }
 
     public void setName(String name) {
         this.name = name;
     }
+
+    public void setPassword(String password) { this.password = password; }
+
+    public void setEmail(String email) { this.email = email; }
 
     public ArrayList<IOU> getIOUList() {
         return iouList;
@@ -45,13 +55,25 @@ public class User {
         this.iouList.remove(iou);
     }
 
-    public User(String name) {
-        this.name = name;
+    public boolean isPassword(String password) {
+            return this.password.equals(password);
     }
 
-    public User (int id, String name){
+    public User(String name, String username, String password, String email) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
+    }
+
+    public User (int id, String name, String username, String password, String email){
         this.id = id;
         this.name = name;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
     }
 
     @Override
