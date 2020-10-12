@@ -8,9 +8,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-import java.awt.*;
+
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class RegistrationController implements Initializable {
 
     }
     @FXML
-    public void handleRegistration(ActionEvent event) throws IOException {
+    public void handleRegistration(ActionEvent event) {
         User user = new User(nameField.getText(), usernameField.getText(), emailField.getText(), passwordField.getText());
         try {
             DatabaseUser.store(user);
