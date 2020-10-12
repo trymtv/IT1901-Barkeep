@@ -9,7 +9,6 @@ import java.util.Arrays;
 public class User {
     private String name;
     private int id;
-    private String username;
     private String password;
     private String email;
     private ArrayList<User> friendList = new ArrayList<>();
@@ -26,7 +25,10 @@ public class User {
 
     public String getName() { return name; }
 
-    public String getUsername() { return username; }
+
+    public String getPassword() {
+        return password;
+    }
 
     public String getEmail() { return email; }
 
@@ -59,9 +61,8 @@ public class User {
             return this.password.equals(password);
     }
 
-    public User(String name, String username, String password, String email) {
+    public User(String name, String password, String email) {
         this.name = name;
-        this.username = username;
         this.password = password;
         this.email = email;
 
@@ -71,10 +72,9 @@ public class User {
         this.id = id;
     }
 
-    public User (int id, String name, String username, String password, String email){
+    public User (int id, String name, String password, String email){
         this.id = id;
         this.name = name;
-        this.username = username;
         this.password = password;
         this.email = email;
 
