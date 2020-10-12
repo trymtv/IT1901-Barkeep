@@ -11,7 +11,7 @@ public class DatabaseUser {
 		Database.open();
 		ResultSet rs = Database.read("SELECT * FROM USERS WHERE username='" + username + "'");
 		while (rs.next()){
-			tmp = new User(rs.getInt("id"), rs.getString("name"), rs.getString("username"), rs.getString("password"), rs.getString("email"));
+			tmp = new User(rs.getInt("id"), rs.getString("username"), "", "", "");
 		}
 		Database.close();
 		return tmp;
