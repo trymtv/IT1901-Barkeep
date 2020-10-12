@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="barkeep.Barkeep1Controller">
    <children>
-      <Button layoutX="504.0" layoutY="211.0" mnemonicParsing="false" onAction="#handleAddDrink" text="Add Drink" />
+      <Button fx:id="addDrink" layoutX="504.0" layoutY="211.0" mnemonicParsing="false" onAction="#handleAddDrink" text="Add Drink" />
       <ChoiceBox fx:id="choiceBoxFriends" layoutX="160.0" layoutY="211.0" prefWidth="150.0" />
       <Label layoutX="98.0" layoutY="216.0" prefHeight="17.0" prefWidth="53.0" text="I bought:" />
       <Label layoutX="315.0" layoutY="216.0" text="a" />
@@ -18,7 +18,7 @@
             <Font size="48.0" />
          </font>
       </Label>
-      <Button layoutX="249.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleGetOverview" text="Show Overview" />
-      <Label fx:id="feedback" layoutX="8.0" layoutY="340.0" prefHeight="17.0" prefWidth="584.0" text="feedback" />
+      <Button fx:id="showOverview" layoutX="249.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleGetOverview" text="Show Overview" />
+      <Label fx:id="feedback" layoutX="8.0" layoutY="340.0" prefHeight="17.0" prefWidth="584.0" />
    </children>
 </AnchorPane>
