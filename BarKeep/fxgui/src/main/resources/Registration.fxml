@@ -18,27 +18,17 @@
             <Font size="24.0" />
          </font>
       </Text>
-      <Text layoutX="99.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name:" textAlignment="RIGHT" wrappingWidth="74.1015625">
+      <Text layoutX="99.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Userame:" textAlignment="RIGHT" wrappingWidth="74.1015625">
          <font>
             <Font size="14.0" />
          </font>
       </Text>
-      <TextField fx:id="usernameField" layoutX="232.0" layoutY="161.0" prefHeight="0.0" prefWidth="269.0">
+      <TextField fx:id="emailField" layoutX="232.0" layoutY="186.0" prefHeight="0.0" prefWidth="269.0">
          <font>
             <Font size="14.0" />
          </font>
       </TextField>
-      <Text layoutX="99.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username:" textAlignment="RIGHT" wrappingWidth="74.1015625">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <TextField fx:id="emailField" layoutX="232.0" layoutY="212.0" prefHeight="0.0" prefWidth="269.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TextField>
-      <Text layoutX="99.0" layoutY="231.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail:" textAlignment="RIGHT" wrappingWidth="74.1015625">
+      <Text layoutX="99.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail:" textAlignment="RIGHT" wrappingWidth="74.1015625">
          <font>
             <Font size="14.0" />
          </font>
@@ -53,7 +43,7 @@
             <Font size="14.0" />
          </font>
       </Text>
-      <Button layoutX="264.0" layoutY="327.0" mnemonicParsing="false" onAction="#handleRegistration" text="Registrer" textAlignment="CENTER">
+      <Button fx:id="register" layoutX="264.0" layoutY="327.0" mnemonicParsing="false" onAction="#handleRegistration" text="Registrer" textAlignment="CENTER">
          <font>
             <Font size="14.0" />
          </font>

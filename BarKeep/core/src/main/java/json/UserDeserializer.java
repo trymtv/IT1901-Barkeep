@@ -28,7 +28,7 @@ public class UserDeserializer extends JsonDeserializer<User> {
     User deserialize(JsonNode jsonNode) {
         if (jsonNode instanceof ObjectNode) {
             ObjectNode objectNode = (ObjectNode) jsonNode;
-            User user = new User(0,"", "", "", "");
+            User user = new User(0,"", "", "");
             JsonNode nameNode = objectNode.get("name");
             if (nameNode instanceof TextNode) {
                 user.setName(((TextNode) nameNode).asText());

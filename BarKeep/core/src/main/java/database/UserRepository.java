@@ -60,7 +60,7 @@ public class UserRepository {
 		List<User> users = new ArrayList<>();
 		try {
 			while(rs.next()){
-				users.add(new User(rs.getInt("id"), rs.getString("username")));
+				users.add(new User(rs.getInt("id"), rs.getString("username"), rs.getString( "password"), rs.getString("email")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -88,7 +88,7 @@ public class UserRepository {
 	 */
 	public static void store(User user) throws SQLException, ClassNotFoundException {
 		Database.open();
-		Database.insert("USERS", "NULL", user.getName(), "test", "test");
+		Database.insert("USERS", "NULL", user.getName(), user.getPassword(), user.getEmail());
 		Database.close();
 	}
 }

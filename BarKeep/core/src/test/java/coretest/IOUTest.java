@@ -22,8 +22,8 @@ public class IOUTest {
 	@BeforeEach
 	public void setupIOU(){
 		drink = new Drink("Water",  20.0);
-		user = new User(1, "per", "", "", "");
-		owner = new User(2, "perolav", "", "", "");
+		user = new User(1, "per");
+		owner = new User(2, "perolav");
 		date = LocalDateTime.now();
 		iou = new IOU(owner, user, drink);
 	}
