@@ -1,5 +1,5 @@
 variables:
-    MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository,-Dfxgui.skip=true"
+    MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
 default:
     image: maven:3.6-adoptopenjdk-14-openj9
 cache:
@@ -10,7 +10,7 @@ cache:
 test:
     script: >
             cd BarKeep
-            && mvn test
+            && mvn -Dfxgui.skip=true test
             && mvn jacoco:report
             && find
             && awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/",
