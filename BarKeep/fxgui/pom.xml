@@ -56,6 +56,7 @@
             <version>4.0.16-alpha</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit5</artifactId>
@@ -96,6 +97,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>${fxgui.skip}</skipTests>
+                </configuration>
             </plugin>
 
             <!-- Running JavaFX code -->
