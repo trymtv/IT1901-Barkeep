@@ -10,8 +10,8 @@ cache:
 test:
     script: >
             cd BarKeep
-            && mvn test
+            && mvn -Dfxgui.skip=true test
             && mvn jacoco:report
-            # && awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/",
-            # instructions, "instructions covered"; print 100*covered/instructions, "%
-            # covered" }' target/site/jacoco/jacoco.csv
+            && awk -F"," '{ instructions += $4 + $5; covered += $5 } END { print covered, "/",
+            instructions, "instructions covered"; print 100*covered/instructions, "%
+            covered" }' core/target/site/jacoco/jacoco.csv
