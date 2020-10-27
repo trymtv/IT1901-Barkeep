@@ -3,3 +3,6 @@ tasks:
     command: cd BarKeep
 image:
   file: .gitpod.Dockerfile
+vscode:
+  extensions:
+    - jebbs.plantuml@2.13.14:N7yFmZCCFIJrXxyrtY/EQQ==

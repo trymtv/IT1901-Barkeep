@@ -1,0 +1,32 @@
+@startuml moduleRelation
+package "core" {
+  [barkeep] -objects
+  [database] - persistence
+
+[json] <<Not Used>>
+}
+
+node "fxgui" {
+[Controllers] <-- [App]
+[Controllers] - objects
+[Controllers] - persistence
+}
+
+
+database "H2 database" {
+  folder "Tables" as db {
+    [USERS]
+[DRINKS]
+[IOU]
+[FRIENDS]
+  }
+}
+
+
+[database] --> db : jdbc:h2
+
+skinparam component{
+FontColor<<Not Used>> #BBBBBB
+BorderColor<<Not Used>> #BBBBBB
+}
+@enduml
