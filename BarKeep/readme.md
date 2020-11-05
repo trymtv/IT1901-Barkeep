@@ -5,6 +5,13 @@ This project consists of multiple modules:
 - core
 - fxgui
 
+
+## How to run
+|Platform |                                Command                           |
+|---------|:----------------------------------------------------------------:|
+|Windows: |`start /B mvn -pl core spring-boot:run & mvn -pl fxgui javafx:run`|
+|Linux/Unix:   |     `mvn -pl core spring-boot:run & mvn -pl fxgui javafx:run`    |
+
 ## Core
 
 The Core module contains code to handle the core-functionality
