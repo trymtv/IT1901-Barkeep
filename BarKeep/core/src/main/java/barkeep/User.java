@@ -13,7 +13,7 @@ public class User {
     private String password;
     private String email;
     private ArrayList<User> friendList = new ArrayList<>();
-    private ArrayList<IOU> iouList = new ArrayList<>();
+    private ArrayList<IOweYou> IOweYouList = new ArrayList<>();
 
     public void setId(int id) {
         this.id = id;
@@ -38,21 +38,21 @@ public class User {
 
     public void setEmail(String email) { this.email = email; }
 
-    public ArrayList<IOU> getIOUList() {
-        return iouList;
+    public ArrayList<IOweYou> getIOweYouList() {
+        return IOweYouList;
     }
 
-    public void setIOUList(IOU... list) {
-        this.iouList.addAll(new ArrayList<>(Arrays.asList(list)));
+    public void setIOweYouList(IOweYou... list) {
+        this.IOweYouList.addAll(new ArrayList<>(Arrays.asList(list)));
     }
 
-    public void addIOU(IOU iou){
-        if (!iouList.contains(iou))
-            this.iouList.add(iou);
+    public void addIOweYou(IOweYou IOweYou){
+        if (!IOweYouList.contains(IOweYou))
+            this.IOweYouList.add(IOweYou);
     }
 
-    public void removeIOU(IOU iou){
-        this.iouList.remove(iou);
+    public void removeIOU(IOweYou IOweYou){
+        this.IOweYouList.remove(IOweYou);
     }
 
     public boolean isPassword(String password) {

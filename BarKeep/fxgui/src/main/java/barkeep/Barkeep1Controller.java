@@ -110,7 +110,7 @@ public class Barkeep1Controller implements Initializable {
     public void handleAddDrink() {
         Drink drink = choiceBoxDrinks.getValue();
         User user = choiceBoxFriends.getValue();
-        getOwner().addIOU(new IOU(getOwner(), user, drink));
+        getOwner().addIOweYou(new IOweYou(getOwner(), user, drink));
         feedback.setText("Drink was added");
 
     }

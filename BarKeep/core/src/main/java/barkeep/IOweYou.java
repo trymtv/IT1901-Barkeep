@@ -3,7 +3,7 @@ package barkeep;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class IOU {
+public class IOweYou {
 	private int id;
 	private final User owner;
 	private final User user;
@@ -12,7 +12,7 @@ public class IOU {
 
 
 	/**
-	 * Creates the IOU for a user containing
+	 * Creates the IOweYou for a user containing
 	 * the user and drink that is owed.
 	 * A LocalDatetime object is initialized
 	 * to now on constructor call.
@@ -20,7 +20,7 @@ public class IOU {
 	 * @param user - User that owes
 	 * @param drink - The drink that is owed
 	 */
-	public IOU(User owner, User user, Drink drink){
+	public IOweYou(User owner, User user, Drink drink){
 		this.owner = owner;
 		this.user = user;
 		this.drink = drink;
@@ -57,7 +57,7 @@ public class IOU {
 	@Override
 	public String toString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		return "IOU{" +
+		return "IOweYou{" +
 				"user=" + user +
 				", drink=" + drink +
 				", time=" + time.format(formatter) +
