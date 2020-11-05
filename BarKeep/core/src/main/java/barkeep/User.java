@@ -1,19 +1,46 @@
 package barkeep;
 
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Class representing a User
  */
-public class User {
+@Entity
+@Table(name="users")
+public class User implements Serializable {
+    @Transient
     private String name;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
+
+    @Column
     private String username;
+
+    @Column
     private String password;
+
+    @Column
     private String email;
-    private ArrayList<User> friendList = new ArrayList<>();
-    private ArrayList<IOweYou> IOweYouList = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "User1", referencedColumnName = "ID")
+    @JoinColumn(name = "User2", referencedColumnName = "ID")
+    private List<Friendship> friendList;
+
+    @OneToMany
+    @JoinColumn(name="OWNER", referencedColumnName = "ID")
+    private List<IOweYou> iOweYouList;
+
+    public User() {
+
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -38,21 +65,29 @@ public class User {
 
     public void setEmail(String email) { this.email = email; }
 
-    public ArrayList<IOweYou> getIOweYouList() {
-        return IOweYouList;
+    public List<Friendship> getFriendList() {
+        return friendList;
     }
 
-    public void setIOweYouList(IOweYou... list) {
-        this.IOweYouList.addAll(new ArrayList<>(Arrays.asList(list)));
+    public void setFriendList(List<Friendship> friendList) {
+        this.friendList = friendList;
     }
 
-    public void addIOweYou(IOweYou IOweYou){
-        if (!IOweYouList.contains(IOweYou))
-            this.IOweYouList.add(IOweYou);
+    public List<IOweYou> getIOweYouList() {
+        return iOweYouList;
     }
 
-    public void removeIOU(IOweYou IOweYou){
-        this.IOweYouList.remove(IOweYou);
+    public void setIOweYouList(List<IOweYou> iouList) {
+        this.iOweYouList = iouList;
+    }
+
+    public void addIOweYou(IOweYou iou){
+        if (!iOweYouList.contains(iou))
+            this.iOweYouList.add(iou);
+    }
+
+    public void removeIOweYou(IOweYou iou){
+        this.iOweYouList.remove(iou);
     }
 
     public boolean isPassword(String password) {

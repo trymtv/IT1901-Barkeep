@@ -10,7 +10,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IOURepository {
+public class IOweYouRepository {
 
 
 	/**
@@ -62,10 +62,11 @@ public class IOURepository {
 					friend = UserRepository.get(rs.getInt("FRIEND"));
 				}
 				Drink drink = DrinkRepository.get(rs.getInt("DRINK"));
-				IOweYou IOweYou = new IOweYou(owner, friend, drink);
+				IOweYou newIOweYou = new IOweYou(owner, friend, drink);
+				newIOweYou.setId(rs.getInt("ID"));
 				Timestamp ts = rs.getTimestamp("DATE");
-				IOweYou.setTime(ts.toLocalDateTime());
-				ious.add(IOweYou);
+				newIOweYou.setTime(ts.toLocalDateTime());
+				ious.add(newIOweYou);
 			}
 		} catch (Exception e){
 			e.printStackTrace();

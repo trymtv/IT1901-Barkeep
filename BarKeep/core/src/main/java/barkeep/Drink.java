@@ -9,14 +9,28 @@ import java.io.IOException;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Class representing a Drink
  */
-public class Drink {
-    private String name;
+@Entity
+@Table(name = "drinks")
+public class Drink implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
+
+    @Column
+    private String name;
+
+    @Column
     private double value;
+
+    public Drink() { }
 
     public String getName() {
         return name;

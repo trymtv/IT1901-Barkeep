@@ -54,6 +54,12 @@
                 <version>5.4.2</version>
                 <scope>test</scope>
             </dependency>
+            <!-- Hibernate ORM -->
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>5.4.22.Final</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <properties>
