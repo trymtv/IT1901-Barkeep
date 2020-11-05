@@ -1,13 +1,30 @@
 package barkeep;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-public class IOweYou {
+import javax.persistence.*;
+@Entity
+@Table(name="ious")
+public class IOweYou implements Serializable {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column
 	private int id;
-	private final User owner;
-	private final User user;
-	private final Drink drink;
+
+	@ManyToOne
+	@JoinColumn(name="OWNER", referencedColumnName = "ID")
+	private User owner;
+
+	@ManyToOne
+	@JoinColumn(name="Friend", referencedColumnName = "ID")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name="drink", referencedColumnName = "ID")
+	private Drink drink;
+
+	@Column(name = "date")
 	private LocalDateTime time;
 
 
@@ -27,23 +44,29 @@ public class IOweYou {
 		this.time = LocalDateTime.now();
 	}
 
+	public IOweYou() {
+		this.time = LocalDateTime.now();
+	}
+
 	public User getOwner() {
 		return owner;
 	}
+	public void setOwner(User owner){this.owner = owner;}
 
 	public Drink getDrink() {
 		return drink;
+	}
+
+	public void setDrink(Drink drink) {
+		this.drink = drink;
 	}
 
 	public User getUser() {
 		return user;
 	}
 
-	public LocalDateTime getTime() {
-		return time;
-	}
-	public void setTime(LocalDateTime time){
-		this.time = time;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public void setId(int id) {
@@ -54,11 +77,20 @@ public class IOweYou {
 		return id;
 	}
 
+	public LocalDateTime getTime() {
+		return time;
+	}
+
+	public void setTime(LocalDateTime time){
+		this.time = time;
+	}
+
 	@Override
 	public String toString() {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		return "IOweYou{" +
-				"user=" + user +
+				"owner=" + owner +
+				", user=" + user +
 				", drink=" + drink +
 				", time=" + time.format(formatter) +
 				'}';

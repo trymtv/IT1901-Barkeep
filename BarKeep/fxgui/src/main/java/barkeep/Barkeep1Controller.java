@@ -40,6 +40,7 @@ public class Barkeep1Controller implements Initializable {
     static {
         try {
             owner = UserRepository.get(1);
+            owner.setIOweYouList(new ArrayList<>());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -94,6 +95,7 @@ public class Barkeep1Controller implements Initializable {
     }
 
     public void handleGetOverview(ActionEvent event) throws IOException {
+        System.out.println(getClass().getResource("/Barkeep2.fxml"));
         Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep2.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -4,7 +4,7 @@ import barkeep.Drink;
 import barkeep.IOweYou;
 import barkeep.User;
 import database.Database;
-import database.IOURepository;
+import database.IOweYouRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -26,17 +26,17 @@ public class IOweYouRepositoryTest {
 		Drink drink = new Drink("Vann", 20.0);
 		drink.setId(1);
 		IOweYou IOweYou = new IOweYou(user, user2, drink);
-		compareIOUs(IOweYou, IOURepository.getByOwner(user).get(0));
-		compareIOUs(IOweYou, IOURepository.getByFriend(user2).get(0));
+		compareIOUs(IOweYou, IOweYouRepository.getByOwner(user).get(0));
+		compareIOUs(IOweYou, IOweYouRepository.getByFriend(user2).get(0));
 	}
 
 	@Test
 	public void testDeleteAndStore() throws SQLException, ClassNotFoundException {
 		User user = new User(2, "per");
-		List<IOweYou> IOweYouList = IOURepository.getByOwner(user);
-		IOURepository.delete(IOweYouList.get(0));
-		IOURepository.store(IOweYouList.get(0));
-		compareIOUs(IOweYouList.get(0), IOURepository.getByOwner(user).get(0));
+		List<IOweYou> IOweYouList = IOweYouRepository.getByOwner(user);
+		IOweYouRepository.delete(IOweYouList.get(0));
+		IOweYouRepository.store(IOweYouList.get(0));
+		compareIOUs(IOweYouList.get(0), IOweYouRepository.getByOwner(user).get(0));
 	}
 
 	private void compareIOUs(IOweYou IOweYou1, IOweYou IOweYou2){

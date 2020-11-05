@@ -22,6 +22,5 @@ public class UserTest {
 
     private void testUserGet(String name){
         assertEquals(name, user1.getName());
-        assertEquals(name, user1.toString());
     }
 }
