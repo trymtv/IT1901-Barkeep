@@ -1,7 +1,7 @@
 package databasetest;
 
 import barkeep.Drink;
-import barkeep.IOU;
+import barkeep.IOweYou;
 import barkeep.User;
 import database.Database;
 import database.IOURepository;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class IOURepositoryTest {
+public class IOweYouRepositoryTest {
 	@BeforeAll
 	public static void setupIOU(){
 		Database.setDbUrl("jdbc:h2:./src/test/resources/testdb");
@@ -25,23 +25,23 @@ public class IOURepositoryTest {
 		User user2 = new User(2, "perolav");
 		Drink drink = new Drink("Vann", 20.0);
 		drink.setId(1);
-		IOU iou = new IOU(user, user2, drink);
-		compareIOUs(iou, IOURepository.getByOwner(user).get(0));
-		compareIOUs(iou, IOURepository.getByFriend(user2).get(0));
+		IOweYou IOweYou = new IOweYou(user, user2, drink);
+		compareIOUs(IOweYou, IOURepository.getByOwner(user).get(0));
+		compareIOUs(IOweYou, IOURepository.getByFriend(user2).get(0));
 	}
 
 	@Test
 	public void testDeleteAndStore() throws SQLException, ClassNotFoundException {
 		User user = new User(2, "per");
-		List<IOU> iouList = IOURepository.getByOwner(user);
-		IOURepository.delete(iouList.get(0));
-		IOURepository.store(iouList.get(0));
-		compareIOUs(iouList.get(0), IOURepository.getByOwner(user).get(0));
+		List<IOweYou> IOweYouList = IOURepository.getByOwner(user);
+		IOURepository.delete(IOweYouList.get(0));
+		IOURepository.store(IOweYouList.get(0));
+		compareIOUs(IOweYouList.get(0), IOURepository.getByOwner(user).get(0));
 	}
 
-	private void compareIOUs(IOU iou1, IOU iou2){
-		assertEquals(iou1.getOwner().getId(), iou2.getOwner().getId());
-		assertEquals(iou1.getUser().getId(), iou2.getUser().getId());
-		assertEquals(iou1.getDrink().getId(), iou2.getDrink().getId());
+	private void compareIOUs(IOweYou IOweYou1, IOweYou IOweYou2){
+		assertEquals(IOweYou1.getOwner().getId(), IOweYou2.getOwner().getId());
+		assertEquals(IOweYou1.getUser().getId(), IOweYou2.getUser().getId());
+		assertEquals(IOweYou1.getDrink().getId(), IOweYou2.getDrink().getId());
 	}
 }

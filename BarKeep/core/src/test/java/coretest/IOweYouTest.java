@@ -1,7 +1,7 @@
 package coretest;
 
 import barkeep.Drink;
-import barkeep.IOU;
+import barkeep.IOweYou;
 import barkeep.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,11 +11,11 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IOUTest {
+public class IOweYouTest {
 	private Drink drink;
 	private User user;
 	private User owner;
-	private IOU iou;
+	private IOweYou IOweYou;
 	private LocalDateTime date;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
@@ -25,23 +25,23 @@ public class IOUTest {
 		user = new User(1, "per", "", "", "");
 		owner = new User(2, "perolav", "", "", "");
 		date = LocalDateTime.now();
-		iou = new IOU(owner, user, drink);
+		IOweYou = new IOweYou(owner, user, drink);
 	}
 
 	@Test
 	public void testConstructor() {
-		assertEquals(iou.getDrink(), drink);
-		assertEquals(iou.getUser(), user);
-		assertEquals(iou.getTime().format(formatter), date.format(formatter));
+		assertEquals(IOweYou.getDrink(), drink);
+		assertEquals(IOweYou.getUser(), user);
+		assertEquals(IOweYou.getTime().format(formatter), date.format(formatter));
 	}
 
 	@Test
 	public void testToString(){
-		String expected = "IOU{" + "user=" + user.toString() +
+		String expected = "IOweYou{" + "user=" + user.toString() +
 				", drink=" + drink.toString() +
 				", time=" + date.format(formatter) +
 				'}';
-		assertEquals(iou.toString(), expected);
+		assertEquals(IOweYou.toString(), expected);
 	}
 
 }

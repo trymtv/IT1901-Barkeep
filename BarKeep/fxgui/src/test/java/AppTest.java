@@ -1,5 +1,5 @@
 import barkeep.Barkeep1Controller;
-import barkeep.IOU;
+import barkeep.IOweYou;
 import database.Database;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,8 +52,8 @@ public class AppTest extends ApplicationTest {
         type(KeyCode.ENTER);
         clickOn("#addDrink");
         clickOn("#showOverview");
-        TableView<IOU> table = lookup("#table").query();
-        assertEquals(getOwner().getIOUList(), table.getItems());
+        TableView<IOweYou> table = lookup("#table").query();
+        assertEquals(getOwner().getIOweYouList(), table.getItems());
         assertThat(table, TableViewMatchers.hasNumRows(1));
     }
 
@@ -67,8 +67,8 @@ public class AppTest extends ApplicationTest {
         type(KeyCode.ENTER);
         clickOn("#addDrink");
         clickOn("#showOverview");
-        TableView<IOU> table = lookup("#table").query();
-        assertEquals(getOwner().getIOUList(), table.getItems());
+        TableView<IOweYou> table = lookup("#table").query();
+        assertEquals(getOwner().getIOweYouList(), table.getItems());
         assertThat(table, TableViewMatchers.hasNumRows(2));
     }
 }
