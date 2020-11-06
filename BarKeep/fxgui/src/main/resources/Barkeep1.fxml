@@ -20,5 +20,7 @@
       </Label>
       <Button fx:id="showOverview" layoutX="249.0" layoutY="271.0" mnemonicParsing="false" onAction="#handleGetOverview" text="Show Overview" />
       <Label fx:id="feedback" layoutX="8.0" layoutY="340.0" prefHeight="17.0" prefWidth="584.0" />
+      <Button fx:id="logout" layoutX="520.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleLogout" text="Log out" />
+      <Button fx:id="findFriendsButton" onAction="#handleFindFriends" layoutX="509.0" layoutY="58.0" mnemonicParsing="false" text="Find friends" />
    </children>
 </AnchorPane>

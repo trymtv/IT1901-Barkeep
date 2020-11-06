@@ -36,7 +36,7 @@ public class User implements Serializable {
 
     @OneToMany
     @JoinColumn(name="OWNER", referencedColumnName = "ID")
-    private List<IOweYou> iOweYouList;
+    private List<IOweYou> iOweYouList = new ArrayList<>();
 
     public User() {
 

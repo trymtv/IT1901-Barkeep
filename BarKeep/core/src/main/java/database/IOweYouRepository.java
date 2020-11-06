@@ -55,12 +55,8 @@ public class IOweYouRepository {
 		List<IOweYou> ious = new ArrayList<>();
 		try {
 			while (rs.next()){
-				if(owner == null){
-					owner = UserRepository.get(rs.getInt("OWNER"));
-				}
-				if(friend == null){
-					friend = UserRepository.get(rs.getInt("FRIEND"));
-				}
+				owner = UserRepository.get(rs.getInt("OWNER"));
+				friend = UserRepository.get(rs.getInt("FRIEND"));
 				Drink drink = DrinkRepository.get(rs.getInt("DRINK"));
 				IOweYou newIOweYou = new IOweYou(owner, friend, drink);
 				newIOweYou.setId(rs.getInt("ID"));

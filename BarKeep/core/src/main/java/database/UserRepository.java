@@ -29,6 +29,14 @@ public class UserRepository {
 		return user;
 	}
 
+	public static List<User> getAllExcept(String username) throws SQLException, ClassNotFoundException {
+		Database.open();
+		ResultSet rs = Database.read("SELECT * FROM USERS WHERE username!='" + username + "'");
+		List<User> userResult = parseResultSet(rs);
+		Database.close();
+		return userResult;
+	}
+
 	/**
 	 * Returns a user from the database defined by the {@link User} id
 	 * @param id the user id

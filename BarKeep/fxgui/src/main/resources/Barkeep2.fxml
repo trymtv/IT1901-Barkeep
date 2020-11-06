@@ -43,7 +43,16 @@
           </Tab>
           <Tab text="I owe people:">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="table2" prefHeight="335.0" prefWidth="600.0">
+                           <columns>
+                              <TableColumn fx:id="user2" prefWidth="200.0" text="User:" />
+                              <TableColumn fx:id="drink2" prefWidth="200.0" text="Drink:" />
+                              <TableColumn fx:id="time2" prefWidth="200.0" text="Time:" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
             </content>
           </Tab>
         </tabs>
