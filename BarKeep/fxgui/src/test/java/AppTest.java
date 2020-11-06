@@ -16,6 +16,7 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 
 import static barkeep.LoginController.getOwner;
@@ -89,12 +90,6 @@ public class AppTest extends ApplicationTest {
         assertNull(getOwner());
     }
 
-    @Test public void testSceneSwitch(){
-        login();
-        clickOn("#showOverview");
-        clickOn("#back");
-    }
-
     @Test
     public void testAddDrink(){
         login();
@@ -107,6 +102,27 @@ public class AppTest extends ApplicationTest {
         TableView<IOweYou> table = lookup("#table").query();
         try {
             assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testAddAndRemoveFriends(){
+        login();
+        try {
+            List<Integer> oldFriendList = FriendRepository.get("testuser1");
+            clickOn("#findFriendsButton");
+            clickOn("#userList");
+            type(KeyCode.ENTER);
+            clickOn("#addFriendButton");
+            assertNotEquals(oldFriendList, FriendRepository.get("testuser1"));
+            clickOn("#removeTab");
+            clickOn("#userList2");
+            type(KeyCode.DOWN, KeyCode.ENTER);
+            clickOn("#removeFriendButton");
+            assertEquals(oldFriendList, FriendRepository.get("testuser1"));
+            clickOn("#backButton");
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
