@@ -2,6 +2,7 @@ package barkeep;
 
 import database.DrinkRepository;
 import database.FriendRepository;
+import database.IOweYouRepository;
 import database.UserRepository;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,6 +25,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static barkeep.LoginController.getOwner;
+import static barkeep.LoginController.setOwner;
+
 public class Barkeep1Controller implements Initializable {
 
     @FXML
@@ -35,16 +39,6 @@ public class Barkeep1Controller implements Initializable {
     @FXML
     Button addDrink;
 
-    private static User owner;
-
-    static {
-        try {
-            owner = UserRepository.get(1);
-            owner.setIOweYouList(new ArrayList<>());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -52,15 +46,6 @@ public class Barkeep1Controller implements Initializable {
         populateChoiceBoxFriends();
         disableButton();
     }
-
-    public static User getOwner() {
-        return owner;
-    }
-
-    public static void setOwner(User newOwner) {
-        owner = newOwner;
-    }
-
 
     public void populateChoiceBoxDrinks() {
         ObservableList<Drink> choiceBoxListDrinks = FXCollections.observableArrayList();
@@ -73,7 +58,7 @@ public class Barkeep1Controller implements Initializable {
         choiceBoxDrinks.getItems().addAll(choiceBoxListDrinks);
     }
 
-    public void populateChoiceBoxFriends(){
+    public void populateChoiceBoxFriends() {
         ObservableList<User> choiceBoxListFriends = FXCollections.observableArrayList();
         choiceBoxListFriends.removeAll();
         List<User> friendList = new ArrayList<>();
@@ -95,25 +80,45 @@ public class Barkeep1Controller implements Initializable {
     }
 
     public void handleGetOverview(ActionEvent event) throws IOException {
-        System.out.println(getClass().getResource("/Barkeep2.fxml"));
         Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep2.fxml"));
         Scene scene = new Scene(parent);
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    public void disableButton(){
+    public void disableButton() {
         addDrink.disableProperty().bind(
                 choiceBoxFriends.valueProperty().isNull()
-                .or(choiceBoxDrinks.valueProperty().isNull()));
+                        .or(choiceBoxDrinks.valueProperty().isNull()));
     }
 
     public void handleAddDrink() {
         Drink drink = choiceBoxDrinks.getValue();
         User user = choiceBoxFriends.getValue();
-        getOwner().addIOweYou(new IOweYou(getOwner(), user, drink));
+        System.out.println(user);
+        try {
+            IOweYouRepository.store(new IOweYou(getOwner(), user, drink));
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         feedback.setText("Drink was added");
+    }
 
+    public void handleLogout(ActionEvent event) throws IOException {
+        setOwner(null);
+        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void handleFindFriends(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("/FriendRegistration.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }
