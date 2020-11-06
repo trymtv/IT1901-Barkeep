@@ -64,7 +64,9 @@ public class Barkeep1Controller implements Initializable {
         List<User> friendList = new ArrayList<>();
         try {
             List<Integer> friendIDs = FriendRepository.get(getOwner().getId());
-            assert friendIDs != null;
+            if(friendIDs == null){
+                return;
+            }
             friendIDs.forEach(id -> {
                 try {
                     friendList.add(UserRepository.get(id));
