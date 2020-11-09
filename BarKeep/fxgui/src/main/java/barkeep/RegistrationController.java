@@ -34,9 +34,19 @@ public class RegistrationController implements Initializable {
 
     }
     @FXML
-    public void handleRegistration(ActionEvent event) {
+    public void handleRegistration(ActionEvent event) throws IOException {
 
-        User user = new User(nameField.getText(), passwordField.getText(),emailField.getText());
+
+        storeUser();
+        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+    private void storeUser(){
+        User user = new User(nameField.getText(),nameField.getText(), passwordField.getText(),emailField.getText());
+        System.out.println(user.getName());
         try {
             UserRepository.store(user);
         } catch (SQLException throwables) {
@@ -45,6 +55,5 @@ public class RegistrationController implements Initializable {
             e.printStackTrace();
         }
     }
-
     }
 

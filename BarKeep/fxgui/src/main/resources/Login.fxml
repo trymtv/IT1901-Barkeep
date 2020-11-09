@@ -7,13 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="barkeep.LoginController">
    <children>
       <PasswordField fx:id="password" layoutX="310.0" layoutY="222.0" promptText="Password" />
       <TextField fx:id="username" layoutX="99.0" layoutY="222.0" promptText="Username" />
-      <Button fx:id="loginButton" onAction="#handleLogin" layoutX="508.0" layoutY="222.0" mnemonicParsing="false" text="Log in" />
-      <Button fx:id="createuserbutton" layoutX="508.0" layoutY="328.0" mnemonicParsing="false" text="Create user" />
+      <Button fx:id="loginButton" layoutX="508.0" layoutY="222.0" mnemonicParsing="false" onAction="#handleLogin" text="Log in" />
+      <Button fx:id="createuserbutton" layoutX="508.0" layoutY="328.0" mnemonicParsing="false" onAction="#handleCreateUser" text="Create user" />
       <Label fx:id="feedback" layoutX="14.0" layoutY="333.0" prefHeight="17.0" prefWidth="483.0" text="Label" />
       <Label layoutX="217.0" layoutY="36.0" text="Barkeep">
          <font>
