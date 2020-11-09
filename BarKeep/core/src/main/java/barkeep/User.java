@@ -57,6 +57,8 @@ public class User implements Serializable {
 
     public String getEmail() { return email; }
 
+    public String getPassword() { return password; }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -114,6 +116,21 @@ public class User implements Serializable {
         this.email = email;
 
     }
+    public User (int id, String username, String password, String email){
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
+    }
+
+    public User (String username, String password, String email){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
+    }
+
 
     @Override
     public String toString() {
