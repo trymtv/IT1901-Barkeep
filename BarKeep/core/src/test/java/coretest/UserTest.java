@@ -10,17 +10,59 @@ public class UserTest {
     private User user1;
 
     @BeforeEach
-    public void setupUser(){
-        user1 = new User(0,"Ola", "olakul98", "Høst2005", "olacool@osloskolen.no");
+    public void setupUser() {
+        user1 = new User(0, "Ola", "olakul98", "Høst2005", "olacool@osloskolen.no");
     }
 
     @Test
-    public void testUserChange(){
-        user1.setName("Kari");
-        testUserGet("Kari");
+    public void testIdChange() {
+        user1.setId(420);
+        testUserId(420);
     }
 
-    private void testUserGet(String name){
+    @Test
+    public void testUserNameChange() {
+        user1.setName("Kari");
+        testUserName("Kari");
+    }
+
+    @Test
+    public void testUserUsernameChange() {
+        user1.setUsername("karikul00");
+        testUserUsername("karikul00");
+    }
+
+    @Test
+    public void testUserEmailChange() {
+        user1.setEmail("kari@gmail.com");
+        testUserEmail("kari@gmail.com");
+    }
+
+    @Test
+    public void testUserPasswordChange() {
+        user1.setPassword("Olaerkul12");
+        testUserPassword("Olaerkul12");
+    }
+
+
+    private void testUserId(int id) {
+        assertEquals(id, user1.getId());
+    }
+
+    private void testUserName(String name) {
         assertEquals(name, user1.getName());
     }
+
+    private void testUserUsername(String username) {
+        assertEquals(username, user1.getUsername());
+    }
+
+    private void testUserEmail(String email) {
+        assertEquals(email, user1.getEmail());
+    }
+
+    private void testUserPassword(String password) {
+        assertEquals(password, user1.getPassword());
+    }
 }
+
