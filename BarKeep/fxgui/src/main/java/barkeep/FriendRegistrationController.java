@@ -47,7 +47,7 @@ public class FriendRegistrationController implements Initializable {
     public List<User> getfriendslist(){
         List<User> friendList = new ArrayList<>();
         try {
-            List<Integer> friendIDs = FriendRepository.get(UserRepository.get(getOwner().getName()).getId());
+            List<Integer> friendIDs = FriendRepository.get(UserRepository.get(getOwner().getUsername()).getId());
             if (friendIDs == null){
                 return null;
             }
@@ -69,7 +69,7 @@ public class FriendRegistrationController implements Initializable {
         ObservableList<User> observableUsers = FXCollections.observableArrayList();
         observableUsers.removeAll();
         try {
-            observableUsers.addAll(UserRepository.getAllExcept(getOwner().getName()));
+            observableUsers.addAll(UserRepository.getAllExcept(getOwner().getUsername()));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

@@ -45,8 +45,8 @@ public class RegistrationController implements Initializable {
         stage.show();
     }
     private void storeUser(){
-        User user = new User(nameField.getText(),nameField.getText(), passwordField.getText(),emailField.getText());
-        System.out.println(user.getName());
+        User user = new User(nameField.getText(), passwordField.getText(),emailField.getText());
+        System.out.println(user.getUsername());
         try {
             UserRepository.store(user);
         } catch (SQLException throwables) {

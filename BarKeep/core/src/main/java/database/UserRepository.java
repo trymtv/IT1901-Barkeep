@@ -84,7 +84,7 @@ public class UserRepository {
 	 */
 	public static void delete(User user) throws SQLException, ClassNotFoundException {
 		Database.open();
-		Database.delete("USERS", "USERNAME='" + user.getName() + "'");
+		Database.delete("USERS", "USERNAME='" + user.getUsername() + "'");
 		Database.close();
 	}
 
@@ -96,7 +96,7 @@ public class UserRepository {
 	 */
 	public static void store(User user) throws SQLException, ClassNotFoundException {
 		Database.open();
-		Database.insert("USERS", "NULL", user.getName(), user.getPassword(), user.getEmail());
+		Database.insert("USERS", "NULL", user.getUsername(), user.getPassword(), user.getEmail());
 		Database.close();
 	}
 }

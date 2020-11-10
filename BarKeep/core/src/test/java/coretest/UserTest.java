@@ -11,7 +11,7 @@ public class UserTest {
 
     @BeforeEach
     public void setupUser() {
-        user1 = new User(0, "Ola", "olakul98", "Høst2005", "olacool@osloskolen.no");
+        user1 = new User(0,  "olakul98", "Høst2005", "olacool@osloskolen.no");
     }
 
     @Test
@@ -20,11 +20,6 @@ public class UserTest {
         testUserId(420);
     }
 
-    @Test
-    public void testUserNameChange() {
-        user1.setName("Kari");
-        testUserName("Kari");
-    }
 
     @Test
     public void testUserUsernameChange() {
@@ -49,9 +44,6 @@ public class UserTest {
         assertEquals(id, user1.getId());
     }
 
-    private void testUserName(String name) {
-        assertEquals(name, user1.getName());
-    }
 
     private void testUserUsername(String username) {
         assertEquals(username, user1.getUsername());

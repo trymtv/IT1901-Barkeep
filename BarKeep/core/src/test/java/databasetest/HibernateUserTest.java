@@ -36,7 +36,7 @@ public class HibernateUserTest {
     public void testHibernateStoreAndDeleteUser(){
         Session session = sf.openSession();
         Transaction tx = session.beginTransaction();
-        User newUser = new User("test", "test", "test", "test");
+        User newUser = new User( "test", "test", "test");
         session.save(newUser);
         Query query = session.createQuery("from User order by id desc");
         query.setMaxResults(1);
