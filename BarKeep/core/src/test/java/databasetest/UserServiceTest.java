@@ -30,8 +30,8 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
-        user1 = new User("TestDrink1", "test1", "d", "h@h.com");
-        user2 = new User("TestDrink2", "test2", "d", "h2@h.com");
+        user1 = new User("TestDrink1",  "d", "h@h.com");
+        user2 = new User("TestDrink2",  "d", "h2@h.com");
     }
 
     @Test

@@ -42,25 +42,24 @@ public class UserControllerTest {
 
     @Test
     public void whenGetAll_thenReturnUsers() throws Exception {
-        User u1 = new User("user1", "username123", "testpass", "user@user.com");
-        User u2 = new User("user2", "username334", "testpass", "user1@user.com");
+        User u1 = new User("user1",  "testpass", "user@user.com");
+        User u2 = new User("user2", "testpass", "user1@user.com");
         given(service.list()).willReturn(Arrays.asList(u1,u2));
         mockMvc.perform(get("/user/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].name", is(u1.getName())))
-                .andExpect(jsonPath("$[1].name", is(u2.getName())));
+                .andExpect(jsonPath("$[0].username", is(u1.getUsername())))
+                .andExpect(jsonPath("$[1].username", is(u2.getUsername())));
     }
 
     @Test
     public void whenSearchByName_thenReturnUsers() throws Exception {
-        User u1 = new User("user1", "username123", "testpass", "user@user.com");
+        User u1 = new User("user1", "testpass", "user@user.com");
         List<User> users = Arrays.asList(u1);
         given(service.searchByUsername("us")).willReturn(users);
         mockMvc.perform(get("/user/search/us"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(users.size())))
-                .andExpect(jsonPath("$[0].name", is(u1.getName())))
                 .andExpect(jsonPath("$[0].username", is(u1.getUsername())))
                 .andExpect(jsonPath("$[0].email", is(u1.getEmail())));
     }
