@@ -29,8 +29,8 @@ public class HibernateUserRepositoryTest {
 
     @Before
     public void setUp() {
-        test1 = userRepository.save(new User("test1", "usernametest1", "1", "lol@l.com"));
-        test2 = userRepository.save(new User("test2", "usernametest2", "1", "lol1@l.com"));
+        test1 = userRepository.save(new User("test1",  "1", "lol@l.com"));
+        test2 = userRepository.save(new User("test2",  "1", "lol1@l.com"));
     }
 
     @Test
