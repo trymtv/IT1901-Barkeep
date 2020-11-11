@@ -1,7 +1,6 @@
-package databasetest;
+package database;
 
 import barkeep.Drink;
-import database.HibernateDrinkRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,7 +1,5 @@
-package databasetest;
+package database;
 
-import database.Database;
-import database.FriendRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

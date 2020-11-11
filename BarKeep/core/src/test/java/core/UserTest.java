@@ -1,4 +1,4 @@
-package coretest;
+package core;
 
 import barkeep.User;
 import org.junit.jupiter.api.BeforeEach;

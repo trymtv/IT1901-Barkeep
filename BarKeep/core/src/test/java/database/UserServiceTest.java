@@ -1,8 +1,6 @@
-package databasetest;
+package database;
 
 import barkeep.User;
-import database.HibernateUserRepository;
-import database.UserService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
