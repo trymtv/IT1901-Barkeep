@@ -1,4 +1,4 @@
-package coretest;
+package core;
 
 import barkeep.Drink;
 import barkeep.IOweYou;

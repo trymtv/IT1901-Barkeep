@@ -32,8 +32,6 @@ public class DrinkControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private DrinkService service;
-    @MockBean
-    private HibernateDrinkRepository repository;
 
     @Test
     public void whenDrink_shouldReturnMessage() throws Exception {

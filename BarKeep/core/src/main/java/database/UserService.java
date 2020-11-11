@@ -18,4 +18,9 @@ public class UserService {
     public List<User> list() {
         return userRepository.findAll();
     }
+
+    public User get(int id) {
+        return userRepository.findById(id).orElse(null);
+    }
+
 }

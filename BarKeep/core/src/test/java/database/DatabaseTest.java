@@ -1,6 +1,5 @@
-package databasetest;
+package database;
 
-import database.Database;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

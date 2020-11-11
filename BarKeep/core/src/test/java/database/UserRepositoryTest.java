@@ -1,8 +1,6 @@
-package databasetest;
+package database;
 
 import barkeep.User;
-import database.Database;
-import database.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

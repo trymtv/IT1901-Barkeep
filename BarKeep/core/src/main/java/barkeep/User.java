@@ -27,12 +27,12 @@ public class User implements Serializable {
     @Column
     private String email;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "User1", referencedColumnName = "ID")
     @JoinColumn(name = "User2", referencedColumnName = "ID")
     private List<Friendship> friendList;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name="OWNER", referencedColumnName = "ID")
     private List<IOweYou> iOweYouList = new ArrayList<>();
 

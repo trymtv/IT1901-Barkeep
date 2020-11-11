@@ -1,7 +1,6 @@
-package databasetest;
+package database;
 
 import barkeep.Drink;
-import database.SessionManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
