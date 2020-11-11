@@ -18,7 +18,7 @@ public class UserRepositoryTest {
 
 	@Test
 	public void testGetUser() throws SQLException, ClassNotFoundException {
-		User testUser = new User(1, "per");
+		User testUser = new User(1, "per", "Perperper10", "per@gmail.com");
 		User getUsernameUser = UserRepository.get("per");
 		User getIdUser = UserRepository.get(1);
 		equalUsers(testUser, getIdUser);
@@ -27,7 +27,7 @@ public class UserRepositoryTest {
 
 	@Test
 	public void testDeleteAndStoreUser() throws SQLException, ClassNotFoundException {
-		User testUser = new User(0, "mrTestDatabaseUser");
+		User testUser = new User(0, "mrTestDatabaseUser", "mrTestDatabasePassword11", "mrTestDatabase@user.com");
 		UserRepository.delete(testUser);
 		UserRepository.store(testUser);
 		User getUser = UserRepository.get("mrTestDatabaseUser");
@@ -36,6 +36,6 @@ public class UserRepositoryTest {
 
 	private void equalUsers(User user1, User user2){
 		assertEquals(user1.getId(), user2.getId());
-		assertEquals(user1.getName(), user2.getName());
+		assertEquals(user1.getUsername(), user2.getUsername());
 	}
 }

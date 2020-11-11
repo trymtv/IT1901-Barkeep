@@ -12,8 +12,6 @@ import java.util.List;
 @Entity
 @Table(name="users")
 public class User implements Serializable {
-    @Transient
-    private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,14 +49,16 @@ public class User implements Serializable {
     }
 
 
-    public String getName() { return name; }
 
     public String getUsername() { return username; }
 
     public String getEmail() { return email; }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getPassword() { return password; }
+
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setPassword(String password) { this.password = password; }
@@ -94,29 +94,32 @@ public class User implements Serializable {
             return this.password.equals(password);
     }
 
-    public User(String name, String username, String password, String email) {
-        this.name = name;
+    public User(String username, String password, String email) {
+
         this.username = username;
         this.password = password;
         this.email = email;
 
     }
-    public User(int id, String name) {
-        this.name = name;
+    public User(int id, String username) {
+        this.username = username;
         this.id = id;
     }
 
-    public User (int id, String name, String username, String password, String email){
+    public User (int id, String username, String password, String email){
         this.id = id;
-        this.name = name;
         this.username = username;
         this.password = password;
         this.email = email;
 
     }
+
+
+
+
 
     @Override
     public String toString() {
-        return this.name;
+        return this.username;
     }
 }
