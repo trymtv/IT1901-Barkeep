@@ -18,7 +18,7 @@ import java.sql.SQLException;
 
 public class LoginController {
 
-    public static User owner;
+    private static User owner;
 
     @FXML
     PasswordField password;
