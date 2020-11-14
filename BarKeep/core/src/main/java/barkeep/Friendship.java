@@ -1,7 +1,7 @@
 package barkeep;
 
-import javax.persistence.*;
 import java.io.Serializable;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "friends")
@@ -21,7 +21,7 @@ public class Friendship implements Serializable {
 
     public Friendship(){}
 
-    public Friendship(User user1, User user2){
+    public Friendship(User user1, User user2) {
         this.user1 = user1;
         this.user2 = user2;
     }

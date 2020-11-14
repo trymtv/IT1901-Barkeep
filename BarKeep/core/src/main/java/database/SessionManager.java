@@ -9,8 +9,14 @@ import org.hibernate.cfg.Configuration;
 
 public class SessionManager {
     private static SessionFactory sf;
-    public static SessionFactory getSessionFactory(){
-        if(sf == null){
+
+    /**
+     * Sets a global session factory for the hibernate session.
+     *
+     * @return The configured session factory
+     */
+    public static SessionFactory getSessionFactory() {
+        if (sf == null) {
             sf = new Configuration()
                     .addAnnotatedClass(User.class)
                     .addAnnotatedClass(Friendship.class)

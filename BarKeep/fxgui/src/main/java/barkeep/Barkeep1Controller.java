@@ -1,9 +1,18 @@
 package barkeep;
 
+import static barkeep.LoginController.getOwner;
+import static barkeep.LoginController.setOwner;
+
 import database.DrinkRepository;
 import database.FriendRepository;
 import database.IOweYouRepository;
 import database.UserRepository;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,16 +26,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
-
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
 
 public class Barkeep1Controller implements Initializable {
 
@@ -47,7 +46,8 @@ public class Barkeep1Controller implements Initializable {
         disableButton();
     }
 
-    public void populateChoiceBoxDrinks() {
+    //Gets the drinks from the repository and adds them to the choiceBox
+    private void populateChoiceBoxDrinks() {
         ObservableList<Drink> choiceBoxListDrinks = FXCollections.observableArrayList();
         choiceBoxListDrinks.removeAll();
         try {
@@ -58,16 +58,17 @@ public class Barkeep1Controller implements Initializable {
         choiceBoxDrinks.getItems().addAll(choiceBoxListDrinks);
     }
 
-    public void populateChoiceBoxFriends() {
+    //Gets the friends from the repository and adds them to the choiceBox
+    private void populateChoiceBoxFriends() {
         ObservableList<User> choiceBoxListFriends = FXCollections.observableArrayList();
         choiceBoxListFriends.removeAll();
         List<User> friendList = new ArrayList<>();
         try {
-            List<Integer> friendIDs = FriendRepository.get(getOwner().getId());
-            if(friendIDs == null){
+            List<Integer> friendIds = FriendRepository.get(getOwner().getId());
+            if (friendIds == null) {
                 return;
             }
-            friendIDs.forEach(id -> {
+            friendIds.forEach(id -> {
                 try {
                     friendList.add(UserRepository.get(id));
                 } catch (SQLException | ClassNotFoundException throwables) {
@@ -81,6 +82,9 @@ public class Barkeep1Controller implements Initializable {
         choiceBoxFriends.getItems().addAll(choiceBoxListFriends);
     }
 
+    /**
+     * Changes the scene to Overview.
+     */
     public void handleGetOverview(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep2.fxml"));
         Scene scene = new Scene(parent);
@@ -89,12 +93,16 @@ public class Barkeep1Controller implements Initializable {
         stage.show();
     }
 
-    public void disableButton() {
+    private void disableButton() {
         addDrink.disableProperty().bind(
                 choiceBoxFriends.valueProperty().isNull()
                         .or(choiceBoxDrinks.valueProperty().isNull()));
     }
 
+
+    /**
+     * Gets values from drink fields and adds to the IOweYouRepository.
+     */
     public void handleAddDrink() {
         Drink drink = choiceBoxDrinks.getValue();
         User user = choiceBoxFriends.getValue();
@@ -107,6 +115,9 @@ public class Barkeep1Controller implements Initializable {
         feedback.setText("Drink was added");
     }
 
+    /**
+     * Logs the user out and changes the scene to login.
+     */
     public void handleLogout(ActionEvent event) throws IOException {
         setOwner(null);
         Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
@@ -116,6 +127,9 @@ public class Barkeep1Controller implements Initializable {
         stage.show();
     }
 
+    /**
+     * Changes the scene to friend registration.
+     */
     public void handleFindFriends(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("/FriendRegistration.fxml"));
         Scene scene = new Scene(parent);
