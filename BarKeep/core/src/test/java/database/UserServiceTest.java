@@ -1,6 +1,7 @@
 package database;
 
 import barkeep.User;
+import barkeep.UserDTO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,5 +48,24 @@ public class UserServiceTest {
         List<User> users = userService.searchByUsername("testuser");
         Assert.assertTrue(users.contains(user1));
         Assert.assertTrue(users.contains(user2));
+    }
+
+    @Test
+    public void whenConvertToDTO_thenReturnUserDTO(){
+        UserDTO userDTO = userService.convertToDTO(user1);
+        assertUserEqualDTO(user1, userDTO);
+    }
+
+    @Test
+    public void whenConvertListToDTOS_thenReturnUserDTOs(){
+        List<UserDTO> userDTOs = userService.convertListToDTOs(Arrays.asList(user1,user2));
+        assertUserEqualDTO(user1, userDTOs.get(0));
+        assertUserEqualDTO(user2, userDTOs.get(1));
+    }
+
+    public static void assertUserEqualDTO(User user, UserDTO userDTO){
+        Assert.assertEquals(user.getId(), userDTO.getId());
+        Assert.assertEquals(user.getUsername(), userDTO.getUsername());
+        Assert.assertEquals(user.getEmail(), userDTO.getEmail());
     }
 }

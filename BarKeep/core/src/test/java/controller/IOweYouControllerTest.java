@@ -24,6 +24,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -54,6 +55,7 @@ public class IOweYouControllerTest {
         user3 = new User("Testuser3", "d", "h2@h.com");
         iou1 = new IOweYou(user1, user2, drink);
         iou2 = new IOweYou(user2, user3, drink);
+        given(service.convertListToDTOs(any())).willCallRealMethod();
     }
 
     @Test

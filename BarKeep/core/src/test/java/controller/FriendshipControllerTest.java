@@ -2,6 +2,7 @@ package controller;
 
 import api.controller.FriendshipController;
 import barkeep.Friendship;
+import barkeep.FriendshipDTO;
 import barkeep.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database.FriendshipService;
@@ -51,6 +52,8 @@ public class FriendshipControllerTest {
         Friendship fs2 = new Friendship(user3, user1);
         given(userService.get(1)).willReturn(user1);
         given(service.getFriends(user1)).willReturn(Arrays.asList(user2, user3));
+        given(userService.convertListToDTOs(any())).willCallRealMethod();
+        given(service.convertToDTO(any())).willCallRealMethod();
     }
 
     @Test
@@ -64,7 +67,9 @@ public class FriendshipControllerTest {
     @Test
     public void whenAddFriendship_thenReturnFriendship() throws Exception {
         Friendship frship = new Friendship(user3, user2);
-        String data = new ObjectMapper().writeValueAsString(frship);
+        FriendshipDTO friendshipDTO = new FriendshipDTO(frship);
+        String data = new ObjectMapper().writeValueAsString(friendshipDTO);
+        given(service.addFriendship(any(FriendshipDTO.class))).willReturn(frship);
         given(service.add(any(Friendship.class))).willAnswer(i -> i.getArgument(0));
         mockMvc.perform(post("/friendship/").content(data).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.user1.username", is(user3.getUsername())))

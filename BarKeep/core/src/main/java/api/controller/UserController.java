@@ -1,6 +1,7 @@
 package api.controller;
 
 import barkeep.User;
+import barkeep.UserDTO;
 import database.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +18,14 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/all")
-    public List<User> getAll() {
-        return userService.list();
+    public List<UserDTO> getAll() {
+        List<User> users = userService.list();
+        return userService.convertListToDTOs(users);
     }
 
     @GetMapping("/search/{name}")
-    public List<User> searchUsers(@PathVariable String name) {
-        return userService.searchByUsername(name);
+    public List<UserDTO> searchUsers(@PathVariable String name) {
+       List<User> users =  userService.searchByUsername(name);
+       return userService.convertListToDTOs(users);
     }
 }
