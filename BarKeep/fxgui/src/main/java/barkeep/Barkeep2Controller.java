@@ -1,7 +1,14 @@
 package barkeep;
 
+import static barkeep.LoginController.getOwner;
+
 import database.IOweYouRepository;
 import database.UserRepository;
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -15,18 +22,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
-import java.io.IOException;
-import java.net.URL;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
 
 public class Barkeep2Controller implements Initializable {
 
@@ -54,7 +50,7 @@ public class Barkeep2Controller implements Initializable {
         updateTable2();
     }
 
-    public void updateTable(){
+    private void updateTable() {
         user.setCellValueFactory(new PropertyValueFactory<>("user"));
         drink.setCellValueFactory(new PropertyValueFactory<>("drink"));
         time.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -68,7 +64,7 @@ public class Barkeep2Controller implements Initializable {
         table.setItems(observableList);
     }
 
-    public void updateTable2(){
+    private void updateTable2() {
         user2.setCellValueFactory(new PropertyValueFactory<>("owner"));
         drink2.setCellValueFactory(new PropertyValueFactory<>("drink"));
         time2.setCellValueFactory(new PropertyValueFactory<>("time"));
@@ -82,21 +78,15 @@ public class Barkeep2Controller implements Initializable {
         table2.setItems(observableList);
     }
 
+    /**
+     * Changes the scene to start scene.
+     */
     public void handleBack(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep1.fxml"));
         Scene scene = new Scene(parent);
-        Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
     }
 
-    public static void main(String[] args) {
-        try {
-            User per = UserRepository.get("per");
-            System.out.println(IOweYouRepository.getByOwner(per));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-    }
-
+}

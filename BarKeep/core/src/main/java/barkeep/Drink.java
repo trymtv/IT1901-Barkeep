@@ -1,21 +1,8 @@
 package barkeep;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Paths;
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+import javax.persistence.*;
 
-/**
- * Class representing a Drink
- */
 @Entity
 @Table(name = "drinks")
 public class Drink implements Serializable {
@@ -35,6 +22,7 @@ public class Drink implements Serializable {
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -42,6 +30,7 @@ public class Drink implements Serializable {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
@@ -49,17 +38,18 @@ public class Drink implements Serializable {
     public double getValue() {
         return value;
     }
+
     public void setValue(double value) {
         this.value = value;
     }
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param name the name of the drink
      * @param value the value of the drink
      */
-    public Drink(String name, double value)
-    {
+    public Drink(String name, double value) {
         this.name = name;
         this.value = value;
     }

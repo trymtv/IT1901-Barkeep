@@ -2,10 +2,9 @@ package api.controller;
 
 import barkeep.Drink;
 import database.DrinkService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/drink")
