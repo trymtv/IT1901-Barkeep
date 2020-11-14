@@ -1,12 +1,15 @@
 package api.controller;
 
 import barkeep.Friendship;
+import barkeep.FriendshipDTO;
 import barkeep.User;
+import barkeep.UserDTO;
 import database.FriendshipService;
 import database.UserService;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/friendship")
@@ -17,18 +20,18 @@ public class FriendshipController {
     FriendshipService friendshipService;
 
     @GetMapping("/{userid}")
-    public List<User> getFriends(@PathVariable int userid) {
+    public List<UserDTO> getFriends(@PathVariable int userid) {
         //TODO: Check that the user is allowed (a.k.a. asking for own friends)
         User user = userService.get(userid);
-        return friendshipService.getFriends(user);
+        List<User> users = friendshipService.getFriends(user);
+        return userService.convertListToDTOs(users);
     }
-
     @PostMapping("/")
-    public Friendship addFriendship(@RequestBody Friendship friendship) {
+    public FriendshipDTO addFriendship(@RequestBody FriendshipDTO friendshipDTO){
         //TODO: Check that user is one of friends
-        return friendshipService.add(friendship);
+        Friendship friendship = friendshipService.addFriendship(friendshipDTO);
+        return friendshipService.convertToDTO(friendship);
     }
-
     @DeleteMapping("/")
     public void removeFriendship(@RequestBody Friendship friendship) {
         //TODO: Check that user is one of friends

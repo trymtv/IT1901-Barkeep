@@ -25,6 +25,8 @@ public class FriendshipServiceTest {
     private FriendshipService friendshipService;
     @MockBean
     private HibernateFriendshipRepository friendshipRepository;
+    @MockBean
+    private UserService userService;
 
     private User user1;
     private User user2;

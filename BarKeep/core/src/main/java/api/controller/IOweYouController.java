@@ -1,6 +1,7 @@
 package api.controller;
 
 import barkeep.IOweYou;
+import barkeep.IOweYouDTO;
 import barkeep.User;
 import database.IOweYouService;
 import database.UserService;
@@ -18,21 +19,23 @@ public class IOweYouController {
     UserService userService;
 
     @GetMapping("/{userId}/userowes")
-    public List<IOweYou> userOwes(@PathVariable int userId){
+    public List<IOweYouDTO> userOwes(@PathVariable int userId){
         //TODO: Check that user is logged in and has id == userId
         User user = userService.get(userId);
-        return iOweYouService.userOwes(user);
+        List<IOweYou> userOwes = iOweYouService.userOwes(user);
+        return iOweYouService.convertListToDTOs(userOwes);
     }
 
     @GetMapping("/{userId}/owesuser")
-    public List<IOweYou> owesUser(@PathVariable int userId){
+    public List<IOweYouDTO> owesUser(@PathVariable int userId){
         //TODO: Check that user is logged in and has id == userId
         User user = userService.get(userId);
-        return iOweYouService.owesUser(user);
+        List<IOweYou> owesUser = iOweYouService.owesUser(user);
+        return iOweYouService.convertListToDTOs(owesUser);
     }
 
     @PostMapping("/")
-    public void addIOweYou(@RequestBody IOweYou iOweYou){
+    public void addIOweYou(@RequestBody IOweYouDTO iOweYou){
         //TODO: Check that user is Owner of IOweYou
         iOweYouService.add(iOweYou);
     }
