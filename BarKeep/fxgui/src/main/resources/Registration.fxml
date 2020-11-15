@@ -1,53 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<?import javafx.scene.control.PasswordField?>
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="barkeep.RegistrationController">
-   <children>
-      <TextField fx:id="nameField" layoutX="232.0" layoutY="112.0" prefHeight="0.0" prefWidth="269.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TextField>
-      <Text layoutX="188.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Registration" textAlignment="CENTER" wrappingWidth="223.22900390625">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Text>
-      <Text layoutX="99.0" layoutY="131.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Userame:" textAlignment="RIGHT" wrappingWidth="74.1015625">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <TextField fx:id="emailField" layoutX="232.0" layoutY="186.0" prefHeight="0.0" prefWidth="269.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </TextField>
-      <Text layoutX="99.0" layoutY="205.0" strokeType="OUTSIDE" strokeWidth="0.0" text="E-mail:" textAlignment="RIGHT" wrappingWidth="74.1015625">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <PasswordField fx:id="passwordField" layoutX="232.0" layoutY="261.0" prefHeight="0.0" prefWidth="269.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </PasswordField>
-      <Text layoutX="99.0" layoutY="280.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password:" textAlignment="RIGHT" wrappingWidth="74.1015625">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Button fx:id="register" layoutX="264.0" layoutY="327.0" mnemonicParsing="false" onAction="#handleRegistration" text="Registrer" textAlignment="CENTER">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #3e4e50;"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="barkeep.RegistrationController">
+   <TextField fx:id="nameField" layoutX="125.0" layoutY="110.0" prefHeight="0.0" prefWidth="150.0"
+              promptText="Username">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </TextField>
+   <Text fill="WHITE" layoutX="125.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="REGISTRATION"
+         textAlignment="CENTER" wrappingWidth="150.0">
+      <font>
+         <Font size="18.0" />
+      </font>
+   </Text>
+   <TextField fx:id="emailField" layoutX="125.0" layoutY="150.0" prefHeight="0.0" prefWidth="150.0" promptText="E-mail">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </TextField>
+   <PasswordField fx:id="passwordField" layoutX="125.0" layoutY="190.0" prefHeight="0.0" prefWidth="150.0"
+                  promptText="Password">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </PasswordField>
+   <Button fx:id="register" layoutX="125.0" layoutY="230.0" mnemonicParsing="false" onAction="#handleRegistration"
+           prefWidth="150.0" style="-fx-background-color: #f99010;" text="Registrer" textAlignment="CENTER">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Button>
+   <Button fx:id="backButtonReg" layoutX="125.0" layoutY="270.0" mnemonicParsing="false" onAction="#handleBack"
+           prefWidth="150.0" style="-fx-background-color: #c4c4c4;" text="Back" textAlignment="CENTER">
+      <font>
+         <Font size="14.0" />
+      </font>
+   </Button>
 </AnchorPane>

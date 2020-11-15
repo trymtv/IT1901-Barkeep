@@ -7,55 +7,35 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="barkeep.Barkeep2Controller">
-   <children>
-      <Button fx:id="back" layoutX="277.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleBack" text="Back" />
-      <TabPane layoutX="-220.0" layoutY="-290.0" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Untitled Tab 1">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-          <Tab text="Untitled Tab 2">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-      <TabPane prefHeight="366.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="People owe me:">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="333.0" prefWidth="568.0">
-                     <children>
-                        <TableView fx:id="table" prefHeight="335.0" prefWidth="600.0">
-                          <columns>
-                            <TableColumn fx:id="user" prefWidth="200.0" text="User:" />
-                            <TableColumn fx:id="drink" prefWidth="200.0" text="Drink:" />
-                              <TableColumn fx:id="time" prefWidth="200.0" text="Time:" />
-                          </columns>
-                        </TableView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="I owe people:">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TableView fx:id="table2" prefHeight="335.0" prefWidth="600.0">
-                           <columns>
-                              <TableColumn fx:id="user2" prefWidth="200.0" text="User:" />
-                              <TableColumn fx:id="drink2" prefWidth="200.0" text="Drink:" />
-                              <TableColumn fx:id="time2" prefWidth="200.0" text="Time:" />
-                           </columns>
-                        </TableView>
-                     </children></AnchorPane>
-            </content>
-          </Tab>
-        </tabs>
-      </TabPane>
-   </children>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3e4e50;"
+            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="barkeep.Barkeep2Controller">
+    <Button fx:id="back" layoutX="480.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleBack"
+            prefWidth="90.0" text="Back" />
+    <TabPane layoutX="10.0" layoutY="10.0" prefHeight="380.0" prefWidth="446.0" tabClosingPolicy="UNAVAILABLE">
+        <Tab text="OWES ME">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="288.0" prefWidth="450.0">
+                <TableView fx:id="table" prefHeight="369.0" prefWidth="450.0">
+                    <columns>
+                        <TableColumn fx:id="user" prefWidth="150.0" text="User:" />
+                        <TableColumn fx:id="drink" prefWidth="150.0" text="Drink:" />
+                        <TableColumn fx:id="time" prefWidth="150.0" text="Time:" />
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </Tab>
+        <Tab text="I OWE">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                <TableView fx:id="table2" prefHeight="368.0" prefWidth="450.0">
+                    <columns>
+                        <TableColumn fx:id="user2" prefWidth="150.0" text="User:" />
+                        <TableColumn fx:id="drink2" prefWidth="150.0" text="Drink:" />
+                        <TableColumn fx:id="time2" prefWidth="150.0" text="Time:" />
+                    </columns>
+                </TableView>
+            </AnchorPane>
+        </Tab>
+    </TabPane>
+    <Button fx:id="logout" layoutX="480.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleLogout"
+            prefWidth="90.0" style="-fx-background-color: #f08080;" text="Log out" />
 </AnchorPane>

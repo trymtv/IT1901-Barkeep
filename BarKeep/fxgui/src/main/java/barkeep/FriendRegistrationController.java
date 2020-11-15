@@ -1,6 +1,7 @@
 package barkeep;
 
 import static barkeep.LoginController.getOwner;
+import static barkeep.LoginController.setOwner;
 
 import database.FriendRepository;
 import database.UserRepository;
@@ -20,21 +21,20 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 
 public class FriendRegistrationController implements Initializable {
 
     @FXML
-    public ListView<User> userList;
+    ListView<User> userList;
     @FXML
-    public Button addFriendButton;
+    ListView<User> userList2;
     @FXML
-    public ListView<User> userList2;
+    Button addFriendButton;
     @FXML
-    public Button removeFriendButton;
+    Button removeFriendButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -149,7 +149,7 @@ public class FriendRegistrationController implements Initializable {
             throwables.printStackTrace();
         }
         userList.getSelectionModel().clearSelection();
-        userList.getItems().clear();
+        userList.getItems().clear() ;
         userList2.getItems().clear();
         updateAddFriendsList();
         updateRemoveFriendsList();
@@ -172,5 +172,14 @@ public class FriendRegistrationController implements Initializable {
         userList2.getItems().clear();
         updateAddFriendsList();
         updateRemoveFriendsList();
+    }
+
+    public void handleLogout(ActionEvent event) throws IOException {
+        setOwner(null);
+        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

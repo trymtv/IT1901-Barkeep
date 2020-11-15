@@ -106,7 +106,6 @@ public class Barkeep1Controller implements Initializable {
     public void handleAddDrink() {
         Drink drink = choiceBoxDrinks.getValue();
         User user = choiceBoxFriends.getValue();
-        System.out.println(user);
         try {
             IOweYouRepository.store(new IOweYou(getOwner(), user, drink));
         } catch (SQLException | ClassNotFoundException throwables) {
