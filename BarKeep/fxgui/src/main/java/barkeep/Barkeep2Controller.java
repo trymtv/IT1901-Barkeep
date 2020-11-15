@@ -1,9 +1,9 @@
 package barkeep;
 
 import static barkeep.LoginController.getOwner;
+import static barkeep.LoginController.setOwner;
 
 import database.IOweYouRepository;
-import database.UserRepository;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -34,7 +34,6 @@ public class Barkeep2Controller implements Initializable {
     private TableColumn<IOweYou, String> drink;
     @FXML
     private TableColumn<IOweYou, LocalDateTime> time;
-
     @FXML
     private TableView<IOweYou> table2;
     @FXML
@@ -83,6 +82,15 @@ public class Barkeep2Controller implements Initializable {
      */
     public void handleBack(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep1.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void handleLogout(ActionEvent event) throws IOException {
+        setOwner(null);
+        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
