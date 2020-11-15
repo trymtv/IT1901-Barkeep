@@ -1,13 +1,12 @@
-import barkeep.LoginController;
+import barkeep.Barkeep1Controller;
+import barkeep.Barkeep2Controller;
+import barkeep.IOweYou;
 import barkeep.User;
 import database.*;
-import barkeep.IOweYou;
-import database.Database;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,21 +15,20 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
-
 
 import static barkeep.LoginController.getOwner;
 import static barkeep.LoginController.setOwner;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AppTest extends ApplicationTest {
+public class Barkeep2Test extends ApplicationTest {
 
-    private LoginController controller;
+    private Barkeep2Controller controller;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws IOException, SQLException, ClassNotFoundException {
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+        setOwner(UserRepository.get("testuser1"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Barkeep2.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
@@ -44,7 +42,7 @@ public class AppTest extends ApplicationTest {
     }
 
     @BeforeAll
-    public static void setupDB(){
+    public static void setup(){
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         User testuser1 = new User(56, "testuser1");
         User testuser2 = new User(57, "testuser2");
@@ -52,6 +50,8 @@ public class AppTest extends ApplicationTest {
             UserRepository.store(testuser1);
             UserRepository.store(testuser2);
             FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
+            setOwner(UserRepository.get("testuser1"));
+            IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("testuser2"), DrinkRepository.get(1)));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -69,70 +69,20 @@ public class AppTest extends ApplicationTest {
     }
 
     @Test
-    public void testController() {
+    public void testControllerandBackButton() {
         assertNotNull(this.controller);
+        clickOn("#back");
     }
 
     @Test
-    public void testLoginLogout(){
-        login();
-        assertEquals("testuser1", getOwner().toString());
-        clickOn("#logout");
-        assertNull(getOwner());
-
-    }
-
-    @Test
-    public void testWrongUsername(){
-        clickOn("#username");
-        write("&%$%&%()&/%");
-        clickOn("#loginButton");
-        assertNull(getOwner());
-    }
-
-    @Test
-    public void testAddDrink(){
-        login();
-        clickOn("#choiceBoxFriends");
-        type(KeyCode.DOWN, KeyCode.ENTER);
-        clickOn("#choiceBoxDrinks");
-        type(KeyCode.ENTER);
-        clickOn("#addDrink");
-        clickOn("#showOverview");
+    public void testTableandLogout(){
         TableView<IOweYou> table = lookup("#table").query();
         try {
             assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
+        clickOn("#logout");
+        assertNull(getOwner());
     }
-
-    @Test
-    public void testAddAndRemoveFriends(){
-        login();
-        try {
-            List<Integer> oldFriendList = FriendRepository.get("testuser1");
-            clickOn("#findFriendsButton");
-            clickOn("#userList");
-            type(KeyCode.ENTER);
-            clickOn("#addFriendButton");
-            assertNotEquals(oldFriendList, FriendRepository.get("testuser1"));
-            clickOn("#removeTab");
-            clickOn("#userList2");
-            type(KeyCode.DOWN, KeyCode.ENTER);
-            clickOn("#removeFriendButton");
-            assertEquals(oldFriendList, FriendRepository.get("testuser1"));
-            clickOn("#backButton");
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-
-    public void login(){
-        clickOn("#username");
-        write("testuser1");
-        clickOn("#loginButton");
-    }
-
 }
