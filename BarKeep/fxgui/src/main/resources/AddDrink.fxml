@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3e4e50;"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="barkeep.Barkeep1Controller">
+            fx:controller="barkeep.AddDrinkController">
    <ImageView fitHeight="176.0" fitWidth="193.0" layoutX="212.0" layoutY="15.0" pickOnBounds="true"
               preserveRatio="true">
       <Image url="@logo.png" />

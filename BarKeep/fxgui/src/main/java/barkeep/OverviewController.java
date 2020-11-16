@@ -24,7 +24,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 
-public class Barkeep2Controller implements Initializable {
+public class OverviewController implements Initializable {
 
     @FXML
     private TableView<IOweYou> table;
@@ -81,7 +81,7 @@ public class Barkeep2Controller implements Initializable {
      * Changes the scene to start scene.
      */
     public void handleBack(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep1.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

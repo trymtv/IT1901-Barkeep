@@ -119,7 +119,7 @@ public class FriendRegistrationController implements Initializable {
      */
 
     public void handleBack(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep1.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
