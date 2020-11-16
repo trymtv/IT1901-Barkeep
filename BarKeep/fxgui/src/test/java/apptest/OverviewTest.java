@@ -1,10 +1,13 @@
-import barkeep.LoginController;
+package apptest;
+
+import barkeep.OverviewController;
+import barkeep.IOweYou;
 import barkeep.User;
-import database.Database;
-import database.UserRepository;
+import database.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -16,17 +19,17 @@ import java.sql.SQLException;
 
 import static barkeep.LoginController.getOwner;
 import static barkeep.LoginController.setOwner;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
-public class LoginTest extends ApplicationTest {
+public class OverviewTest extends ApplicationTest {
 
-    private LoginController controller;
+    private OverviewController controller;
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
+    public void start(Stage primaryStage) throws IOException, SQLException, ClassNotFoundException {
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Login.fxml"));
+        setOwner(UserRepository.get("testuser1"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Overview.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
@@ -40,14 +43,16 @@ public class LoginTest extends ApplicationTest {
     }
 
     @BeforeAll
-    public static void setupDB(){
+    public static void setup(){
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         User testuser1 = new User(56, "testuser1");
-        //User testuser2 = new User(57, "testuser2");
+        User testuser2 = new User(57, "testuser2");
         try {
             UserRepository.store(testuser1);
-          //  UserRepository.store(testuser2);
-           // FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
+            UserRepository.store(testuser2);
+            FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
+            setOwner(UserRepository.get("testuser1"));
+            IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("testuser2"), DrinkRepository.get(1)));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -58,34 +63,27 @@ public class LoginTest extends ApplicationTest {
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         try {
             UserRepository.delete(UserRepository.get("testuser1"));
-            //UserRepository.delete(UserRepository.get("testuser2"));
+            UserRepository.delete(UserRepository.get("testuser2"));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
     }
 
     @Test
-    public void testController() {
+    public void testControllerandBackButton() {
         assertNotNull(this.controller);
-        clickOn("#createuserbutton");
+        clickOn("#back");
     }
 
     @Test
-    public void testLogin(){
-        clickOn("#username");
-        write("testuser1");
-        clickOn("#loginButton");
-
-    }
-
-    @Test
-    public void testWrongUsername(){
-        clickOn("#username");
-        write("&%$%&%()&/%");
-        clickOn("#loginButton");
+    public void testTableandLogout(){
+        TableView<IOweYou> table = lookup("#table").query();
+        try {
+            assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        clickOn("#logout");
         assertNull(getOwner());
     }
-
 }
-
-

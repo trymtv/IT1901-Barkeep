@@ -1,3 +1,5 @@
+package apptest;
+
 import barkeep.RegistrationController;
 import database.Database;
 import database.UserRepository;

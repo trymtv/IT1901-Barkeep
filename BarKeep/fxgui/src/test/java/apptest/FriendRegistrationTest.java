@@ -1,13 +1,12 @@
-import barkeep.Barkeep1Controller;
-import barkeep.IOweYou;
+package apptest;
+
+import barkeep.FriendRegistrationController;
 import barkeep.User;
-import database.Database;
-import database.FriendRepository;
-import database.IOweYouRepository;
-import database.UserRepository;
+import database.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
@@ -23,15 +22,15 @@ import static barkeep.LoginController.getOwner;
 import static barkeep.LoginController.setOwner;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Barkeep1Test extends ApplicationTest {
+public class FriendRegistrationTest extends ApplicationTest {
 
-    private Barkeep1Controller controller;
+    private FriendRegistrationController controller;
 
     @Override
     public void start(Stage primaryStage) throws IOException, SQLException, ClassNotFoundException {
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         setOwner(UserRepository.get("testuser1"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Barkeep1.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/FriendRegistration.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
@@ -52,7 +51,6 @@ public class Barkeep1Test extends ApplicationTest {
         try {
             UserRepository.store(testuser1);
             UserRepository.store(testuser2);
-            FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -70,28 +68,38 @@ public class Barkeep1Test extends ApplicationTest {
     }
 
     @Test
-    public void testControllerandOverviewButton() {
+    public void testControllerandBackButton() {
         assertNotNull(this.controller);
-        clickOn("#showOverview");
+        clickOn("#backButton");
     }
 
     @Test
-    public void testAddDrinkandLogoutButton() throws SQLException, ClassNotFoundException {
-        List<IOweYou> oldList = IOweYouRepository.getByOwner(getOwner());
-        clickOn("#choiceBoxFriends");
-        type(KeyCode.DOWN, KeyCode.ENTER);
-        clickOn("#choiceBoxDrinks");
-        type(KeyCode.ENTER);
-        clickOn("#addDrink");
-        assertNotEquals(oldList, IOweYouRepository.getByOwner(getOwner()));
-        clickOn("#logout");
-        assertNull(getOwner());
+    public void testFilterAddFriendsRemoveFriendsLogout(){
+        try {
+            List<Integer> oldFriendList = FriendRepository.get("testuser1");
+            clickOn("#searchUsers");
+            write("testUser2");
+            ListView<User> userList = lookup("#userList").query();
+            assertEquals(1, userList.getItems().size());
+            assertEquals("testuser2", userList.getItems().get(0).toString());
+            clickOn("#userList");
+            type(KeyCode.ENTER);
+            clickOn("#addFriendButton");
+            assertNotEquals(oldFriendList, FriendRepository.get("testuser1"));
+            clickOn("#removeTab");
+            clickOn("#searchFriends");
+            write("testUser2");
+            userList = lookup("#userList2").query();
+            assertEquals(1,userList.getItems().size());
+            assertEquals("testuser2", userList.getItems().get(0).toString());
+            clickOn("#userList2");
+            type(KeyCode.DOWN, KeyCode.ENTER);
+            clickOn("#removeFriendButton");
+            assertEquals(oldFriendList, FriendRepository.get("testuser1"));
+            clickOn("#logoutButtonFriends");
+            assertNull(getOwner());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
     }
-
-    @Test
-    public void testFriendsButton(){
-        clickOn("#findFriendsButton");
-    }
-
-
 }
