@@ -4,33 +4,26 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3e4e50;"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="barkeep.FriendRegistrationController">
-    <Button fx:id="backButton" layoutX="496.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleBack"
-            prefWidth="90.0" text="Back" />
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3e4e50;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="barkeep.FriendRegistrationController">
+    <Button fx:id="backButton" layoutX="496.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleBack" prefWidth="90.0" text="Back" />
     <TabPane layoutX="14.0" layoutY="14.0" prefHeight="371.0" prefWidth="431.0" tabClosingPolicy="UNAVAILABLE">
         <Tab text="Find friends">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="432.0"
-                        style="-fx-background-color: #ffffff;">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="432.0" style="-fx-background-color: #ffffff;">
                 <ListView fx:id="userList" prefHeight="336.0" prefWidth="229.0" />
-                <Button fx:id="addFriendButton" layoutX="293.0" layoutY="204.0" mnemonicParsing="false"
-                        onAction="#handleAddFriend" prefWidth="90.0"
-                        style="-fx-background-color: #f99010;" text="Add" />
+                <Button fx:id="addFriendButton" layoutX="293.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleAddFriend" prefWidth="90.0" style="-fx-background-color: #f99010;" text="Add" />
+                <TextField fx:id="searchUsers" layoutX="258.0" layoutY="156.0" onKeyTyped="#filterFindFriends" promptText="Search" />
             </AnchorPane>
         </Tab>
         <Tab fx:id="removeTab" text="My friends">
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"
-                        style="-fx-background-color: ffffff;">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: ffffff;">
                 <ListView fx:id="userList2" prefHeight="336.0" prefWidth="229.0" />
-                <Button fx:id="removeFriendButton" layoutX="293.0" layoutY="204.0" mnemonicParsing="false"
-                        onAction="#handleRemoveFriend" prefWidth="90.0" style="-fx-background-color: #f99010;"
-                        text="Remove" />
+                <Button fx:id="removeFriendButton" layoutX="293.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleRemoveFriend" prefWidth="90.0" style="-fx-background-color: #f99010;" text="Remove" />
+                <TextField fx:id="searchFriends" layoutX="258.0" layoutY="156.0" onKeyTyped="#filterMyFriends" promptText="Search" />
             </AnchorPane>
         </Tab>
     </TabPane>
-    <Button fx:id="logoutButtonFriends" layoutX="496.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleLogout"
-            prefWidth="90.0" style="-fx-background-color: #f08080;" text="Log out" />
+    <Button fx:id="logoutButtonFriends" layoutX="496.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleLogout" prefWidth="90.0" style="-fx-background-color: #f08080;" text="Log out" />
 </AnchorPane>
