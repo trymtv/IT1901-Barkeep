@@ -14,14 +14,14 @@
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="348.0" prefWidth="432.0" style="-fx-background-color: #ffffff;">
                 <ListView fx:id="userList" prefHeight="336.0" prefWidth="229.0" />
                 <Button fx:id="addFriendButton" layoutX="293.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleAddFriend" prefWidth="90.0" style="-fx-background-color: #f99010;" text="Add" />
-                <TextField fx:id="searchUsers" layoutX="258.0" layoutY="156.0" onKeyTyped="#filterFindFriends" promptText="Search" />
+            <TextField fx:id="searchUsers" layoutX="258.0" layoutY="156.0" onKeyTyped="#filterFindFriends" promptText="Search" />
             </AnchorPane>
         </Tab>
         <Tab fx:id="removeTab" text="My friends">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: ffffff;">
                 <ListView fx:id="userList2" prefHeight="336.0" prefWidth="229.0" />
                 <Button fx:id="removeFriendButton" layoutX="293.0" layoutY="204.0" mnemonicParsing="false" onAction="#handleRemoveFriend" prefWidth="90.0" style="-fx-background-color: #f99010;" text="Remove" />
-                <TextField fx:id="searchFriends" layoutX="258.0" layoutY="156.0" onKeyTyped="#filterMyFriends" promptText="Search" />
+            <TextField fx:id="searchFriends" layoutX="258.0" layoutY="156.0" onKeyTyped="#filterMyFriends" promptText="Search" />
             </AnchorPane>
         </Tab>
     </TabPane>
