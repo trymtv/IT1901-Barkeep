@@ -9,7 +9,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3e4e50;"
             xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="barkeep.Barkeep2Controller">
+            fx:controller="barkeep.OverviewController">
     <Button fx:id="back" layoutX="480.0" layoutY="359.0" mnemonicParsing="false" onAction="#handleBack"
             prefWidth="90.0" text="Back" />
     <TabPane layoutX="10.0" layoutY="10.0" prefHeight="380.0" prefWidth="446.0" tabClosingPolicy="UNAVAILABLE">

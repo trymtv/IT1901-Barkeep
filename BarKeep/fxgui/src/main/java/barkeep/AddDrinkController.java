@@ -27,7 +27,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class Barkeep1Controller implements Initializable {
+public class AddDrinkController implements Initializable {
 
     @FXML
     private ChoiceBox<User> choiceBoxFriends;
@@ -86,7 +86,7 @@ public class Barkeep1Controller implements Initializable {
      * Changes the scene to Overview.
      */
     public void handleGetOverview(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep2.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/Overview.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);

@@ -6,6 +6,7 @@ import database.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ListView;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
@@ -46,8 +47,10 @@ public class FriendRegistrationTest extends ApplicationTest {
     public static void setup(){
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         User testuser1 = new User(56, "testuser1");
+        User testuser2 = new User(57, "testuser2");
         try {
             UserRepository.store(testuser1);
+            UserRepository.store(testuser2);
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -58,6 +61,7 @@ public class FriendRegistrationTest extends ApplicationTest {
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         try {
             UserRepository.delete(UserRepository.get("testuser1"));
+            UserRepository.delete(UserRepository.get("testuser2"));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -70,14 +74,24 @@ public class FriendRegistrationTest extends ApplicationTest {
     }
 
     @Test
-    public void testAddFriendsRemoveFriendsLogout(){
+    public void testFilterAddFriendsRemoveFriendsLogout(){
         try {
             List<Integer> oldFriendList = FriendRepository.get("testuser1");
+            clickOn("#searchUsers");
+            write("testUser2");
+            ListView<User> userList = lookup("#userList").query();
+            assertEquals(1, userList.getItems().size());
+            assertEquals("testuser2", userList.getItems().get(0).toString());
             clickOn("#userList");
             type(KeyCode.ENTER);
             clickOn("#addFriendButton");
             assertNotEquals(oldFriendList, FriendRepository.get("testuser1"));
             clickOn("#removeTab");
+            clickOn("#searchFriends");
+            write("testUser2");
+            userList = lookup("#userList2").query();
+            assertEquals(1,userList.getItems().size());
+            assertEquals("testuser2", userList.getItems().get(0).toString());
             clickOn("#userList2");
             type(KeyCode.DOWN, KeyCode.ENTER);
             clickOn("#removeFriendButton");

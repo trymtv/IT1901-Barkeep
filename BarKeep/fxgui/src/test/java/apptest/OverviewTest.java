@@ -1,16 +1,13 @@
 package apptest;
 
-import barkeep.Barkeep1Controller;
+import barkeep.OverviewController;
 import barkeep.IOweYou;
 import barkeep.User;
-import database.Database;
-import database.FriendRepository;
-import database.IOweYouRepository;
-import database.UserRepository;
+import database.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
+import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,21 +16,20 @@ import org.testfx.framework.junit5.ApplicationTest;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import static barkeep.LoginController.getOwner;
 import static barkeep.LoginController.setOwner;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class Barkeep1Test extends ApplicationTest {
+public class OverviewTest extends ApplicationTest {
 
-    private Barkeep1Controller controller;
+    private OverviewController controller;
 
     @Override
     public void start(Stage primaryStage) throws IOException, SQLException, ClassNotFoundException {
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         setOwner(UserRepository.get("testuser1"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Barkeep1.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Overview.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
         primaryStage.setScene(scene);
@@ -55,6 +51,8 @@ public class Barkeep1Test extends ApplicationTest {
             UserRepository.store(testuser1);
             UserRepository.store(testuser2);
             FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
+            setOwner(UserRepository.get("testuser1"));
+            IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("testuser2"), DrinkRepository.get(1)));
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }
@@ -72,28 +70,20 @@ public class Barkeep1Test extends ApplicationTest {
     }
 
     @Test
-    public void testControllerandOverviewButton() {
+    public void testControllerandBackButton() {
         assertNotNull(this.controller);
-        clickOn("#showOverview");
+        clickOn("#back");
     }
 
     @Test
-    public void testAddDrinkandLogoutButton() throws SQLException, ClassNotFoundException {
-        List<IOweYou> oldList = IOweYouRepository.getByOwner(getOwner());
-        clickOn("#choiceBoxFriends");
-        type(KeyCode.DOWN, KeyCode.ENTER);
-        clickOn("#choiceBoxDrinks");
-        type(KeyCode.ENTER);
-        clickOn("#addDrink");
-        assertNotEquals(oldList, IOweYouRepository.getByOwner(getOwner()));
+    public void testTableandLogout(){
+        TableView<IOweYou> table = lookup("#table").query();
+        try {
+            assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         clickOn("#logout");
         assertNull(getOwner());
     }
-
-    @Test
-    public void testFriendsButton(){
-        clickOn("#findFriendsButton");
-    }
-
-
 }
