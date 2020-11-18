@@ -1,9 +1,6 @@
 package core;
 
-import barkeep.Drink;
-import barkeep.IOweYou;
-import barkeep.User;
-import barkeep.UserDTO;
+import barkeep.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,12 +9,15 @@ import java.time.format.DateTimeFormatter;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class IOweYouTest {
+public class IOweYouDTOTest {
 	private Drink drink;
 	private User user;
+	private UserDTO userDTO;
 	private User owner;
 	private IOweYou iou;
+	private IOweYouDTO iouDTO;
 	private LocalDateTime date;
+	private LocalDateTime newDate;
 	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
 	@BeforeEach
@@ -27,77 +27,63 @@ public class IOweYouTest {
 		owner = new User(2, "perolav");
 		date = LocalDateTime.now();
 		iou = new IOweYou(owner, user, drink);
-	}
+		iouDTO = new IOweYouDTO(iou);
 
-	@Test
-	public void testConstructor() {
-		assertEquals(iou.getDrink(), drink);
-		assertEquals(iou.getUser(), user);
-		assertEquals(iou.getTime().format(formatter), date.format(formatter));
-	}
-
-	@Test
-	public void testToString(){
-		String expected = "IOweYou{" +
-				"owner=" + owner +
-				", user=" + user +
-				", drink=" + drink +
-				", time=" + date.format(formatter) +
-				'}';
-		assertEquals(expected, iou.toString());
 	}
 
 	@Test
 	public void testId() {
-		iou.setId(1);
+		iouDTO.setId(1);
 		checkId();
 	}
 
 	@Test
 	public void testOwner() {
-		user = new User();
-		user.setUsername("petter");
-		iou.setOwner(user);
+		userDTO = new UserDTO();
+		userDTO.setUsername("petter");
+		iouDTO.setOwner(userDTO);
 		checkOwner();
 	}
 
 	@Test
 	public void testUser() {
-		user = new User();
-		user.setUsername("petter");
-		iou.setUser(user);
+		userDTO = new UserDTO();
+		userDTO.setUsername("petter");
+		iouDTO.setUser(userDTO);
 		checkUser();
 	}
 
 	@Test
 	public void testDrink() {
 		drink = new Drink("Vodka", 30.0);
-		iou.setDrink(drink);
+		iouDTO.setDrink(drink);
 		checkDrink();
 	}
 
 	@Test
 	public void testTime() {
-		date = date.plusHours(1);
-		iou.setTime(date);
+		newDate = date.plusHours(1);
+		iouDTO.setTime(newDate);
 		checkTime();
 	}
 
 	private void checkId() {
-		assertEquals(iou.getId(), 1);
+		assertEquals(iouDTO.getId(), 1);
 	}
 	private void checkOwner() {
-		assertEquals(iou.getOwner(), user);
+		assertEquals(iouDTO.getOwner(), userDTO);
 	}
 	private void checkUser() {
-		assertEquals(iou.getUser(), user);
+		assertEquals(iouDTO.getUser(), userDTO);
 	}
 
 	private void checkTime() {
-		assertEquals(iou.getTime(), date);
+		assertEquals(iouDTO.getTime(), newDate);
 	}
 	private void checkDrink() {
-		assertEquals(iou.getDrink(), drink);
+		assertEquals(iouDTO.getDrink(), drink);
 	}
+
+
 
 }
