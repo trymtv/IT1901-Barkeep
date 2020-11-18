@@ -3,6 +3,7 @@ package core;
 import barkeep.Drink;
 import barkeep.IOweYou;
 import barkeep.User;
+import barkeep.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -44,6 +45,59 @@ public class IOweYouTest {
 				", time=" + date.format(formatter) +
 				'}';
 		assertEquals(expected, iou.toString());
+	}
+
+	@Test
+	public void testId() {
+		iou.setId(1);
+		checkId();
+	}
+
+	@Test
+	public void testOwner() {
+		user = new User();
+		user.setUsername("petter");
+		iou.setOwner(user);
+		checkOwner();
+	}
+
+	@Test
+	public void testUser() {
+		user = new User();
+		user.setUsername("petter");
+		iou.setUser(user);
+		checkUser();
+	}
+
+	@Test
+	public void testDrink() {
+		drink = new Drink("Vodka", 30.0);
+		iou.setDrink(drink);
+		checkDrink();
+	}
+
+	@Test
+	public void testTime() {
+		date = date.plusHours(1);
+		iou.setTime(date);
+		checkTime();
+	}
+
+	private void checkId() {
+		assertEquals(iou.getId(), 1);
+	}
+	private void checkOwner() {
+		assertEquals(iou.getOwner(), user);
+	}
+	private void checkUser() {
+		assertEquals(iou.getUser(), user);
+	}
+
+	private void checkTime() {
+		assertEquals(iou.getTime(), date);
+	}
+	private void checkDrink() {
+		assertEquals(iou.getDrink(), drink);
 	}
 
 }
