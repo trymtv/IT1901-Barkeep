@@ -7,7 +7,7 @@
 This repo contains the code for our project in IT1901 fall 2020.
 
 BarKeep is an application to keep track of those guys who owes you a beer,
-but never seem to buy you one.\
+but never seem to buy you one.
 
 The sourcecode can be found under
 `/BarKeep` ([Here](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2011/gr2011/-/tree/master/BarKeep))
