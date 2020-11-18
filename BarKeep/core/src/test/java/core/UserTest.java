@@ -1,8 +1,13 @@
 package core;
 
+import barkeep.Drink;
+import barkeep.IOweYou;
 import barkeep.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -37,6 +42,14 @@ public class UserTest {
     public void testUserPasswordChange() {
         user1.setPassword("Olaerkul12");
         testUserPassword("Olaerkul12");
+    }
+
+    @Test
+    public void testAddIOweYouAndRemoveIOU() {
+        IOweYou iou = new IOweYou(new User(2, "perolav"), new User(1, "per"), new Drink("Water", 20.0));
+        user1.addIOweYou(iou);
+        user1.addIOweYou(iou);
+        user1.removeIOweYou(iou);
     }
 
 
