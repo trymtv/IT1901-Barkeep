@@ -37,7 +37,7 @@ public class LoginController {
     public void handleLogin(ActionEvent event) throws IOException, SQLException, ClassNotFoundException {
         if (checkUserName()) {
             setOwner(UserRepository.get(username.getText()));
-            Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep1.fxml"));
+            Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
             Scene scene = new Scene(parent);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

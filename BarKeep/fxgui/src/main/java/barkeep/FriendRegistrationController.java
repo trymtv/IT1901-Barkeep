@@ -28,6 +28,10 @@ import javafx.stage.Stage;
 public class FriendRegistrationController implements Initializable {
 
     @FXML
+    TextField searchFriends;
+    @FXML
+    TextField searchUsers;
+    @FXML
     ListView<User> userList;
     @FXML
     ListView<User> userList2;
@@ -36,80 +40,53 @@ public class FriendRegistrationController implements Initializable {
     @FXML
     Button removeFriendButton;
 
+    List<User> friendsList;
+    List<User> allUsers;
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            this.friendsList = getFriendsList();
+            this.allUsers = UserRepository.getAllExcept(getOwner().getUsername());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
         updateAddFriendsList();
-        updateRemoveFriendsList();
+        updateFriendsList();
         disableAddFriendButton();
         disableRemoveFriendButton();
     }
 
-    private List<User> getFriendsList() {
-        List<User> friendList = new ArrayList<>();
-        try {
-            List<Integer> friendIDs = FriendRepository
-                    .get(UserRepository.get(getOwner().getUsername()).getId());
-            if (friendIDs == null) {
-                return null;
-            }
+    private List<User> getFriendsList() throws SQLException, ClassNotFoundException {
+        List<User> friendsList = new ArrayList<>();
+        List<Integer> friendIDs = FriendRepository.get(getOwner().getUsername());
+        if (friendIDs != null){
             friendIDs.forEach(id -> {
                 try {
-                    friendList.add(UserRepository.get(id));
+                    friendsList.add(UserRepository.get(id));
                 } catch (SQLException | ClassNotFoundException throwables) {
                     throwables.printStackTrace();
                 }
             });
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
         }
-        return friendList;
+        return friendsList;
     }
 
     private void updateAddFriendsList() {
-        List<User> friendList = getFriendsList();
-        ObservableList<User> observableUsers = FXCollections.observableArrayList();
-        observableUsers.removeAll();
-        try {
-            observableUsers.addAll(UserRepository.getAllExcept(getOwner().getUsername()));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-        if (friendList != null) {
-            List<String> stringFriends = new ArrayList<>();
-            friendList.forEach(user -> stringFriends.add(user.toString()));
-            ObservableList<User> observableUsers2 = FXCollections.observableArrayList();
-            observableUsers2.addAll(observableUsers.stream().filter(user ->
-                    !stringFriends.contains(user.toString())).collect(Collectors.toList()));
-            userList.getItems().addAll(observableUsers2);
-        } else {
-            userList.getItems().addAll(observableUsers);
-        }
+        List<String> friendsAsString = this.friendsList.stream().map(User::getUsername).collect(Collectors.toList());
+        ObservableList<User> findFriends = FXCollections.observableArrayList();
+        findFriends.removeAll();
+        findFriends.addAll(this.allUsers.stream().filter(user -> !friendsAsString.contains(user.getUsername()))
+                .collect(Collectors.toList()));
+        userList.getItems().addAll(findFriends);
     }
 
-    private void updateRemoveFriendsList() {
-        ObservableList<User> observableFriends = FXCollections.observableArrayList();
-        observableFriends.removeAll();
-        List<User> friendList = new ArrayList<>();
-        try {
-            List<Integer> friendIDs = FriendRepository.get(getOwner().getId());
-            if (friendIDs == null) {
-                return;
-            }
-            friendIDs.forEach(id -> {
-                try {
-                    friendList.add(UserRepository.get(id));
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-        observableFriends.addAll(friendList);
-        userList2.getItems().addAll(observableFriends);
-
+    private void updateFriendsList() {
+        ObservableList<User> friendList = FXCollections.observableArrayList();
+        friendList.removeAll();
+        friendList.addAll(this.friendsList);
+        userList2.getItems().addAll(friendList);
     }
-
 
     /**
      * Changes the scene to the login screen.
@@ -119,7 +96,7 @@ public class FriendRegistrationController implements Initializable {
      */
 
     public void handleBack(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/Barkeep1.fxml"));
+        Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
@@ -142,6 +119,7 @@ public class FriendRegistrationController implements Initializable {
      */
     public void handleAddFriend() {
         User newFriend = userList.getSelectionModel().getSelectedItem();
+        this.friendsList.add(newFriend);
         try {
             FriendRepository.store(UserRepository.get(getOwner().getId()).getId(),
                     UserRepository.get(newFriend.getId()).getId());
@@ -149,10 +127,11 @@ public class FriendRegistrationController implements Initializable {
             throwables.printStackTrace();
         }
         userList.getSelectionModel().clearSelection();
-        userList.getItems().clear() ;
+        userList.getItems().clear();
         userList2.getItems().clear();
         updateAddFriendsList();
-        updateRemoveFriendsList();
+        updateFriendsList();
+        searchUsers.clear();
     }
 
 
@@ -161,6 +140,7 @@ public class FriendRegistrationController implements Initializable {
      */
     public void handleRemoveFriend() {
         User oldFriend = userList2.getSelectionModel().getSelectedItem();
+        this.friendsList.remove(oldFriend);
         try {
             FriendRepository.delete(UserRepository.get(getOwner().getId()).getId(),
                     UserRepository.get(oldFriend.getId()).getId());
@@ -171,7 +151,8 @@ public class FriendRegistrationController implements Initializable {
         userList.getItems().clear();
         userList2.getItems().clear();
         updateAddFriendsList();
-        updateRemoveFriendsList();
+        updateFriendsList();
+        searchFriends.clear();
     }
 
     public void handleLogout(ActionEvent event) throws IOException {
@@ -182,4 +163,26 @@ public class FriendRegistrationController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+
+    public void filterFindFriends() {
+        userList.getItems().clear();
+        ObservableList<User> obsList = FXCollections.observableArrayList();
+        obsList.removeAll();
+        List<String> friendListString = this.friendsList.stream().map(User::getUsername).collect(Collectors.toList());
+        obsList.addAll(this.allUsers.stream()
+                .filter(user -> !friendListString.contains(user.getUsername()))
+                .filter(user -> user.getUsername().toLowerCase().contains(searchUsers.getText().toLowerCase()))
+                .collect(Collectors.toList()));
+        userList.getItems().addAll(obsList);
+    }
+
+    public void filterMyFriends() {
+        userList2.getItems().clear();
+        ObservableList<User> obsList = FXCollections.observableArrayList();
+        obsList.removeAll();
+        obsList.addAll(this.friendsList.stream().filter(user -> user.getUsername().toLowerCase()
+                .contains(searchFriends.getText().toLowerCase())).collect(Collectors.toList()));
+        userList2.getItems().addAll(obsList);
+    }
 }
+
