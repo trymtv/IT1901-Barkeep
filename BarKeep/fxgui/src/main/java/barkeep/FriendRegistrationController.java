@@ -164,12 +164,15 @@ public class FriendRegistrationController implements Initializable {
         stage.show();
     }
 
-    public void filterFindFriends(){
+    public void filterFindFriends() {
         userList.getItems().clear();
         ObservableList<User> obsList = FXCollections.observableArrayList();
         obsList.removeAll();
-        obsList.addAll(this.allUsers.stream().filter(user -> user.getUsername().toLowerCase()
-                .contains(searchUsers.getText().toLowerCase())).collect(Collectors.toList()));
+        List<String> friendListString = this.friendsList.stream().map(User::getUsername).collect(Collectors.toList());
+        obsList.addAll(this.allUsers.stream()
+                .filter(user -> !friendListString.contains(user.getUsername()))
+                .filter(user -> user.getUsername().toLowerCase().contains(searchUsers.getText().toLowerCase()))
+                .collect(Collectors.toList()));
         userList.getItems().addAll(obsList);
     }
 
