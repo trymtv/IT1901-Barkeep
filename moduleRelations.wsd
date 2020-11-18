@@ -3,6 +3,8 @@ package "core" {
   [barkeep] -objects
   [database] - persistence
 
+[json] <<Not Used>>
+}
 
 node "fxgui" {
 [Controllers] <-- [App]
