@@ -1,9 +1,15 @@
 package apptest;
 
+import static barkeep.App.getOwner;
+import static barkeep.App.setOwner;
+import static org.junit.jupiter.api.Assertions.*;
+
 import barkeep.OverviewController;
 import barkeep.IOweYou;
 import barkeep.User;
 import database.*;
+import java.io.IOException;
+import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,13 +19,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-
-import java.io.IOException;
-import java.sql.SQLException;
-
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class OverviewTest extends ApplicationTest {
 

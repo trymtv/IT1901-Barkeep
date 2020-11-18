@@ -1,7 +1,7 @@
 package barkeep;
 
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
+import static barkeep.App.getOwner;
+import static barkeep.App.setOwner;
 
 import database.FriendRepository;
 import database.UserRepository;
@@ -46,7 +46,7 @@ public class FriendRegistrationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.friendsList = getFriendsList();
+            this.friendsList = getFriendList();
             this.allUsers = UserRepository.getAllExcept(getOwner().getUsername());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -57,10 +57,15 @@ public class FriendRegistrationController implements Initializable {
         disableRemoveFriendButton();
     }
 
-    private List<User> getFriendsList() throws SQLException, ClassNotFoundException {
+    public static List<User> getFriendList() {  // Skal erstattes av metode i Friendrepository
         List<User> friendsList = new ArrayList<>();
-        List<Integer> friendIDs = FriendRepository.get(getOwner().getUsername());
-        if (friendIDs != null){
+        List<Integer> friendIDs = null;
+        try {
+            friendIDs = FriendRepository.get(getOwner().getUsername());
+        } catch (SQLException | ClassNotFoundException throwables) {
+            throwables.printStackTrace();
+        }
+        if (friendIDs != null) {
             friendIDs.forEach(id -> {
                 try {
                     friendsList.add(UserRepository.get(id));
@@ -73,10 +78,13 @@ public class FriendRegistrationController implements Initializable {
     }
 
     private void updateAddFriendsList() {
-        List<String> friendsAsString = this.friendsList.stream().map(User::getUsername).collect(Collectors.toList());
+        List<String> friendsAsString = this.friendsList.stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
         ObservableList<User> findFriends = FXCollections.observableArrayList();
         findFriends.removeAll();
-        findFriends.addAll(this.allUsers.stream().filter(user -> !friendsAsString.contains(user.getUsername()))
+        findFriends.addAll(this.allUsers.stream()
+                .filter(user -> !friendsAsString.contains(user.getUsername()))
                 .collect(Collectors.toList()));
         userList.getItems().addAll(findFriends);
     }
@@ -87,32 +95,6 @@ public class FriendRegistrationController implements Initializable {
         friendList.addAll(this.friendsList);
         userList2.getItems().addAll(friendList);
     }
-
-    /**
-     * Changes the scene to the login screen.
-     *
-     * @param event given ActionEvent
-     * @throws IOException wrong given action
-     */
-
-    public void handleBack(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private void disableAddFriendButton() {
-        addFriendButton.disableProperty()
-                .bind(userList.getSelectionModel().selectedItemProperty().isNull());
-    }
-
-    private void disableRemoveFriendButton() {
-        removeFriendButton.disableProperty()
-                .bind(userList2.getSelectionModel().selectedItemProperty().isNull());
-    }
-
 
     /**
      * Adds and stores the friend, then updates the friend lists.
@@ -134,7 +116,6 @@ public class FriendRegistrationController implements Initializable {
         searchUsers.clear();
     }
 
-
     /**
      * Deletes the friend and updates the friend lists.
      */
@@ -155,6 +136,24 @@ public class FriendRegistrationController implements Initializable {
         searchFriends.clear();
     }
 
+    /**
+     * Switches scene to AddDrink.
+     *
+     *@throws IOException fxml document for AddDrink is not found.
+     */
+    public void handleBack(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Sets owner to null and switches scene to Login.
+     *
+     * @throws IOException fxml document for Login is not found.
+     */
     public void handleLogout(ActionEvent event) throws IOException {
         setOwner(null);
         Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
@@ -164,25 +163,46 @@ public class FriendRegistrationController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Filter users based on input.
+     */
     public void filterFindFriends() {
         userList.getItems().clear();
         ObservableList<User> obsList = FXCollections.observableArrayList();
         obsList.removeAll();
-        List<String> friendListString = this.friendsList.stream().map(User::getUsername).collect(Collectors.toList());
+        List<String> friendListString = this.friendsList.stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
         obsList.addAll(this.allUsers.stream()
                 .filter(user -> !friendListString.contains(user.getUsername()))
-                .filter(user -> user.getUsername().toLowerCase().contains(searchUsers.getText().toLowerCase()))
+                .filter(user -> user.getUsername().toLowerCase()
+                        .contains(searchUsers.getText().toLowerCase()))
                 .collect(Collectors.toList()));
         userList.getItems().addAll(obsList);
     }
 
+    /**
+     * Filter friends based on input.
+     */
     public void filterMyFriends() {
         userList2.getItems().clear();
         ObservableList<User> obsList = FXCollections.observableArrayList();
         obsList.removeAll();
-        obsList.addAll(this.friendsList.stream().filter(user -> user.getUsername().toLowerCase()
-                .contains(searchFriends.getText().toLowerCase())).collect(Collectors.toList()));
+        obsList.addAll(this.friendsList.stream()
+                .filter(user -> user.getUsername().toLowerCase()
+                .contains(searchFriends.getText().toLowerCase()))
+                .collect(Collectors.toList()));
         userList2.getItems().addAll(obsList);
+    }
+
+    private void disableAddFriendButton() {
+        addFriendButton.disableProperty()
+                .bind(userList.getSelectionModel().selectedItemProperty().isNull());
+    }
+
+    private void disableRemoveFriendButton() {
+        removeFriendButton.disableProperty()
+                .bind(userList2.getSelectionModel().selectedItemProperty().isNull());
     }
 }
 

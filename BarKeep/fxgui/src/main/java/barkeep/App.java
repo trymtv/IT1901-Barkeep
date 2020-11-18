@@ -1,7 +1,5 @@
 package barkeep;
 
-import static barkeep.LoginController.setOwner;
-
 import database.Database;
 import java.io.IOException;
 import javafx.application.Application;
@@ -12,6 +10,17 @@ import javafx.stage.Stage;
 
 
 public class App extends Application {
+
+    private static User owner;
+
+    public static void setOwner(User newOwner) {
+        owner = newOwner;
+    }
+
+    public static User getOwner() {
+        return owner;
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
