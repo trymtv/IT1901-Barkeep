@@ -1,25 +1,5 @@
 package controller;
 
-import api.controller.FriendshipController;
-import barkeep.Friendship;
-import barkeep.FriendshipDTO;
-import barkeep.User;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import database.FriendshipService;
-import database.UserService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.Arrays;
-
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,9 +8,33 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import api.config.UserDetailsImpl;
+import api.controller.FriendshipController;
+import barkeep.Friendship;
+import barkeep.FriendshipDTO;
+import barkeep.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import database.FriendshipService;
+import database.UserService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+
 @RunWith(SpringRunner.class)
 @WebMvcTest(FriendshipController.class)
-@SpringJUnitConfig(classes = FriendshipController.class)
+@SpringJUnitConfig(classes = {FriendshipController.class, TestSecurityConfiguration.class})
 public class FriendshipControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -54,11 +58,19 @@ public class FriendshipControllerTest {
         given(service.getFriends(user1)).willReturn(Arrays.asList(user2, user3));
         given(userService.convertListToDTOs(any())).willCallRealMethod();
         given(service.convertToDTO(any())).willCallRealMethod();
+        given(userService.isSameAsLoggedIn(any(), any())).willReturn(true);
+
+        //Set logged in user to user1
+        Authentication authentication =
+                new TestingAuthenticationToken(new UserDetailsImpl(user1), "password",
+                        new ArrayList<>());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     @Test
     public void whenGetFriends_thenReturnUsers() throws Exception {
         mockMvc.perform(get("/friendship/1"))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].username", is(user2.getUsername())))
                 .andExpect(jsonPath("$[1].username", is(user3.getUsername())));
@@ -78,9 +90,10 @@ public class FriendshipControllerTest {
 
     @Test
     public void whenRemoveFriendship_thenReturnOK() throws Exception {
-        Friendship frship = new Friendship(user3, user2);
+        Friendship frship = new Friendship(user1, user2);
         String data = new ObjectMapper().writeValueAsString(frship);
-        mockMvc.perform(delete("/friendship/").content(data).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(delete("/friendship/removefriend/2").content(data)
+                .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

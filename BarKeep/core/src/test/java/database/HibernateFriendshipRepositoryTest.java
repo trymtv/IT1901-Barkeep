@@ -2,6 +2,7 @@ package database;
 
 import barkeep.Friendship;
 import barkeep.User;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,8 +13,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EntityScan("barkeep")
@@ -31,8 +30,8 @@ public class HibernateFriendshipRepositoryTest {
 
     @Before
     public void setUp() {
-        user1 = userRepository.save(new User("test1", "1", "lol@l.com"));
-        user2 = userRepository.save(new User("test2", "1", "lol1@l.com"));
+        user1 = userRepository.save(new User("test1", "12345678", "lol@l.com"));
+        user2 = userRepository.save(new User("test2", "12345678", "lol1@l.com"));
         Friendship friendship = new Friendship();
         friendship.setUser1(user1);
         friendship.setUser2(user2);
@@ -48,8 +47,10 @@ public class HibernateFriendshipRepositoryTest {
 
     @Test
     public void whenGetFriendshipByUser1OrUser2_thenReturnFriendships() {
-        List<Friendship> friendships1 = friendshipRepository.getFriendshipByUser1OrUser2(user1, user1);
-        List<Friendship> friendships2 = friendshipRepository.getFriendshipByUser1OrUser2(user2, user2);
+        List<Friendship> friendships1 =
+                friendshipRepository.getFriendshipByUser1OrUser2(user1, user1);
+        List<Friendship> friendships2 =
+                friendshipRepository.getFriendshipByUser1OrUser2(user2, user2);
         Assert.assertEquals(friendships1, friendships2);
         Assert.assertTrue(friendships1.contains(savedFriendship));
     }

@@ -4,13 +4,13 @@ import api.controller.DrinkController;
 import barkeep.Drink;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import database.DrinkService;
-import database.HibernateDrinkRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(DrinkController.class)
-@SpringJUnitConfig(classes = DrinkController.class)
+@SpringJUnitConfig(classes = {DrinkController.class, TestSecurityConfiguration.class})
 public class DrinkControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -34,6 +34,7 @@ public class DrinkControllerTest {
     private DrinkService service;
 
     @Test
+    @WithMockUser
     public void whenDrink_shouldReturnMessage() throws Exception {
         mockMvc.perform(get("/drink/"))
                 .andExpect(status().isOk())
@@ -41,6 +42,7 @@ public class DrinkControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenGetAll_shouldReturnDrinks() throws Exception {
         Drink d1 = new Drink("drink1", 123);
         List<Drink> drinks = Arrays.asList(d1);
@@ -52,6 +54,7 @@ public class DrinkControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenGetById_shouldReturnDrink() throws Exception {
         Drink drink = new Drink("drink1", 1234);
         drink.setId(1);
@@ -63,6 +66,7 @@ public class DrinkControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenDrinkByName_shouldReturnDrink() throws Exception {
         Drink drink = new Drink("drink1", 1234);
         drink.setId(1);
@@ -73,6 +77,7 @@ public class DrinkControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenSearchByName_shouldReturnDrink() throws Exception {
         Drink drink = new Drink("drink1", 1234);
         drink.setId(1);
@@ -84,6 +89,7 @@ public class DrinkControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "")
     public void whenUpdate_shouldReturnUpdatedDrink() throws Exception {
         Drink drink = new Drink("drinkToUpdate", 9874);
         drink.setId(1);
@@ -95,6 +101,7 @@ public class DrinkControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenDelete_shouldNotReturn() throws Exception {
         Drink drink = new Drink("drink1", 1234);
         drink.setId(1);

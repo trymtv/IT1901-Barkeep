@@ -1,12 +1,9 @@
 package controller;
 
 import api.controller.IOweYouController;
-import api.controller.UserController;
 import barkeep.Drink;
 import barkeep.IOweYou;
 import barkeep.User;
-import database.HibernateIOweYouRepository;
-import database.HibernateUserRepository;
 import database.IOweYouService;
 import database.UserService;
 import org.junit.Before;
@@ -15,12 +12,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
-import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
@@ -28,7 +25,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(IOweYouController.class)
@@ -50,7 +46,7 @@ public class IOweYouControllerTest {
     @Before
     public void setUp() {
         Drink drink = new Drink("testdrink", 123);
-        user1 = new User("Testuser1",  "d", "h@h.com");
+        user1 = new User("Testuser1", "d", "h@h.com");
         user2 = new User("Testuser2", "d", "h2@h.com");
         user3 = new User("Testuser3", "d", "h2@h.com");
         iou1 = new IOweYou(user1, user2, drink);
@@ -59,6 +55,7 @@ public class IOweYouControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void whenUserOwes_thenReturnIOweYous() throws Exception {
         given(userService.get(2)).willReturn(user2);
         given(service.userOwes(user2)).willReturn(Arrays.asList(iou1));
@@ -69,7 +66,9 @@ public class IOweYouControllerTest {
                 .andExpect(jsonPath("$[0].drink.name", is(iou1.getDrink().getName())))
                 .andExpect(jsonPath("$[0].drink.value", is(iou1.getDrink().getValue())));
     }
+
     @Test
+    @WithMockUser
     public void whenOwesUser_thenReturnIOweYous() throws Exception {
         given(userService.get(2)).willReturn(user2);
         given(service.owesUser(user2)).willReturn(Arrays.asList(iou2));

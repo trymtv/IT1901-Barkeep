@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -23,14 +24,22 @@ public class UserServiceTest {
     private UserService userService;
     @MockBean
     private HibernateUserRepository userRepository;
+    @MockBean
+    private PasswordEncoder passwordEncoder;
 
     private User user1;
     private User user2;
 
+    public static void assertUserEqualDTO(User user, UserDTO userDTO) {
+        Assert.assertEquals(user.getId(), userDTO.getId());
+        Assert.assertEquals(user.getUsername(), userDTO.getUsername());
+        Assert.assertEquals(user.getEmail(), userDTO.getEmail());
+    }
+
     @Before
     public void setUp() {
-        user1 = new User("TestDrink1",  "d", "h@h.com");
-        user2 = new User("TestDrink2",  "d", "h2@h.com");
+        user1 = new User("TestDrink1", "d", "h@h.com");
+        user2 = new User("TestDrink2", "d", "h2@h.com");
     }
 
     @Test
@@ -51,21 +60,15 @@ public class UserServiceTest {
     }
 
     @Test
-    public void whenConvertToDTO_thenReturnUserDTO(){
+    public void whenConvertToDTO_thenReturnUserDTO() {
         UserDTO userDTO = userService.convertToDTO(user1);
         assertUserEqualDTO(user1, userDTO);
     }
 
     @Test
-    public void whenConvertListToDTOS_thenReturnUserDTOs(){
-        List<UserDTO> userDTOs = userService.convertListToDTOs(Arrays.asList(user1,user2));
+    public void whenConvertListToDTOS_thenReturnUserDTOs() {
+        List<UserDTO> userDTOs = userService.convertListToDTOs(Arrays.asList(user1, user2));
         assertUserEqualDTO(user1, userDTOs.get(0));
         assertUserEqualDTO(user2, userDTOs.get(1));
-    }
-
-    public static void assertUserEqualDTO(User user, UserDTO userDTO){
-        Assert.assertEquals(user.getId(), userDTO.getId());
-        Assert.assertEquals(user.getUsername(), userDTO.getUsername());
-        Assert.assertEquals(user.getEmail(), userDTO.getEmail());
     }
 }

@@ -3,6 +3,7 @@ package database;
 import barkeep.Drink;
 import barkeep.IOweYou;
 import barkeep.User;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,9 +14,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EntityScan("barkeep")
@@ -37,12 +35,11 @@ public class HibernateIOweYouRepositoryTest {
     private Drink drink;
 
 
-
     @Before
     public void setUp() {
-        user1 = new User("user1",  "pass", "mail@mail.com");
-        user2 = new User("user2",  "pass", "mail@mail.com");
-        user3 = new User("user3",  "pass", "mail@mail.com");
+        user1 = new User("user1", "pass1234", "mail@mail.com");
+        user2 = new User("user2", "pass1234", "mail@mail.com");
+        user3 = new User("user3", "pass1234", "mail@mail.com");
         drink = new Drink("test-drink", 10);
         drinkRepository.save(drink);
         userRepository.save(user1);
@@ -55,13 +52,13 @@ public class HibernateIOweYouRepositoryTest {
 
     @Test
     public void whenSave_thenReturnIOweYou() {
-        IOweYou iou = new IOweYou(user1,user3,drink);
+        IOweYou iou = new IOweYou(user1, user3, drink);
         IOweYou savedIou = iOweYouRepository.save(iou);
         Assert.assertEquals(iou, savedIou);
     }
 
     @Test
-    public void whenFindAllByUser_thenReturnIOweYous(){
+    public void whenFindAllByUser_thenReturnIOweYous() {
         List<IOweYou> ious = iOweYouRepository.findAllByUser(user2);
         Assert.assertFalse(ious.contains(test2));
         Assert.assertTrue(ious.contains(test1));

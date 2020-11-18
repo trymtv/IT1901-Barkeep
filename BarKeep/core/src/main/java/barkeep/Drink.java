@@ -2,6 +2,8 @@ package barkeep;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "drinks")
@@ -12,12 +14,26 @@ public class Drink implements Serializable {
     private int id;
 
     @Column
+    @Size(min = 2)
     private String name;
 
     @Column
+    @DecimalMin("0.0")
     private double value;
 
-    public Drink() { }
+    public Drink() {
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param name  the name of the drink
+     * @param value the value of the drink
+     */
+    public Drink(String name, double value) {
+        this.name = name;
+        this.value = value;
+    }
 
     public String getName() {
         return name;
@@ -40,17 +56,6 @@ public class Drink implements Serializable {
     }
 
     public void setValue(double value) {
-        this.value = value;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param name the name of the drink
-     * @param value the value of the drink
-     */
-    public Drink(String name, double value) {
-        this.name = name;
         this.value = value;
     }
 

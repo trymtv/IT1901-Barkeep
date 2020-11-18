@@ -1,16 +1,19 @@
 package barkeep;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 
 /**
  * Class representing a User
  */
 @Entity
-@Table(name="users")
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
@@ -19,12 +22,15 @@ public class User implements Serializable {
     private int id;
 
     @Column
+    @NotBlank
     private String username;
 
     @Column
+    @Size(min = 8)
     private String password;
 
     @Column
+    @Email
     private String email;
 
     @OneToMany(fetch = FetchType.LAZY)
@@ -33,37 +39,66 @@ public class User implements Serializable {
     private List<Friendship> friendList;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="OWNER", referencedColumnName = "ID")
+    @JoinColumn(name = "OWNER", referencedColumnName = "ID")
     private List<IOweYou> iOweYouList = new ArrayList<>();
 
     public User() {
 
     }
 
-    public void setId(int id) {
+    public User(String username, String password, String email) {
+
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
+    }
+
+    public User(int id, String username) {
+        this.username = username;
         this.id = id;
+    }
+
+
+    public User(int id, String username, String password, String email) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
     }
 
     public int getId() {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
 
-
-    public String getUsername() { return username; }
-
-    public String getEmail() { return email; }
-
-    public String getPassword() { return password; }
-
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public void setPassword(String password) { this.password = password; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public List<Friendship> getFriendList() {
         return friendList;
@@ -81,42 +116,19 @@ public class User implements Serializable {
         this.iOweYouList = iouList;
     }
 
-    public void addIOweYou(IOweYou iou){
-        if (!iOweYouList.contains(iou))
+    public void addIOweYou(IOweYou iou) {
+        if (!iOweYouList.contains(iou)) {
             this.iOweYouList.add(iou);
+        }
     }
 
-    public void removeIOweYou(IOweYou iou){
+    public void removeIOweYou(IOweYou iou) {
         this.iOweYouList.remove(iou);
     }
 
     public boolean isPassword(String password) {
-            return this.password.equals(password);
+        return this.password.equals(password);
     }
-
-    public User(String username, String password, String email) {
-
-        this.username = username;
-        this.password = password;
-        this.email = email;
-
-    }
-    public User(int id, String username) {
-        this.username = username;
-        this.id = id;
-    }
-
-    public User (int id, String username, String password, String email){
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.email = email;
-
-    }
-
-
-
-
 
     @Override
     public String toString() {
