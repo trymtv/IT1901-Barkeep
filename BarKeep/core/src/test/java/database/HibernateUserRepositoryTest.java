@@ -1,6 +1,8 @@
 package database;
 
 import barkeep.User;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,12 +10,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @EntityScan("barkeep")
@@ -21,6 +22,8 @@ import java.util.List;
 @DataJpaTest
 @ContextConfiguration(classes = HibernateUserRepository.class)
 public class HibernateUserRepositoryTest {
+    @MockBean
+    public PasswordEncoder passwordEncoder;
     @Autowired
     private HibernateUserRepository userRepository;
     private User test1;
@@ -28,8 +31,8 @@ public class HibernateUserRepositoryTest {
 
     @Before
     public void setUp() {
-        test1 = userRepository.save(new User("test1",  "1", "lol@l.com"));
-        test2 = userRepository.save(new User("test2",  "1", "lol1@l.com"));
+        test1 = userRepository.save(new User("test1", "12345678", "lol@l.com"));
+        test2 = userRepository.save(new User("test2", "12345678", "lol1@l.com"));
     }
 
     @Test

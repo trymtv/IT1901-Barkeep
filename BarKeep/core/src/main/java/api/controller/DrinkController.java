@@ -3,6 +3,7 @@ package api.controller;
 import barkeep.Drink;
 import database.DrinkService;
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,13 +29,13 @@ public class DrinkController {
     }
 
     @PutMapping("/{id}")
-    public Drink update(@PathVariable int id, @RequestBody Drink drink) {
+    public Drink update(@PathVariable int id, @Valid @RequestBody Drink drink) {
         drink.setId(id);
         return drinkService.save(drink);
     }
 
     @PostMapping("/add")
-    public Drink add(@RequestBody Drink drink) {
+    public Drink add(@Valid @RequestBody Drink drink) {
         return drinkService.save(drink);
     }
 

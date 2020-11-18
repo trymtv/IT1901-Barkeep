@@ -4,7 +4,10 @@ import java.io.Serializable;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "friends")
+@Table(name = "friends",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"User1", "User2"})}
+
+)
 public class Friendship implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +22,8 @@ public class Friendship implements Serializable {
     @JoinColumn(name = "User2", referencedColumnName = "ID")
     private User user2;
 
-    public Friendship(){}
+    public Friendship() {
+    }
 
     public Friendship(User user1, User user2) {
         this.user1 = user1;
