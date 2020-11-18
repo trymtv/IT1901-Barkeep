@@ -1,9 +1,16 @@
 package apptest;
 
+import static barkeep.App.getOwner;
+import static barkeep.App.setOwner;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 import barkeep.LoginController;
 import barkeep.User;
 import database.Database;
 import database.UserRepository;
+import java.io.IOException;
+import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,14 +19,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-
-import java.io.IOException;
-import java.sql.SQLException;
-
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class LoginTest extends ApplicationTest {
 
@@ -45,11 +44,8 @@ public class LoginTest extends ApplicationTest {
     public static void setupDB(){
         Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         User testuser1 = new User(56, "testuser1");
-        //User testuser2 = new User(57, "testuser2");
         try {
             UserRepository.store(testuser1);
-          //  UserRepository.store(testuser2);
-           // FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
         }

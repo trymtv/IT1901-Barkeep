@@ -1,8 +1,15 @@
 package apptest;
 
+import static barkeep.App.getOwner;
+import static barkeep.App.setOwner;
+import static org.junit.jupiter.api.Assertions.*;
+
 import barkeep.FriendRegistrationController;
 import barkeep.User;
 import database.*;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,14 +20,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.List;
-
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class FriendRegistrationTest extends ApplicationTest {
 

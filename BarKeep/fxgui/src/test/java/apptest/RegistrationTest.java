@@ -1,8 +1,13 @@
 package apptest;
 
+import static barkeep.App.setOwner;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import barkeep.RegistrationController;
 import database.Database;
 import database.UserRepository;
+import java.io.IOException;
+import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -10,14 +15,7 @@ import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-import static barkeep.LoginController.setOwner;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 public class RegistrationTest extends ApplicationTest {
-
 
     private RegistrationController controller;
 
@@ -36,7 +34,6 @@ public class RegistrationTest extends ApplicationTest {
     public void stop() {
         setOwner(null);
     }
-
 
     @Test
     public void testController() {

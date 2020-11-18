@@ -1,7 +1,7 @@
 package barkeep;
 
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
+import static barkeep.App.getOwner;
+import static barkeep.App.setOwner;
 
 import database.IOweYouRepository;
 import java.io.IOException;
@@ -78,7 +78,9 @@ public class OverviewController implements Initializable {
     }
 
     /**
-     * Changes the scene to start scene.
+     * Switches scene to AddDrink.
+     *
+     * @throws IOException fxml document for AddDrink is not found.
      */
     public void handleBack(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
@@ -88,6 +90,11 @@ public class OverviewController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Sets owner to null and switches scene to Login.
+     *
+     * @throws IOException fxml document for Login is not found.
+     */
     public void handleLogout(ActionEvent event) throws IOException {
         setOwner(null);
         Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
@@ -96,5 +103,4 @@ public class OverviewController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-
 }

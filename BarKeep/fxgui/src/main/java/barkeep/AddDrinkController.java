@@ -1,17 +1,14 @@
 package barkeep;
 
-import static barkeep.LoginController.getOwner;
-import static barkeep.LoginController.setOwner;
+import static barkeep.App.getOwner;
+import static barkeep.App.setOwner;
+import static barkeep.FriendRegistrationController.getFriendList;
 
 import database.DrinkRepository;
-import database.FriendRepository;
 import database.IOweYouRepository;
-import database.UserRepository;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +43,6 @@ public class AddDrinkController implements Initializable {
         disableButton();
     }
 
-    //Gets the drinks from the repository and adds them to the choiceBox
     private void populateChoiceBoxDrinks() {
         ObservableList<Drink> choiceBoxListDrinks = FXCollections.observableArrayList();
         choiceBoxListDrinks.removeAll();
@@ -58,50 +54,15 @@ public class AddDrinkController implements Initializable {
         choiceBoxDrinks.getItems().addAll(choiceBoxListDrinks);
     }
 
-    //Gets the friends from the repository and adds them to the choiceBox
     private void populateChoiceBoxFriends() {
         ObservableList<User> choiceBoxListFriends = FXCollections.observableArrayList();
         choiceBoxListFriends.removeAll();
-        List<User> friendList = new ArrayList<>();
-        try {
-            List<Integer> friendIds = FriendRepository.get(getOwner().getId());
-            if (friendIds == null) {
-                return;
-            }
-            friendIds.forEach(id -> {
-                try {
-                    friendList.add(UserRepository.get(id));
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-        choiceBoxListFriends.addAll(friendList);
+        choiceBoxListFriends.addAll(getFriendList());
         choiceBoxFriends.getItems().addAll(choiceBoxListFriends);
     }
 
     /**
-     * Changes the scene to Overview.
-     */
-    public void handleGetOverview(ActionEvent event) throws IOException {
-        Parent parent = FXMLLoader.load(getClass().getResource("/Overview.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    private void disableButton() {
-        addDrink.disableProperty().bind(
-                choiceBoxFriends.valueProperty().isNull()
-                        .or(choiceBoxDrinks.valueProperty().isNull()));
-    }
-
-
-    /**
-     * Gets values from drink fields and adds to the IOweYouRepository.
+     * Creates and stores a new IOweYou.
      */
     public void handleAddDrink() {
         Drink drink = choiceBoxDrinks.getValue();
@@ -115,7 +76,20 @@ public class AddDrinkController implements Initializable {
     }
 
     /**
-     * Logs the user out and changes the scene to login.
+     * Changes the scene to Overview.
+     */
+    public void handleGetOverview(ActionEvent event) throws IOException {
+        Parent parent = FXMLLoader.load(getClass().getResource("/Overview.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    /**
+     * Sets owner to null and switches scene to Login.
+     *
+     * @throws IOException fxml document for Login is not found.
      */
     public void handleLogout(ActionEvent event) throws IOException {
         setOwner(null);
@@ -127,7 +101,9 @@ public class AddDrinkController implements Initializable {
     }
 
     /**
-     * Changes the scene to friend registration.
+     * Switches scene to FriendRegistration.
+     *
+     * @throws IOException fxml document for FriendRegistration is not found.
      */
     public void handleFindFriends(ActionEvent event) throws IOException {
         Parent parent = FXMLLoader.load(getClass().getResource("/FriendRegistration.fxml"));
@@ -135,5 +111,11 @@ public class AddDrinkController implements Initializable {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         stage.setScene(scene);
         stage.show();
+    }
+
+    private void disableButton() {
+        addDrink.disableProperty().bind(
+                choiceBoxFriends.valueProperty().isNull()
+                        .or(choiceBoxDrinks.valueProperty().isNull()));
     }
 }
