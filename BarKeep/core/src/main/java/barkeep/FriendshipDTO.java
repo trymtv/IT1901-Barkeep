@@ -14,11 +14,7 @@ public class FriendshipDTO {
         this.user2 = new UserDTO(friendship.getUser2());
     }
 
-    public FriendshipDTO(int id, UserDTO user1, UserDTO user2) {
-        this.id = id;
-        this.user1 = user1;
-        this.user2 = user2;
-    }
+
 
     public int getId() {
         return id;
