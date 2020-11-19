@@ -28,7 +28,7 @@ public class FriendshipController {
         User user = userService.get(userid);
         User loggedInUser = userDetails.getUser();
 
-        if (userService.isSameAsLoggedIn(user, loggedInUser)) {
+        if (userService.isSameUser(user, loggedInUser)) {
             List<User> users = friendshipService.getFriends(user);
             return ResponseEntity.ok().body(userService.convertListToDTOs(users));
         }

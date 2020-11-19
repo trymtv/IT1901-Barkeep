@@ -1,7 +1,10 @@
 package database;
 
 import barkeep.Friendship;
+import barkeep.FriendshipDTO;
 import barkeep.User;
+import barkeep.UserDTO;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,8 +37,10 @@ public class FriendshipServiceTest {
 
     @Before
     public void setUp() {
-        user1 = new User("TestDrink1", "d", "h@h.com");
-        user2 = new User("TestDrink2", "d", "h2@h.com");
+        user1 = new User("user1", "d", "h@h.com");
+        user1.setId(1);
+        user2 = new User("user2", "d", "h2@h.com");
+        user2.setId(2);
         friendship = new Friendship();
         friendship.setUser1(user1);
         friendship.setUser2(user2);
@@ -67,11 +72,8 @@ public class FriendshipServiceTest {
 
     @Test
     public void whenAdd_thenReturnFriendship() {
-        Friendship fship = new Friendship();
-        fship.setUser1(user1);
-        fship.setUser2(user2);
-        Friendship fshipSaved = friendshipService.add(fship);
-        Assert.assertEquals(fship, fshipSaved);
+        Friendship fshipSaved = friendshipService.add(friendship);
+        Assert.assertEquals(friendship, fshipSaved);
     }
 
     @Test
@@ -85,5 +87,34 @@ public class FriendshipServiceTest {
     public void whenRemove_thenCallDeleteOnRepository() {
         friendshipService.remove(friendship);
         verify(friendshipRepository).delete(any(Friendship.class));
+    }
+    @Test
+    public void whenAddFriendShipDTO_thenReturnFriendship(){
+        given(userService.get(any(UserDTO.class))).willReturn(user1).willReturn(user2);
+        given(friendshipRepository.getFriendshipBetween(user1, user2)).willReturn(null);
+        FriendshipDTO friendshipDTO = new FriendshipDTO(friendship);
+        Friendship fromDb = friendshipService.addFriendship(friendshipDTO);
+        Assert.assertNotNull(fromDb);
+        Assert.assertEquals(user1, fromDb.getUser1());
+        Assert.assertEquals(user2, fromDb.getUser2());
+    }
+    @Test
+    public void whenRemoveByUsers_thenCallDelete(){
+        friendshipService.removeByUsers(user1, user2);
+        verify(friendshipRepository).delete(friendship);
+    }
+    @Test
+    public void whenRemoveDTO_thenCallDelete(){
+        given(friendshipRepository.findById(any())).willReturn(Optional.of(friendship));
+        FriendshipDTO friendshipDTO = new FriendshipDTO(friendship);
+        friendshipService.remove(friendshipDTO);
+        verify(friendshipRepository).delete(friendship);
+    }
+    @Test
+    public void whenGetByDTO_thenReturnFriendship(){
+        given(friendshipRepository.findById(any())).willReturn(Optional.of(friendship));
+        FriendshipDTO friendshipDTO = new FriendshipDTO(friendship);
+        Friendship fromDb = friendshipService.get(friendshipDTO);
+        Assert.assertEquals(friendship, fromDb);
     }
 }

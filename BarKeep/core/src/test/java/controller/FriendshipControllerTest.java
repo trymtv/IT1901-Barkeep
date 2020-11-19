@@ -58,7 +58,7 @@ public class FriendshipControllerTest {
         given(service.getFriends(user1)).willReturn(Arrays.asList(user2, user3));
         given(userService.convertListToDTOs(any())).willCallRealMethod();
         given(service.convertToDTO(any())).willCallRealMethod();
-        given(userService.isSameAsLoggedIn(any(), any())).willReturn(true);
+        given(userService.isSameUser(any(), any())).willReturn(true);
 
         //Set logged in user to user1
         Authentication authentication =
