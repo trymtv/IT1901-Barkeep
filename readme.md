@@ -14,5 +14,7 @@ The sourcecode can be found under
 
 
 To run the project:
-1. `mvn install`
-2. `mvn -pl fxgui javafx:run`
+1. `mvn -pl core install`
+2. `mvn -pl core spring-boot:run`
+3. `mvn -pl fxgui install`
+3. `mvn -pl fxgui javafx:run`
