@@ -18,3 +18,7 @@ To run the project:
 2. `mvn -pl core spring-boot:run`
 3. `mvn -pl fxgui install`
 3. `mvn -pl fxgui javafx:run`
+
+For test use:   
+- username: "per"  
+- password: "password123"  
