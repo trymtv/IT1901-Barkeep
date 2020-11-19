@@ -1,6 +1,5 @@
 package barkeep;
 
-import database.UserRepository;
 import java.io.IOException;
 import java.sql.SQLException;
 import javafx.event.ActionEvent;
@@ -12,6 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import repositories.UserRepository;
 
 public class RegistrationController {
 
@@ -22,15 +22,10 @@ public class RegistrationController {
     @FXML
     private PasswordField passwordField;
 
-
-    private void storeUser() {
+    //Tries to store the user and returns the status code
+    private int storeUser() {
         User user = new User(nameField.getText(), passwordField.getText(), emailField.getText());
-        System.out.println(user.getUsername());
-        try {
-            UserRepository.store(user);
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        return UserRepository.store(user);
     }
 
     /**
@@ -39,7 +34,9 @@ public class RegistrationController {
      * @throws IOException fxml document for Login is not found.
      */
     public void handleRegistration(ActionEvent event) throws IOException {
-        storeUser();
+        if(storeUser() != 200){
+
+        }
         Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
         Scene scene = new Scene(parent);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -59,5 +56,5 @@ public class RegistrationController {
         stage.setScene(scene);
         stage.show();
     }
-    }
+}
 

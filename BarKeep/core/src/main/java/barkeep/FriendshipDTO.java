@@ -9,6 +9,7 @@ public class FriendshipDTO {
     }
 
     public FriendshipDTO(Friendship friendship){
+        System.out.println(friendship);
         this.id = friendship.getId();
         this.user1 = new UserDTO(friendship.getUser1());
         this.user2 = new UserDTO(friendship.getUser2());

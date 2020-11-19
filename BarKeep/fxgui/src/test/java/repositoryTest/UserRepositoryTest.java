@@ -1,6 +1,8 @@
-package database;
+package repositoryTest;
 
 import barkeep.User;
+import repositories.HttpManager;
+import repositories.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class UserRepositoryTest {
 	@BeforeAll
 	public static void setupDb(){
-		Database.setDbUrl("jdbc:h2:./src/test/resources/testdb");
+        HttpManager.setContext("MrsTest", "besttest");
 	}
 
 	@Test
@@ -21,15 +23,6 @@ public class UserRepositoryTest {
 		User getIdUser = UserRepository.get(1);
 		equalUsers(testUser, getIdUser);
 		equalUsers(testUser, getUsernameUser);
-	}
-
-	@Test
-	public void testDeleteAndStoreUser() throws SQLException, ClassNotFoundException {
-		User testUser = new User(0, "mrTestDatabaseUser", "mrTestDatabasePassword11", "mrTestDatabase@user.com");
-		UserRepository.delete(testUser);
-		UserRepository.store(testUser);
-		User getUser = UserRepository.get("mrTestDatabaseUser");
-		assertNotNull(getUser);
 	}
 
 	private void equalUsers(User user1, User user2){

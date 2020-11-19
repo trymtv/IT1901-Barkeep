@@ -1,27 +1,30 @@
 package barkeep;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javax.persistence.*;
 @Entity
-@Table(name="ious")
+@Table(name = "ious")
 public class IOweYou implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column
 	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="OWNER", referencedColumnName = "ID")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "OWNER", referencedColumnName = "ID")
 	private User owner;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="Friend", referencedColumnName = "ID")
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "Friend", referencedColumnName = "ID")
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name="drink", referencedColumnName = "ID")
+	@JoinColumn(name = "drink", referencedColumnName = "ID")
 	private Drink drink;
 
 	@Column(name = "date")

@@ -4,6 +4,8 @@ import api.config.UserDetailsImpl;
 import barkeep.Friendship;
 import barkeep.FriendshipDTO;
 import barkeep.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import database.FriendshipService;
 import database.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +38,11 @@ public class FriendshipController {
     }
 
     @PostMapping("/")
-    public FriendshipDTO addFriendship(@RequestBody FriendshipDTO friendshipDTO) {
+    public FriendshipDTO addFriendship(@RequestBody FriendshipDTO friendshipDTO) throws JsonProcessingException {
         //TODO: Check that user is one of friends
+        System.out.println(new ObjectMapper().writeValueAsString(friendshipDTO));
         Friendship friendship = friendshipService.addFriendship(friendshipDTO);
+        System.out.println(friendship);
         return friendshipService.convertToDTO(friendship);
     }
 

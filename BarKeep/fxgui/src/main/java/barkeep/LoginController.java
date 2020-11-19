@@ -2,9 +2,10 @@ package barkeep;
 
 import static barkeep.App.setOwner;
 
-import database.UserRepository;
 import java.io.IOException;
 import java.sql.SQLException;
+import repositories.HttpManager;
+import repositories.UserRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,6 +36,7 @@ public class LoginController {
      */
     public void handleLogin(ActionEvent event) throws IOException,
             SQLException, ClassNotFoundException {
+        HttpManager.setContext(username.getText(), password.getText());
         if (checkUserName()) {
             setOwner(UserRepository.get(username.getText()));
             Parent parent = FXMLLoader.load(getClass().getResource("/AddDrink.fxml"));
@@ -60,8 +62,22 @@ public class LoginController {
         stage.show();
     }
 
-    private boolean checkUserName() throws SQLException, ClassNotFoundException {
+    public boolean checkUserName() throws SQLException, ClassNotFoundException {
         User user = UserRepository.get(username.getText());
+        System.out.println(user);
         return user != null;
+    }
+
+    /**
+     * Logs the user out and changes the scene to login.
+     */
+    public static void handleLogout(ActionEvent event) throws IOException {
+        setOwner(null);
+        HttpManager.clearContext();
+        Parent parent = FXMLLoader.load(LoginController.class.getResource("/Login.fxml"));
+        Scene scene = new Scene(parent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.show();
     }
 }

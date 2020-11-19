@@ -2,6 +2,8 @@ package api.controller;
 
 import barkeep.User;
 import barkeep.UserDTO;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import database.UserService;
 import java.util.List;
 import javax.validation.Valid;
@@ -15,7 +17,8 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/register")
-    public UserDTO registerUser(@Valid @RequestBody User user) {
+    public UserDTO registerUser(@Valid @RequestBody User user) throws JsonProcessingException {
+        System.out.println(new ObjectMapper().writeValueAsString(user));
         User newUser = userService.add(user);
         return userService.convertToDTO(newUser);
     }

@@ -1,14 +1,10 @@
 package barkeep;
 
+import repositories.*;
 import static barkeep.App.getOwner;
-import static barkeep.App.setOwner;
-import static barkeep.FriendRegistrationController.getFriendList;
 
-import database.DrinkRepository;
-import database.IOweYouRepository;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,6 +19,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.net.URL;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 
 public class AddDrinkController implements Initializable {
 
@@ -46,18 +50,14 @@ public class AddDrinkController implements Initializable {
     private void populateChoiceBoxDrinks() {
         ObservableList<Drink> choiceBoxListDrinks = FXCollections.observableArrayList();
         choiceBoxListDrinks.removeAll();
-        try {
-            choiceBoxListDrinks.addAll(DrinkRepository.getAll());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        choiceBoxListDrinks.addAll(DrinkRepository.getAll());
         choiceBoxDrinks.getItems().addAll(choiceBoxListDrinks);
     }
 
     private void populateChoiceBoxFriends() {
         ObservableList<User> choiceBoxListFriends = FXCollections.observableArrayList();
         choiceBoxListFriends.removeAll();
-        choiceBoxListFriends.addAll(getFriendList());
+        choiceBoxListFriends.addAll(FriendRepository.get(getOwner().getId()));
         choiceBoxFriends.getItems().addAll(choiceBoxListFriends);
     }
 
@@ -67,11 +67,7 @@ public class AddDrinkController implements Initializable {
     public void handleAddDrink() {
         Drink drink = choiceBoxDrinks.getValue();
         User user = choiceBoxFriends.getValue();
-        try {
-            IOweYouRepository.store(new IOweYou(getOwner(), user, drink));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        IOweYouRepository.store(new IOweYou(getOwner(), user, drink));
         feedback.setText("Drink was added");
     }
 
@@ -92,12 +88,7 @@ public class AddDrinkController implements Initializable {
      * @throws IOException fxml document for Login is not found.
      */
     public void handleLogout(ActionEvent event) throws IOException {
-        setOwner(null);
-        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        LoginController.handleLogout(event);
     }
 
     /**
