@@ -50,7 +50,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public boolean isSameAsLoggedIn(User user, User loggedInUser) {
+    public boolean isSameUser(User user, User loggedInUser) {
         return user.getId() == loggedInUser.getId();
     }
 }

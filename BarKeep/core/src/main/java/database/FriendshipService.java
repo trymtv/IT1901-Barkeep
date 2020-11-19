@@ -33,8 +33,7 @@ public class FriendshipService {
     public Friendship addFriendship(FriendshipDTO friendshipDTO) {
         User user1 = userService.get(friendshipDTO.getUser1());
         User user2 = userService.get(friendshipDTO.getUser2());
-        Friendship friendship = new Friendship(user1, user2);
-        return add(friendship);
+        return addFriendship(user1, user2);
     }
 
     public Friendship addFriendship(User user1, User user2) {
@@ -48,8 +47,8 @@ public class FriendshipService {
         Friendship friendshipFromDb = friendshipRepository
                 .getFriendshipBetween(friendship.getUser1(), friendship.getUser2());
 
-        if (friendshipFromDb == null) {
-            return null;
+        if (friendshipFromDb != null) {
+            return friendshipFromDb;
         }
         return friendshipRepository.save(friendship);
     }

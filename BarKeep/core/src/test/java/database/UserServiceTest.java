@@ -2,6 +2,7 @@ package database;
 
 import barkeep.User;
 import barkeep.UserDTO;
+import java.util.Optional;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 @RunWith(SpringRunner.class)
@@ -38,8 +40,10 @@ public class UserServiceTest {
 
     @Before
     public void setUp() {
-        user1 = new User("TestDrink1", "d", "h@h.com");
-        user2 = new User("TestDrink2", "d", "h2@h.com");
+        user1 = new User("user1", "d", "h@h.com");
+        user1.setId(1);
+        user2 = new User("user2", "d", "h2@h.com");
+        user2.setId(2);
     }
 
     @Test
@@ -70,5 +74,37 @@ public class UserServiceTest {
         List<UserDTO> userDTOs = userService.convertListToDTOs(Arrays.asList(user1, user2));
         assertUserEqualDTO(user1, userDTOs.get(0));
         assertUserEqualDTO(user2, userDTOs.get(1));
+    }
+
+    @Test
+    public void whenAddUser_thenReturnUser(){
+        given(userRepository.save(any())).willAnswer(i->i.getArgument(0));
+        User savedUser = userService.add(user1);
+        Assert.assertEquals(user1, savedUser);
+    }
+
+    @Test
+    public void whenGetById_thenReturnUser(){
+        given(userRepository.findById(1)).willReturn(Optional.of(user1));
+        User fromDb = userService.get(1);
+        Assert.assertEquals(user1, fromDb);
+    }
+    @Test
+    public void whenIsSameUser_thenReturnBoolean(){
+        Assert.assertFalse(userService.isSameUser(user1,user2));
+        Assert.assertTrue(userService.isSameUser(user1,user1));
+    }
+    @Test
+    public void whenGetByUsername_thenReturnUser(){
+        given(userRepository.findByUsername("user1")).willReturn(user1);
+        User fromDb = userService.getByUsername("user1");
+        Assert.assertEquals(user1, fromDb);
+    }
+    @Test
+    public void whenGetUserDTO_thenReturnUser(){
+        given(userRepository.findById(1)).willReturn(Optional.of(user1));
+        UserDTO userDto = new UserDTO(user1);
+        User fromDb = userService.get(userDto);
+        Assert.assertEquals(user1, fromDb);
     }
 }
