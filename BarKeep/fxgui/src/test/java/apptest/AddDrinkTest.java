@@ -5,13 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import barkeep.AddDrinkController;
 import barkeep.IOweYou;
-import barkeep.User;
-import database.Database;
-import database.FriendRepository;
-import database.IOweYouRepository;
-import database.UserRepository;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,15 +16,16 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import repositories.*;
 
 public class AddDrinkTest extends ApplicationTest {
 
     private AddDrinkController controller;
 
     @Override
-    public void start(Stage primaryStage) throws IOException, SQLException, ClassNotFoundException {
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        setOwner(UserRepository.get("testuser1"));
+    public void start(Stage primaryStage) throws IOException {
+        HttpManager.setContext("MrsTest", "besttest");
+        setOwner(UserRepository.get("MrsTest"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddDrink.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
@@ -46,27 +41,8 @@ public class AddDrinkTest extends ApplicationTest {
 
     @BeforeAll
     public static void setup(){
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        User testuser1 = new User(56, "testuser1");
-        User testuser2 = new User(57, "testuser2");
-        try {
-            UserRepository.store(testuser1);
-            UserRepository.store(testuser2);
-            FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    @AfterAll
-    public static void restoreDB(){
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        try {
-            UserRepository.delete(UserRepository.get("testuser1"));
-            UserRepository.delete(UserRepository.get("testuser2"));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        HttpManager.setContext("MrsTest", "besttest");
+        FriendRepository.store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
     }
 
     @Test
@@ -76,7 +52,7 @@ public class AddDrinkTest extends ApplicationTest {
     }
 
     @Test
-    public void testAddDrinkandLogoutButton() throws SQLException, ClassNotFoundException {
+    public void testAddDrinkandLogoutButton() {
         List<IOweYou> oldList = IOweYouRepository.getByOwner(getOwner());
         clickOn("#choiceBoxFriends");
         type(KeyCode.DOWN, KeyCode.ENTER);
@@ -91,5 +67,13 @@ public class AddDrinkTest extends ApplicationTest {
     @Test
     public void testFriendsButton(){
         clickOn("#findFriendsButton");
+    }
+
+    @AfterAll
+    public static void removeIOweYou(){
+        HttpManager.setContext("MrsTest", "besttest");
+        setOwner(UserRepository.get("MrsTest"));
+        List<IOweYou> ious = IOweYouRepository.getByOwner(getOwner());
+        IOweYouRepository.delete(ious.get(ious.size()-1));
     }
 }

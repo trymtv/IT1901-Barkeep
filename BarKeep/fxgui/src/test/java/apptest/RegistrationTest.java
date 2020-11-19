@@ -4,16 +4,15 @@ import static barkeep.App.setOwner;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import barkeep.RegistrationController;
-import database.Database;
-import database.UserRepository;
 import java.io.IOException;
-import java.sql.SQLException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import repositories.HttpManager;
+import repositories.UserRepository;
 
 public class RegistrationTest extends ApplicationTest {
 
@@ -21,7 +20,6 @@ public class RegistrationTest extends ApplicationTest {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Registration.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
@@ -50,19 +48,8 @@ public class RegistrationTest extends ApplicationTest {
         clickOn("#passwordField");
         write("Barkeep4life<3");
         clickOn("#register");
-        try {
-            assertNotNull(UserRepository.get("testuser1"));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-        resetDB();
+        HttpManager.setContext("MrsTest", "besttest");
+        assertNotNull(UserRepository.get("testuser1"));
     }
 
-    public void resetDB() {
-        try {
-            UserRepository.delete(UserRepository.get("testuser1"));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
 }

@@ -6,7 +6,6 @@ import api.config.UserDetailsImpl;
 import api.config.WebSecurityConfig;
 import barkeep.User;
 import database.HibernateUserRepository;
-import database.UserRepository;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

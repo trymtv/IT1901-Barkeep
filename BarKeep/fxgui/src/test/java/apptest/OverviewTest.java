@@ -19,15 +19,16 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
+import repositories.*;
 
 public class OverviewTest extends ApplicationTest {
 
     private OverviewController controller;
 
     @Override
-    public void start(Stage primaryStage) throws IOException, SQLException, ClassNotFoundException {
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        setOwner(UserRepository.get("testuser1"));
+    public void start(Stage primaryStage) throws IOException {
+        HttpManager.setContext("MrsTest", "besttest");
+        setOwner(UserRepository.get("MrsTest"));
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/Overview.fxml"));
         Parent parent = loader.load();
         Scene scene = new Scene(parent);
@@ -43,29 +44,9 @@ public class OverviewTest extends ApplicationTest {
 
     @BeforeAll
     public static void setup(){
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        User testuser1 = new User(56, "testuser1");
-        User testuser2 = new User(57, "testuser2");
-        try {
-            UserRepository.store(testuser1);
-            UserRepository.store(testuser2);
-            FriendRepository.store(UserRepository.get("testuser1").getId(), UserRepository.get("testuser2").getId());
-            setOwner(UserRepository.get("testuser1"));
-            IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("testuser2"), DrinkRepository.get(1)));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-    }
-
-    @AfterAll
-    public static void restoreDB(){
-        Database.setDbUrl("jdbc:h2:../core/src/test/resources/testdb");
-        try {
-            UserRepository.delete(UserRepository.get("testuser1"));
-            UserRepository.delete(UserRepository.get("testuser2"));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        HttpManager.setContext("MrsTest", "besttest");
+        FriendRepository.store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
+        IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
     }
 
     @Test
@@ -77,12 +58,16 @@ public class OverviewTest extends ApplicationTest {
     @Test
     public void testTableandLogout(){
         TableView<IOweYou> table = lookup("#table").query();
-        try {
-            assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
         clickOn("#logout");
         assertNull(getOwner());
     }
+
+
+    private void login(){
+        clickOn("#username");
+        write("testuser1");
+        clickOn("#loginButton");
+    }
+
 }

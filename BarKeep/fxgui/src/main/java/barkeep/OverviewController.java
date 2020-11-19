@@ -1,12 +1,10 @@
 package barkeep;
 
+import repositories.IOweYouRepository;
 import static barkeep.App.getOwner;
-import static barkeep.App.setOwner;
 
-import database.IOweYouRepository;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -55,11 +53,7 @@ public class OverviewController implements Initializable {
         time.setCellValueFactory(new PropertyValueFactory<>("time"));
         ObservableList<IOweYou> observableList = FXCollections.observableArrayList();
         observableList.removeAll();
-        try {
-            observableList.addAll(IOweYouRepository.getByOwner(getOwner()));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        observableList.addAll(IOweYouRepository.getByOwner(getOwner()));
         table.setItems(observableList);
     }
 
@@ -69,11 +63,7 @@ public class OverviewController implements Initializable {
         time2.setCellValueFactory(new PropertyValueFactory<>("time"));
         ObservableList<IOweYou> observableList = FXCollections.observableArrayList();
         observableList.removeAll();
-        try {
-            observableList.addAll(IOweYouRepository.getByFriend(getOwner()));
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        observableList.addAll(IOweYouRepository.getByFriend(getOwner()));
         table2.setItems(observableList);
     }
 
@@ -96,11 +86,6 @@ public class OverviewController implements Initializable {
      * @throws IOException fxml document for Login is not found.
      */
     public void handleLogout(ActionEvent event) throws IOException {
-        setOwner(null);
-        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        LoginController.handleLogout(event);
     }
 }

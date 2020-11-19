@@ -3,8 +3,8 @@ package barkeep;
 import static barkeep.App.getOwner;
 import static barkeep.App.setOwner;
 
-import database.FriendRepository;
-import database.UserRepository;
+import repositories.UserRepository;
+import repositories.FriendRepository;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -46,7 +46,7 @@ public class FriendRegistrationController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
-            this.friendsList = getFriendList();
+            this.friendsList = FriendRepository.get(getOwner().getId());
             this.allUsers = UserRepository.getAllExcept(getOwner().getUsername());
         } catch (SQLException | ClassNotFoundException throwables) {
             throwables.printStackTrace();
@@ -55,26 +55,6 @@ public class FriendRegistrationController implements Initializable {
         updateFriendsList();
         disableAddFriendButton();
         disableRemoveFriendButton();
-    }
-
-    public static List<User> getFriendList() {  // Skal erstattes av metode i Friendrepository
-        List<User> friendsList = new ArrayList<>();
-        List<Integer> friendIDs = null;
-        try {
-            friendIDs = FriendRepository.get(getOwner().getUsername());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
-        if (friendIDs != null) {
-            friendIDs.forEach(id -> {
-                try {
-                    friendsList.add(UserRepository.get(id));
-                } catch (SQLException | ClassNotFoundException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
-        }
-        return friendsList;
     }
 
     private void updateAddFriendsList() {
@@ -102,12 +82,8 @@ public class FriendRegistrationController implements Initializable {
     public void handleAddFriend() {
         User newFriend = userList.getSelectionModel().getSelectedItem();
         this.friendsList.add(newFriend);
-        try {
-            FriendRepository.store(UserRepository.get(getOwner().getId()).getId(),
-                    UserRepository.get(newFriend.getId()).getId());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        FriendRepository.store(UserRepository.get(getOwner().getId()).getId(),
+                UserRepository.get(newFriend.getId()).getId());
         userList.getSelectionModel().clearSelection();
         userList.getItems().clear();
         userList2.getItems().clear();
@@ -122,12 +98,7 @@ public class FriendRegistrationController implements Initializable {
     public void handleRemoveFriend() {
         User oldFriend = userList2.getSelectionModel().getSelectedItem();
         this.friendsList.remove(oldFriend);
-        try {
-            FriendRepository.delete(UserRepository.get(getOwner().getId()).getId(),
-                    UserRepository.get(oldFriend.getId()).getId());
-        } catch (SQLException | ClassNotFoundException throwables) {
-            throwables.printStackTrace();
-        }
+        FriendRepository.delete(oldFriend.getId());
         userList2.getSelectionModel().clearSelection();
         userList.getItems().clear();
         userList2.getItems().clear();
@@ -155,12 +126,7 @@ public class FriendRegistrationController implements Initializable {
      * @throws IOException fxml document for Login is not found.
      */
     public void handleLogout(ActionEvent event) throws IOException {
-        setOwner(null);
-        Parent parent = FXMLLoader.load(getClass().getResource("/Login.fxml"));
-        Scene scene = new Scene(parent);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.show();
+        LoginController.handleLogout(event);
     }
 
     /**
