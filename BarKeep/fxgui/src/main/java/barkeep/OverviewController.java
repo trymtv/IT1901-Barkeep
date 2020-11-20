@@ -1,5 +1,6 @@
 package barkeep;
 
+import javafx.scene.control.Button;
 import repositories.IOweYouRepository;
 import static barkeep.App.getOwner;
 
@@ -25,6 +26,8 @@ import javafx.stage.Stage;
 public class OverviewController implements Initializable {
 
     @FXML
+    private Button deleteIOU;
+    @FXML
     private TableView<IOweYou> table;
     @FXML
     private TableColumn<IOweYou, String> user;
@@ -45,6 +48,7 @@ public class OverviewController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         updateTable();
         updateTable2();
+        disableDeleteButton();
     }
 
     private void updateTable() {
@@ -87,5 +91,15 @@ public class OverviewController implements Initializable {
      */
     public void handleLogout(ActionEvent event) throws IOException {
         LoginController.handleLogout(event);
+    }
+
+    public void handleDeleteIOU() {
+        IOweYouRepository.delete(table.getSelectionModel().getSelectedItem());
+        updateTable();
+    }
+
+    public void disableDeleteButton() {
+        deleteIOU.disableProperty()
+                .bind(table.getSelectionModel().selectedItemProperty().isNull());
     }
 }

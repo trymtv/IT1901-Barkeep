@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableView;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -62,9 +63,18 @@ public class OverviewTest extends ApplicationTest {
     }
 
     @Test
-    public void testControllerandBackButton() {
+    public void testControllerRandBackButton() {
         assertNotNull(this.controller);
+        clickOn("#table");
+        TableView<IOweYou> table = lookup("#table").query();
+        List<IOweYou> oldList = table.getItems();
+        type(KeyCode.UP);
+        clickOn("#deleteIOU");
+        table = lookup("#table").query();
+        List<IOweYou> newList = table.getItems();
+        assertNotEquals(oldList, newList);
         clickOn("#back");
+        IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
     }
 
     @Test
