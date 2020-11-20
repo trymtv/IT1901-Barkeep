@@ -37,4 +37,4 @@ Module code can be found:\
 
 ## Package diagram
 
-<p align="center"><img src="http://www.plantuml.com/plantuml/png/PL71IiGm4BtdAuRUzmz4Lco58knATpr8o67Q7KkqDY6PeY3zT-Ea4jHBCZClR-QzoJuo1bxU9kLnUCMHe1fSe0emmdS0dmf0DpDRjXGDNErsrxe-7rt_GZHmD6ejpEUFSR5LekXRDtDmqqGXSq3VU6-Kd7_Gr11qHzv5oovOafQgD4LlHKswHGp01HbxZ0axOpzH59Wbt5xenrFJdKoEwwuztFyaxV6TdjooPNTTsnngmTOaxg7D1XDd6s6KB44S95Xe1StYysH1rFhVdAnH5Kwf_NPTwdkQB-b7lW00" alt="Diagram"></p>
+<p align="center"><img src="http://www.plantuml.com/plantuml/png/NP11IyGm48Nlyok6tliFH7Qn5OgmAztr8A67QNTSgh49oHG5wNytfWsowQ7CvCjxURoT5t8oVsgmD7pGbR5u-xxEOu4_e1xC9CvepSvtU5UMgFRMTX3_6ItBUrGjM-D7CMvaty42y6yw6CS5aiU_8NXZ-2uar9CFz4ozPX-vn76xeLvETNlgrhbgcyDJMfhZ5x-QUTiUswO-L94jeAhpqVJlFCYQEWIh9nabXbBxvoQTLjlxoJ-jc6aoiYQC6bYo6ZBbRICvtV5q2St_0W00" alt="Diagram"></p>
