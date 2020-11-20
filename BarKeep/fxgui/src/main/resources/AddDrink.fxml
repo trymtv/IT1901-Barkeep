@@ -7,33 +7,32 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #3e4e50;"
-            xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+            style="-fx-background-color: #3e4e50;" xmlns="http://javafx.com/javafx/11.0.1"
             fx:controller="barkeep.AddDrinkController">
-   <ImageView fitHeight="176.0" fitWidth="193.0" layoutX="212.0" layoutY="15.0" pickOnBounds="true"
-              preserveRatio="true">
-      <Image url="@logo.png" />
-   </ImageView>
-   <Button fx:id="addDrink" layoutX="256.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleAddDrink"
-           prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #f99010;" text="Add Drink" />
-   <ChoiceBox fx:id="choiceBoxFriends" layoutX="142.0" layoutY="211.0" prefWidth="150.0" />
-   <Label layoutX="176.0" layoutY="183.0" prefHeight="17.0" prefWidth="82.0" text="I BOUGHT" textFill="#fffbfb">
-      <font>
-         <Font name="System Bold" size="13.0" />
-      </font>
-   </Label>
-   <Label layoutX="384.0" layoutY="183.0" text="A" textFill="WHITE">
-      <font>
-         <Font name="System Bold" size="13.0" />
-      </font>
-   </Label>
-   <ChoiceBox fx:id="choiceBoxDrinks" layoutX="309.0" layoutY="211.0" prefWidth="150.0" />
-   <Button fx:id="showOverview" layoutX="15.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleGetOverview"
-           prefHeight="27.0" prefWidth="90.0" text="Overview" />
-   <Label fx:id="feedback" layoutX="9.0" layoutY="313.0" prefHeight="17.0" prefWidth="584.0" textFill="WHITE" />
-   <Button fx:id="logout" layoutX="496.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleLogout"
-           prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #f08080;" text="Log out" />
-   <Button fx:id="findFriendsButton" layoutX="496.0" layoutY="357.0" mnemonicParsing="false"
-           onAction="#handleFindFriends" prefHeight="27.0" prefWidth="90.0" text="Find friends" />
+    <ImageView fitHeight="176.0" fitWidth="193.0" layoutX="212.0" layoutY="15.0" pickOnBounds="true"
+               preserveRatio="true">
+        <Image url="@logo.png"/>
+    </ImageView>
+    <Button fx:id="addDrink" layoutX="256.0" layoutY="259.0" mnemonicParsing="false" onAction="#handleAddDrink"
+            prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #f99010;" text="Add Drink"/>
+    <ChoiceBox fx:id="choiceBoxFriends" layoutX="142.0" layoutY="211.0" prefWidth="150.0"/>
+    <Label layoutX="176.0" layoutY="183.0" prefHeight="17.0" prefWidth="82.0" text="I BOUGHT" textFill="#fffbfb">
+        <font>
+            <Font name="System Bold" size="13.0"/>
+        </font>
+    </Label>
+    <Label layoutX="384.0" layoutY="183.0" text="A" textFill="WHITE">
+        <font>
+            <Font name="System Bold" size="13.0"/>
+        </font>
+    </Label>
+    <ChoiceBox fx:id="choiceBoxDrinks" layoutX="309.0" layoutY="211.0" prefWidth="150.0"/>
+    <Button fx:id="showOverview" layoutX="15.0" layoutY="357.0" mnemonicParsing="false" onAction="#handleGetOverview"
+            prefHeight="27.0" prefWidth="90.0" text="Overview"/>
+    <Label fx:id="feedback" layoutX="9.0" layoutY="313.0" prefHeight="17.0" prefWidth="584.0" textFill="WHITE"/>
+    <Button fx:id="logout" layoutX="496.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleLogout"
+            prefHeight="27.0" prefWidth="90.0" style="-fx-background-color: #f08080;" text="Log out"/>
+    <Button fx:id="findFriendsButton" layoutX="496.0" layoutY="357.0" mnemonicParsing="false"
+            onAction="#handleFindFriends" prefHeight="27.0" prefWidth="90.0" text="Find friends"/>
 </AnchorPane>

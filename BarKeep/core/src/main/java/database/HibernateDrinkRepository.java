@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HibernateDrinkRepository extends JpaRepository<Drink, Integer> {
-    Drink findFirstByName(String name);
+  Drink findFirstByName(String name);
 
-    List<Drink> findByNameIgnoreCaseContaining(String name);
+  List<Drink> findByNameIgnoreCaseContaining(String name);
 }

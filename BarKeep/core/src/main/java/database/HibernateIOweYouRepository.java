@@ -7,9 +7,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
-@Repository
-public interface HibernateIOweYouRepository extends JpaRepository<IOweYou, Integer> {
-    List<IOweYou> findAllByOwner(User owner);
 
-    List<IOweYou> findAllByUser(User friend);
+@Repository
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
+public interface HibernateIOweYouRepository extends JpaRepository<IOweYou, Integer> {
+  List<IOweYou> findAllByOwner(User owner);
+
+  List<IOweYou> findAllByUser(User friend);
 }
+
