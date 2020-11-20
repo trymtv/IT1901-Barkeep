@@ -1,4 +1,3 @@
-@startuml
 box "JavaFX Application" #LightBlue
 actor User
 participant addDrinkButton
@@ -32,4 +31,3 @@ IOweYouController -> HttpManager: 200 OK
 HttpManager -> IOweYouRepository: 200
 IOweYouRepository -> AddDrinkController: true
 AddDrinkController -> "~#feedback: Label" as feedback: setText("drink was added")
-@enduml
