@@ -3,15 +3,20 @@ package repositoryTest;
 import barkeep.Drink;
 import barkeep.IOweYou;
 import barkeep.User;
+import repositories.DrinkRepository;
 import repositories.HttpManager;
 import repositories.IOweYouRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import repositories.UserRepository;
 
+import java.sql.Array;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class IOweYouRepositoryTest {
     @BeforeAll
@@ -22,8 +27,8 @@ public class IOweYouRepositoryTest {
     @Test
     public void testIOUGetters() throws SQLException, ClassNotFoundException {
         HttpManager.setContext("MrsTest", "besttest");
-        User user = new User(119, "MrsTest");
-        User user2 = new User(120, "MrTest");
+        User user = UserRepository.get("MrsTest");
+        User user2 = UserRepository.get("MrTest");
         Drink drink = new Drink("Vann", 20.0);
         drink.setId(1);
         IOweYou iOweYou = new IOweYou(user, user2, drink);
@@ -32,13 +37,20 @@ public class IOweYouRepositoryTest {
     }
 
     @Test
-    public void testDeleteAndStore() throws SQLException, ClassNotFoundException {
+    public void testDeleteAndStore() {
         HttpManager.setContext("MrsTest", "besttest");
-        User user = new User(119, "MrsTest");
-        List<IOweYou> iouList = IOweYouRepository.getByOwner(user);
-        IOweYouRepository.delete(iouList.get(iouList.size()-1));
-        IOweYouRepository.store(iouList.get(0));
-        compareIOUs(iouList.get(0), IOweYouRepository.getByOwner(user).get(0));
+        User user = UserRepository.get("MrsTest");
+        User user2 = UserRepository.get("MrTest");
+        Drink drink = DrinkRepository.getAll().get(0);
+        IOweYou iou = new IOweYou();
+        iou.setOwner(user);
+        iou.setUser(user2);
+        iou.setDrink(drink);
+        List<IOweYou> oldList = IOweYouRepository.getByOwner(user);
+        assertTrue(IOweYouRepository.store(iou));
+        List<IOweYou> newList = IOweYouRepository.getByOwner(user);
+        assertTrue(IOweYouRepository.delete(newList.get(newList.size()-1)));
+        assertEquals(oldList.toString(), IOweYouRepository.getByOwner(user).toString());
     }
 
     private void compareIOUs(IOweYou IOweYou1, IOweYou IOweYou2) {

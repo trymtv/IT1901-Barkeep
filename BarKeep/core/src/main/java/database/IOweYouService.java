@@ -33,12 +33,12 @@ public class IOweYouService {
         User user = userService.get(iOweYouDTO.getUser());
         IOweYou iou = new IOweYou(owner,user,iOweYouDTO.getDrink());
         iou.setTime(iOweYouDTO.getTime());
-
         return add(iou);
     }
     public IOweYou add(IOweYou iOweYou) {
         return iOweYouRepository.save(iOweYou);
     }
+
     public void delete(IOweYou iOweYou) {
         iOweYouRepository.delete(iOweYou);
     }

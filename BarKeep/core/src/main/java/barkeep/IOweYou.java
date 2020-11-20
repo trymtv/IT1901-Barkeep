@@ -15,11 +15,11 @@ public class IOweYou implements Serializable {
 	@Column
 	private int id;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "OWNER", referencedColumnName = "ID")
 	private User owner;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "Friend", referencedColumnName = "ID")
 	private User user;
 
