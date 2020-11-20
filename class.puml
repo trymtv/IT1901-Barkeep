@@ -1,0 +1,490 @@
+title __BARKEEP's Class Diagram__\n
+
+  namespace barkeep {
+    class barkeep.Drink {
+        - id : int
+        - name : String
+        - value : double
+        + Drink()
+        + Drink()
+        + getId()
+        + getName()
+        + getValue()
+        + setId()
+        + setName()
+        + setValue()
+        + toString()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.Friendship {
+        - id : int
+        + Friendship()
+        + Friendship()
+        + getId()
+        + getUser1()
+        + getUser2()
+        + setId()
+        + setUser1()
+        + setUser2()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.FriendshipDTO {
+        - id : int
+        + FriendshipDTO()
+        + FriendshipDTO()
+        + getId()
+        + getUser1()
+        + getUser2()
+        + setId()
+        + setUser1()
+        + setUser2()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.IOweYou {
+        - id : int
+        - time : LocalDateTime
+        + IOweYou()
+        + IOweYou()
+        + getDrink()
+        + getId()
+        + getOwner()
+        + getTime()
+        + getUser()
+        + setDrink()
+        + setId()
+        + setOwner()
+        + setTime()
+        + setUser()
+        + toString()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.IOweYouDTO {
+        - id : int
+        - time : LocalDateTime
+        + IOweYouDTO()
+        + IOweYouDTO()
+        + getDrink()
+        + getId()
+        + getOwner()
+        + getTime()
+        + getUser()
+        + setDrink()
+        + setId()
+        + setOwner()
+        + setTime()
+        + setUser()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.User {
+        - email : String
+        - friendList : List<Friendship>
+        - iOweYouList : List<IOweYou>
+        - id : int
+        - password : String
+        - username : String
+        + User()
+        + User()
+        + User()
+        + User()
+        + addIOweYou()
+        + getEmail()
+        + getFriendList()
+        + getIOweYouList()
+        + getId()
+        + getPassword()
+        + getUsername()
+        + isPassword()
+        + removeIOweYou()
+        + setEmail()
+        + setFriendList()
+        + setIOweYouList()
+        + setId()
+        + setPassword()
+        + setUsername()
+        + toString()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.UserDTO {
+        - email : String
+        - id : int
+        - username : String
+        + UserDTO()
+        + UserDTO()
+        + UserDTO()
+        + getEmail()
+        + getId()
+        + getUsername()
+        + setEmail()
+        + setId()
+        + setUsername()
+    }
+  }
+
+
+  barkeep.Drink .up.|> java.io.Serializable
+  barkeep.Friendship .up.|> java.io.Serializable
+  barkeep.Friendship o-- barkeep.User : user1
+  barkeep.Friendship o-- barkeep.User : user2
+  barkeep.FriendshipDTO o-- barkeep.UserDTO : user1
+  barkeep.FriendshipDTO o-- barkeep.UserDTO : user2
+  barkeep.IOweYou .up.|> java.io.Serializable
+  barkeep.IOweYou o-- barkeep.Drink : drink
+  barkeep.IOweYou o-- barkeep.User : owner
+  barkeep.IOweYou o-- barkeep.User : user
+  barkeep.IOweYouDTO o-- barkeep.Drink : drink
+  barkeep.IOweYouDTO o-- barkeep.UserDTO : owner
+  barkeep.IOweYouDTO o-- barkeep.UserDTO : user
+  barkeep.User .up.|> java.io.Serializable
+
+
+namespace api {
+    class api.BarkeepApp {
+        {static} + main()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.Drink {
+        - id : int
+        - name : String
+        - value : double
+        + Drink()
+        + Drink()
+        + getId()
+        + getName()
+        + getValue()
+        + setId()
+        + setName()
+        + setValue()
+        + toString()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.Friendship {
+        - id : int
+        + Friendship()
+        + Friendship()
+        + getId()
+        + getUser1()
+        + getUser2()
+        + setId()
+        + setUser1()
+        + setUser2()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.FriendshipDTO {
+        - id : int
+        + FriendshipDTO()
+        + FriendshipDTO()
+        + getId()
+        + getUser1()
+        + getUser2()
+        + setId()
+        + setUser1()
+        + setUser2()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.IOweYou {
+        - id : int
+        - time : LocalDateTime
+        + IOweYou()
+        + IOweYou()
+        + getDrink()
+        + getId()
+        + getOwner()
+        + getTime()
+        + getUser()
+        + setDrink()
+        + setId()
+        + setOwner()
+        + setTime()
+        + setUser()
+        + toString()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.IOweYouDTO {
+        - id : int
+        - time : LocalDateTime
+        + IOweYouDTO()
+        + IOweYouDTO()
+        + getDrink()
+        + getId()
+        + getOwner()
+        + getTime()
+        + getUser()
+        + setDrink()
+        + setId()
+        + setOwner()
+        + setTime()
+        + setUser()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.User {
+        - email : String
+        - friendList : List<Friendship>
+        - iOweYouList : List<IOweYou>
+        - id : int
+        - password : String
+        - username : String
+        + User()
+        + User()
+        + User()
+        + User()
+        + addIOweYou()
+        + getEmail()
+        + getFriendList()
+        + getIOweYouList()
+        + getId()
+        + getPassword()
+        + getUsername()
+        + isPassword()
+        + removeIOweYou()
+        + setEmail()
+        + setFriendList()
+        + setIOweYouList()
+        + setId()
+        + setPassword()
+        + setUsername()
+        + toString()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.UserDTO {
+        - email : String
+        - id : int
+        - username : String
+        + UserDTO()
+        + UserDTO()
+        + UserDTO()
+        + getEmail()
+        + getId()
+        + getUsername()
+        + setEmail()
+        + setId()
+        + setUsername()
+    }
+  }
+
+
+  barkeep.Drink .up.|> java.io.Serializable
+  barkeep.Friendship .up.|> java.io.Serializable
+  barkeep.Friendship o-- barkeep.User : user1
+  barkeep.Friendship o-- barkeep.User : user2
+  barkeep.FriendshipDTO o-- barkeep.UserDTO : user1
+  barkeep.FriendshipDTO o-- barkeep.UserDTO : user2
+  barkeep.IOweYou .up.|> java.io.Serializable
+  barkeep.IOweYou o-- barkeep.Drink : drink
+  barkeep.IOweYou o-- barkeep.User : owner
+  barkeep.IOweYou o-- barkeep.User : user
+  barkeep.IOweYouDTO o-- barkeep.Drink : drink
+  barkeep.IOweYouDTO o-- barkeep.UserDTO : owner
+  barkeep.IOweYouDTO o-- barkeep.UserDTO : user
+  barkeep.User .up.|> java.io.Serializable
+
+
+
+
+  namespace barkeep {
+    class barkeep.AddDrinkController {
+        ~ addDrink : Button
+        - choiceBoxDrinks : ChoiceBox<Drink>
+        - choiceBoxFriends : ChoiceBox<User>
+        - feedback : Label
+        + handleAddDrink()
+        + handleFindFriends()
+        + handleGetOverview()
+        + handleLogout()
+        + initialize()
+        - disableButton()
+        - populateChoiceBoxDrinks()
+        - populateChoiceBoxFriends()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.App {
+        {static} - owner : User
+        {static} + getOwner()
+        {static} + main()
+        {static} + setOwner()
+        + start()
+        + stop()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.FriendRegistrationController {
+        ~ addFriendButton : Button
+        ~ allUsers : List<User>
+        ~ friendsList : List<User>
+        ~ removeFriendButton : Button
+        ~ searchFriends : TextField
+        ~ searchUsers : TextField
+        ~ userList : ListView<User>
+        ~ userList2 : ListView<User>
+        + filterFindFriends()
+        + filterMyFriends()
+        + handleAddFriend()
+        + handleBack()
+        + handleLogout()
+        + handleRemoveFriend()
+        + initialize()
+        - disableAddFriendButton()
+        - disableRemoveFriendButton()
+        - updateAddFriendsList()
+        - updateFriendsList()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.LoginController {
+        ~ feedback : Label
+        ~ password : PasswordField
+        ~ username : TextField
+        + checkUserName()
+        + handleCreateUser()
+        + handleLogin()
+        {static} + handleLogout()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.OverviewController {
+        - deleteIOU : Button
+        - drink : TableColumn<IOweYou, String>
+        - drink2 : TableColumn<IOweYou, String>
+        - table : TableView<IOweYou>
+        - table2 : TableView<IOweYou>
+        - time : TableColumn<IOweYou, LocalDateTime>
+        - time2 : TableColumn<IOweYou, LocalDateTime>
+        - user : TableColumn<IOweYou, String>
+        - user2 : TableColumn<IOweYou, String>
+        + disableDeleteButton()
+        + handleBack()
+        + handleDeleteIOU()
+        + handleLogout()
+        + initialize()
+        - updateTable()
+        - updateTable2()
+    }
+  }
+
+
+  namespace barkeep {
+    class barkeep.RegistrationController {
+        - emailField : TextField
+        - nameField : TextField
+        - passwordField : PasswordField
+        - registrationFeedback : Label
+        + handleBack()
+        + handleRegistration()
+        - storeUser()
+    }
+  }
+
+
+  barkeep.AddDrinkController .up.|> javafx.fxml.Initializable
+  barkeep.App -up-|> javafx.application.Application
+  barkeep.FriendRegistrationController .up.|> javafx.fxml.Initializable
+  barkeep.OverviewController .up.|> javafx.fxml.Initializable
+
+  namespace repositories {
+    class repositories.DrinkRepository {
+        {static} + get()
+        {static} + getAll()
+    }
+  }
+
+
+  namespace repositories {
+    class repositories.FriendRepository {
+        {static} + delete()
+        {static} + get()
+        {static} + get()
+        {static} + store()
+    }
+  }
+
+
+  namespace repositories {
+    class repositories.HttpManager {
+        {static} ~ BASE_URL : String
+        {static} ~ targetHost : HttpHost
+        {static} - context : HttpClientContext
+        {static} + clearContext()
+        {static} + deleteFrom()
+        {static} + getFrom()
+        {static} + postJsonTo()
+        {static} + setContext()
+        {static} - executeHttp()
+    }
+  }
+
+
+  namespace repositories {
+    class repositories.IOweYouRepository {
+        {static} + delete()
+        {static} + getByFriend()
+        {static} + getByOwner()
+        {static} + store()
+    }
+  }
+
+
+  namespace repositories {
+    class repositories.UserRepository {
+        {static} + get()
+        {static} + get()
+        {static} + getAllExcept()
+        {static} + store()
+    }
+  }
+
+
+
+
+right footer
+
+
+PlantUML diagram generated by SketchIt! (https://bitbucket.org/pmesmeur/sketch.it)
+For more information about this tool, please contact philippe.mesmeur@gmail.com
+endfooter
