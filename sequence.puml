@@ -1,0 +1,35 @@
+@startuml
+box "JavaFX Application" #LightBlue
+actor User
+participant addDrinkButton
+participant AddDrinkController
+participant iouDrink
+participant iouFriend
+participant feedback
+participant IOweYouRepository
+participant HttpManager
+end box
+
+box "REST API" #LightGreen
+participant IOweYouController
+participant IOweYouService
+participant HibernateIOweYouRepository
+end box
+
+
+User -> "~#addDrink: Button" as addDrinkButton: click
+addDrinkButton -> AddDrinkController: handleAddRink
+AddDrinkController -> "~#choiceBoxDrinks: ChoiceBox" as iouDrink: getValue
+AddDrinkController -> "~#choiceBoxFriends: ChoiceBox" as iouFriend: getValue
+AddDrinkController -> IOweYouRepository: store
+IOweYouRepository -> HttpManager: postJsonTo
+HttpManager -> "IOweYouController: addIOweYou" as IOweYouController : POST
+IOweYouController -> IOweYouService: add
+IOweYouService -> HibernateIOweYouRepository: save
+HibernateIOweYouRepository -> IOweYouService: IOweYou
+IOweYouService -> IOweYouController: IOweYou
+IOweYouController -> HttpManager: 200 OK
+HttpManager -> IOweYouRepository: 200
+IOweYouRepository -> AddDrinkController: true
+AddDrinkController -> "~#feedback: Label" as feedback: setText("drink was added")
+@enduml
