@@ -1,5 +1,451 @@
 title __BARKEEP's Class Diagram__\n
 
+  namespace database {
+    class database.DrinkService {
+        + delete()
+        + get()
+        + getByName()
+        + list()
+        + save()
+        + searchByName()
+    }
+  }
+  
+
+  namespace database {
+    class database.FriendshipService {
+        + add()
+        + addFriendship()
+        + addFriendship()
+        + convertToDTO()
+        + get()
+        + getFriends()
+        + getFriendships()
+        + remove()
+        + remove()
+        + removeByUsers()
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateDrinkRepository {
+        {abstract} + findByNameIgnoreCaseContaining()
+        {abstract} + findFirstByName()
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateFriendshipRepository {
+        {abstract} + getFriendshipBetween()
+        {abstract} + getFriendshipByUser1OrUser2()
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateIOweYouRepository {
+        {abstract} + findAllByOwner()
+        {abstract} + findAllByUser()
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateUserRepository {
+        {abstract} + findByUsername()
+        {abstract} + findByUsernameIgnoreCaseContaining()
+    }
+  }
+  
+
+  namespace database {
+    class database.IOweYouService {
+        + add()
+        + add()
+        + convertListToDTOs()
+        + convertToDTO()
+        + delete()
+        + get()
+        + owesUser()
+        + userOwes()
+    }
+  }
+  
+
+  namespace database {
+    class database.SessionManager {
+        {static} - sf : SessionFactory
+        {static} + getSessionFactory()
+    }
+  }
+  
+
+  namespace database {
+    class database.UserService {
+        - passwordEncoder : PasswordEncoder
+        + add()
+        + convertListToDTOs()
+        + convertToDTO()
+        + get()
+        + get()
+        + getByUsername()
+        + isSameUser()
+        + list()
+        + searchByUsername()
+    }
+  }
+  
+
+  database.DrinkService o-- database.HibernateDrinkRepository : drinkRepository
+  database.FriendshipService o-- database.HibernateFriendshipRepository : friendshipRepository
+  database.FriendshipService o-- database.UserService : userService
+  database.IOweYouService o-- database.HibernateIOweYouRepository : iOweYouRepository
+  database.IOweYouService o-- database.UserService : userService
+  database.UserService o-- database.HibernateUserRepository : userRepository
+
+  namespace api {
+    namespace config {
+      class api.config.UserDetailsImpl {
+          + UserDetailsImpl()
+          + getAuthorities()
+          + getPassword()
+          + getUser()
+          + getUsername()
+          + isAccountNonExpired()
+          + isAccountNonLocked()
+          + isCredentialsNonExpired()
+          + isEnabled()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.UserDetailsServiceImpl {
+          + loadUserByUsername()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.WebSecurityConfig {
+          + authenticationProvider()
+          + passwordEncoder()
+          + userDetailsService()
+          # configure()
+          # configure()
+      }
+    }
+  }
+  
+
+  api.config.UserDetailsImpl .up.|> org.springframework.security.core.userdetails.UserDetails
+  api.config.UserDetailsImpl o-- barkeep.User : user
+  api.config.UserDetailsServiceImpl .up.|> org.springframework.security.core.userdetails.UserDetailsService
+  api.config.UserDetailsServiceImpl o-- database.HibernateUserRepository : userRepository
+  api.config.WebSecurityConfig -up-|> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+
+  namespace api {
+    namespace config {
+      class api.config.UserDetailsImpl {
+          + UserDetailsImpl()
+          + getAuthorities()
+          + getPassword()
+          + getUser()
+          + getUsername()
+          + isAccountNonExpired()
+          + isAccountNonLocked()
+          + isCredentialsNonExpired()
+          + isEnabled()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.UserDetailsServiceImpl {
+          + loadUserByUsername()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.WebSecurityConfig {
+          + authenticationProvider()
+          + passwordEncoder()
+          + userDetailsService()
+          # configure()
+          # configure()
+      }
+    }
+  }
+  
+
+  api.config.UserDetailsImpl .up.|> org.springframework.security.core.userdetails.UserDetails
+  api.config.UserDetailsImpl o-- barkeep.User : user
+  api.config.UserDetailsServiceImpl .up.|> org.springframework.security.core.userdetails.UserDetailsService
+  api.config.UserDetailsServiceImpl o-- database.HibernateUserRepository : userRepository
+  api.config.WebSecurityConfig -up-|> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+
+
+  namespace api {
+    namespace controller {
+      class api.controller.DrinkController {
+          + add()
+          + delete()
+          + drinkById()
+          + drinkByName()
+          + drinks()
+          + index()
+          + search()
+          + update()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.FriendshipController {
+          + addFriendship()
+          + getFriends()
+          + removeFriendship()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.IOweYouController {
+          + addIOweYou()
+          + deleteIOweYou()
+          + owesUser()
+          + userOwes()
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.UserController {
+          + get()
+          + getAll()
+          + getByUsername()
+          + registerUser()
+          + searchUsers()
+      }
+    }
+  }
+  
+
+  api.controller.DrinkController o-- database.DrinkService : drinkService
+  api.controller.FriendshipController o-- database.FriendshipService : friendshipService
+  api.controller.FriendshipController o-- database.UserService : userService
+  api.controller.IOweYouController o-- database.IOweYouService : iOweYouService
+  api.controller.IOweYouController o-- database.UserService : userService
+  api.controller.UserController o-- database.UserService : userService
+
+
+  namespace api {
+    class api.BarkeepApp {
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.UserDetailsImpl {
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.UserDetailsServiceImpl {
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace config {
+      class api.config.WebSecurityConfig {
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.DrinkController {
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.FriendshipController {
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.IOweYouController {
+      }
+    }
+  }
+  
+
+  namespace api {
+    namespace controller {
+      class api.controller.UserController {
+      }
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.Drink {
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.Friendship {
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.FriendshipDTO {
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.IOweYou {
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.IOweYouDTO {
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.User {
+    }
+  }
+  
+
+  namespace barkeep {
+    class barkeep.UserDTO {
+    }
+  }
+  
+
+  namespace database {
+    class database.DrinkService {
+    }
+  }
+  
+
+  namespace database {
+    class database.FriendshipService {
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateDrinkRepository {
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateFriendshipRepository {
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateIOweYouRepository {
+    }
+  }
+  
+
+  namespace database {
+    interface database.HibernateUserRepository {
+    }
+  }
+  
+
+  namespace database {
+    class database.IOweYouService {
+    }
+  }
+  
+
+  namespace database {
+    class database.SessionManager {
+    }
+  }
+  
+
+  namespace database {
+    class database.UserService {
+    }
+  }
+  
+
+  api.config.UserDetailsImpl .up.|> org.springframework.security.core.userdetails.UserDetails
+  api.config.UserDetailsImpl o-- barkeep.User : user
+  api.config.UserDetailsServiceImpl .up.|> org.springframework.security.core.userdetails.UserDetailsService
+  api.config.UserDetailsServiceImpl o-- database.HibernateUserRepository : userRepository
+  api.config.WebSecurityConfig -up-|> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+  api.controller.DrinkController o-- database.DrinkService : drinkService
+  api.controller.FriendshipController o-- database.FriendshipService : friendshipService
+  api.controller.FriendshipController o-- database.UserService : userService
+  api.controller.IOweYouController o-- database.IOweYouService : iOweYouService
+  api.controller.IOweYouController o-- database.UserService : userService
+  api.controller.UserController o-- database.UserService : userService
+  barkeep.Drink .up.|> java.io.Serializable
+  barkeep.Friendship .up.|> java.io.Serializable
+  barkeep.Friendship o-- barkeep.User : user1
+  barkeep.Friendship o-- barkeep.User : user2
+  barkeep.FriendshipDTO o-- barkeep.UserDTO : user1
+  barkeep.FriendshipDTO o-- barkeep.UserDTO : user2
+  barkeep.IOweYou .up.|> java.io.Serializable
+  barkeep.IOweYou o-- barkeep.Drink : drink
+  barkeep.IOweYou o-- barkeep.User : owner
+  barkeep.IOweYou o-- barkeep.User : user
+  barkeep.IOweYouDTO o-- barkeep.Drink : drink
+  barkeep.IOweYouDTO o-- barkeep.UserDTO : owner
+  barkeep.IOweYouDTO o-- barkeep.UserDTO : user
+  barkeep.User .up.|> java.io.Serializable
+  database.DrinkService o-- database.HibernateDrinkRepository : drinkRepository
+  database.FriendshipService o-- database.HibernateFriendshipRepository : friendshipRepository
+  database.FriendshipService o-- database.UserService : userService
+  database.IOweYouService o-- database.HibernateIOweYouRepository : iOweYouRepository
+  database.IOweYouService o-- database.UserService : userService
+  database.UserService o-- database.HibernateUserRepository : userRepository
+
   namespace barkeep {
     class barkeep.Drink {
         - id : int
@@ -16,7 +462,7 @@ title __BARKEEP's Class Diagram__\n
         + toString()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.Friendship {
@@ -31,7 +477,7 @@ title __BARKEEP's Class Diagram__\n
         + setUser2()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.FriendshipDTO {
@@ -46,7 +492,7 @@ title __BARKEEP's Class Diagram__\n
         + setUser2()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.IOweYou {
@@ -67,7 +513,7 @@ title __BARKEEP's Class Diagram__\n
         + toString()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.IOweYouDTO {
@@ -87,7 +533,7 @@ title __BARKEEP's Class Diagram__\n
         + setUser()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.User {
@@ -119,7 +565,7 @@ title __BARKEEP's Class Diagram__\n
         + toString()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.UserDTO {
@@ -137,7 +583,7 @@ title __BARKEEP's Class Diagram__\n
         + setUsername()
     }
   }
-
+  
 
   barkeep.Drink .up.|> java.io.Serializable
   barkeep.Friendship .up.|> java.io.Serializable
@@ -154,13 +600,13 @@ title __BARKEEP's Class Diagram__\n
   barkeep.IOweYouDTO o-- barkeep.UserDTO : user
   barkeep.User .up.|> java.io.Serializable
 
-
+  
 namespace api {
     class api.BarkeepApp {
         {static} + main()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.Drink {
@@ -178,7 +624,7 @@ namespace api {
         + toString()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.Friendship {
@@ -193,7 +639,7 @@ namespace api {
         + setUser2()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.FriendshipDTO {
@@ -208,7 +654,7 @@ namespace api {
         + setUser2()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.IOweYou {
@@ -229,7 +675,7 @@ namespace api {
         + toString()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.IOweYouDTO {
@@ -249,7 +695,7 @@ namespace api {
         + setUser()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.User {
@@ -281,7 +727,7 @@ namespace api {
         + toString()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.UserDTO {
@@ -299,7 +745,7 @@ namespace api {
         + setUsername()
     }
   }
-
+  
 
   barkeep.Drink .up.|> java.io.Serializable
   barkeep.Friendship .up.|> java.io.Serializable
@@ -335,7 +781,7 @@ namespace api {
         - populateChoiceBoxFriends()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.App {
@@ -347,7 +793,7 @@ namespace api {
         + stop()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.FriendRegistrationController {
@@ -372,7 +818,7 @@ namespace api {
         - updateFriendsList()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.LoginController {
@@ -385,7 +831,7 @@ namespace api {
         {static} + handleLogout()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.OverviewController {
@@ -407,7 +853,7 @@ namespace api {
         - updateTable2()
     }
   }
-
+  
 
   namespace barkeep {
     class barkeep.RegistrationController {
@@ -420,7 +866,7 @@ namespace api {
         - storeUser()
     }
   }
-
+  
 
   barkeep.AddDrinkController .up.|> javafx.fxml.Initializable
   barkeep.App -up-|> javafx.application.Application
@@ -433,7 +879,7 @@ namespace api {
         {static} + getAll()
     }
   }
-
+  
 
   namespace repositories {
     class repositories.FriendRepository {
@@ -443,7 +889,7 @@ namespace api {
         {static} + store()
     }
   }
-
+  
 
   namespace repositories {
     class repositories.HttpManager {
@@ -458,7 +904,7 @@ namespace api {
         {static} - executeHttp()
     }
   }
-
+  
 
   namespace repositories {
     class repositories.IOweYouRepository {
@@ -468,7 +914,7 @@ namespace api {
         {static} + store()
     }
   }
-
+  
 
   namespace repositories {
     class repositories.UserRepository {
@@ -478,7 +924,7 @@ namespace api {
         {static} + store()
     }
   }
-
+  
 
 
 
