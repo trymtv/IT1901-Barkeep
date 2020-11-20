@@ -3,6 +3,8 @@ package api.controller;
 import barkeep.IOweYou;
 import barkeep.IOweYouDTO;
 import barkeep.User;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import database.IOweYouService;
 import database.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,10 @@ public class IOweYouController {
     }
 
     @PostMapping("/")
-    public void addIOweYou(@RequestBody IOweYouDTO iOweYou){
+    public void addIOweYou(@RequestBody IOweYouDTO iOweYou) throws JsonProcessingException {
         //TODO: Check that user is Owner of IOweYou
         iOweYouService.add(iOweYou);
+
     }
 
     @DeleteMapping("/{iOweYouId}")

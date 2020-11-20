@@ -18,7 +18,6 @@ public class UserController {
 
     @PostMapping("/register")
     public UserDTO registerUser(@Valid @RequestBody User user) throws JsonProcessingException {
-        System.out.println(new ObjectMapper().writeValueAsString(user));
         User newUser = userService.add(user);
         return userService.convertToDTO(newUser);
     }

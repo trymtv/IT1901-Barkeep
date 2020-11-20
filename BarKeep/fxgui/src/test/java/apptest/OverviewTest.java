@@ -10,6 +10,8 @@ import barkeep.User;
 import database.*;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -45,8 +47,18 @@ public class OverviewTest extends ApplicationTest {
     @BeforeAll
     public static void setup(){
         HttpManager.setContext("MrsTest", "besttest");
+        setOwner(UserRepository.get("MrsTest"));
+        HttpManager.setContext("MrsTest", "besttest");
         FriendRepository.store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
         IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
+    }
+
+    @AfterAll
+    public static void cleanup(){
+        HttpManager.setContext("MrsTest", "besttest");
+        setOwner(UserRepository.get("MrsTest"));
+        List<IOweYou> ious = IOweYouRepository.getByOwner(getOwner());
+        IOweYouRepository.delete(ious.get(ious.size()-1));
     }
 
     @Test
@@ -61,13 +73,6 @@ public class OverviewTest extends ApplicationTest {
         assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
         clickOn("#logout");
         assertNull(getOwner());
-    }
-
-
-    private void login(){
-        clickOn("#username");
-        write("testuser1");
-        clickOn("#loginButton");
     }
 
 }
