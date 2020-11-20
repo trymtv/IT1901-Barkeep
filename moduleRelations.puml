@@ -1,0 +1,24 @@
+@startuml
+package "fxgui" {
+[Controllers] <-- [App]
+[App]
+[Controllers] --> [Repositories]
+}
+
+
+package "core" as core {
+    database "Tables" as tables {
+    [USERS]
+    [DRINKS]
+    [IOweYou]
+    [FRIENDS]
+  }
+[DTOobjects] <--> [Entities]
+[API] <--> [Database]
+    [Database] --> [Entities]
+[Database] --> tables
+    
+}
+[Controllers] --> [Entities]
+[Repositories] --> [Entities]
+@enduml
