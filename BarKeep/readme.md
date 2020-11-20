@@ -45,6 +45,6 @@ Module code can be found:\
 `./fxgui/src` ([Here](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2011/gr2011/-/tree/master/BarKeep/fxgui/src))
 
 
-## Component diagram
+## Package diagram
 
-<p align="center"><img src="http://www.plantuml.com/plantuml/png/TL5DQm8n4BtFhnZIyruyYeZrGoe52rfFonxoCThTpMP24g4W-z-R5OL5w1n2vhtalPVC8YOPqhMpuALkvOLGQ0uay0Q8fPAX9V8L5gmQqYaEe959AXafe-Wfn3ecSfe0oYQogt0sstF2KoGpdqCFuDWGYlFlvLeFikMANGfiRRwQ3nS5bk_ULozuWK_7LtnicTNX6GV5nmGVpIF_cQsXWE9RAajHe8nerC3aAa_7pU6ORTU7tVvpsEo-JddT7dQR_JhtYFrTV_pUOZu8JB4nIaz_9W2nhPsNGNQekVFioAKRR7FW5LiEuv_0j-MzOCd1KFYVxs51pkI9_040" alt="Diagram"></p>
+<p align="center"><img src="http://www.plantuml.com/plantuml/png/PL71IiGm4BtdAuRUzmz4Lco58knATpr8o67Q7KkqDY6PeY3zT-Ea4jHBCZClR-QzoJuo1bxU9kLnUCMHe1fSe0emmdS0dmf0DpDRjXGDNErsrxe-7rt_GZHmD6ejpEUFSR5LekXRDtDmqqGXSq3VU6-Kd7_Gr11qHzv5oovOafQgD4LlHKswHGp01HbxZ0axOpzH59Wbt5xenrFJdKoEwwuztFyaxV6TdjooPNTTsnngmTOaxg7D1XDd6s6KB44S95Xe1StYysH1rFhVdAnH5Kwf_NPTwdkQB-b7lW00" alt="Diagram"></p>
