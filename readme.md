@@ -13,12 +13,23 @@ The sourcecode can be found under
 `/BarKeep` ([Here](https://gitlab.stud.idi.ntnu.no/it1901/groups-2020/gr2011/gr2011/-/tree/master/BarKeep))
 
 
-To run the project:
-1. `mvn -pl core install`
-2. `mvn -pl core spring-boot:run`
-3. `mvn -pl fxgui install`
-3. `mvn -pl fxgui javafx:run`
+### To run the project:
 
-For test use:   
-- username: "per"  
-- password: "password123"  
+*We need Spring boot to run when running GUI-tests*
+
+1. `mvn -pl core install`
+2. `mvn -pl core spring-boot:start`
+
+3. `mvn install`
+
+**To show GUI:**
+
+4. `mvn -pl fxgui javafx:run`
+
+**Make sure spring-boot is running (see point 2)**
+
+### Test user
+
+| username | password |
+|----------|----------|
+|   per    |passord123|
