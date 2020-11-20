@@ -2,16 +2,16 @@ package apptest;
 
 import static barkeep.App.getOwner;
 import static barkeep.App.setOwner;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
-import barkeep.OverviewController;
+
 import barkeep.IOweYou;
-import barkeep.User;
-import database.*;
+import barkeep.OverviewController;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,67 +22,74 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-import repositories.*;
+import repositories.DrinkRepository;
+import repositories.FriendRepository;
+import repositories.HttpManager;
+import repositories.IOweYouRepository;
+import repositories.UserRepository;
 
 public class OverviewTest extends ApplicationTest {
 
-    private OverviewController controller;
+  private OverviewController controller;
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        HttpManager.setContext("MrsTest", "besttest");
-        setOwner(UserRepository.get("MrsTest"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/Overview.fxml"));
-        Parent parent = loader.load();
-        Scene scene = new Scene(parent);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        this.controller = loader.getController();
-    }
+  @BeforeAll
+  public static void setup() {
+    HttpManager.setContext("MrsTest", "besttest");
+    setOwner(UserRepository.get("MrsTest"));
+    HttpManager.setContext("MrsTest", "besttest");
+    FriendRepository
+        .store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
+    IOweYouRepository
+        .store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
+  }
 
-    @Override
-    public void stop(){
-        setOwner(null);
-    }
+  @AfterAll
+  public static void cleanup() {
+    HttpManager.setContext("MrsTest", "besttest");
+    setOwner(UserRepository.get("MrsTest"));
+    List<IOweYou> ious = IOweYouRepository.getByOwner(getOwner());
+    IOweYouRepository.delete(ious.get(ious.size() - 1));
+  }
 
-    @BeforeAll
-    public static void setup(){
-        HttpManager.setContext("MrsTest", "besttest");
-        setOwner(UserRepository.get("MrsTest"));
-        HttpManager.setContext("MrsTest", "besttest");
-        FriendRepository.store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
-        IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
-    }
+  @Override
+  public void start(Stage primaryStage) throws IOException {
+    HttpManager.setContext("MrsTest", "besttest");
+    setOwner(UserRepository.get("MrsTest"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/Overview.fxml"));
+    Parent parent = loader.load();
+    Scene scene = new Scene(parent);
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    this.controller = loader.getController();
+  }
 
-    @AfterAll
-    public static void cleanup(){
-        HttpManager.setContext("MrsTest", "besttest");
-        setOwner(UserRepository.get("MrsTest"));
-        List<IOweYou> ious = IOweYouRepository.getByOwner(getOwner());
-        IOweYouRepository.delete(ious.get(ious.size()-1));
-    }
+  @Override
+  public void stop() {
+    setOwner(null);
+  }
 
-    @Test
-    public void testControllerRandBackButton() {
-        assertNotNull(this.controller);
-        clickOn("#table");
-        TableView<IOweYou> table = lookup("#table").query();
-        List<IOweYou> oldList = table.getItems();
-        type(KeyCode.UP);
-        clickOn("#deleteIOU");
-        table = lookup("#table").query();
-        List<IOweYou> newList = table.getItems();
-        assertNotEquals(oldList, newList);
-        clickOn("#back");
-        IOweYouRepository.store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
-    }
+  @Test
+  public void testControllerRandBackButton() {
+    assertNotNull(this.controller);
+    clickOn("#table");
+    TableView<IOweYou> table = lookup("#table").query();
+    List<IOweYou> oldList = table.getItems();
+    type(KeyCode.UP);
+    clickOn("#deleteIOU");
+    table = lookup("#table").query();
+    List<IOweYou> newList = table.getItems();
+    assertNotEquals(oldList, newList);
+    clickOn("#back");
+    IOweYouRepository
+        .store(new IOweYou(getOwner(), UserRepository.get("MrTest"), DrinkRepository.get(1)));
+  }
 
-    @Test
-    public void testTableandLogout(){
-        TableView<IOweYou> table = lookup("#table").query();
-        assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
-        clickOn("#logout");
-        assertNull(getOwner());
-    }
+  @Test
+  public void testTableandLogout() {
+    TableView<IOweYou> table = lookup("#table").query();
+    assertEquals(IOweYouRepository.getByOwner(getOwner()).toString(), table.getItems().toString());
+    clickOn("#logout");
+    assertNull(getOwner());
+  }
 
 }

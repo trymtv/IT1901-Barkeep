@@ -1,7 +1,11 @@
 package apptest;
+
 import static barkeep.App.getOwner;
 import static barkeep.App.setOwner;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 
 import barkeep.AddDrinkController;
 import barkeep.IOweYou;
@@ -16,64 +20,68 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testfx.framework.junit5.ApplicationTest;
-import repositories.*;
+import repositories.FriendRepository;
+import repositories.HttpManager;
+import repositories.IOweYouRepository;
+import repositories.UserRepository;
 
 public class AddDrinkTest extends ApplicationTest {
 
-    private AddDrinkController controller;
+  private AddDrinkController controller;
 
-    @Override
-    public void start(Stage primaryStage) throws IOException {
-        HttpManager.setContext("MrsTest", "besttest");
-        setOwner(UserRepository.get("MrsTest"));
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddDrink.fxml"));
-        Parent parent = loader.load();
-        Scene scene = new Scene(parent);
-        primaryStage.setScene(scene);
-        primaryStage.show();
-        this.controller = loader.getController();
-    }
+  @BeforeAll
+  public static void setup() {
+    HttpManager.setContext("MrsTest", "besttest");
+    FriendRepository
+        .store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
+  }
 
-    @Override
-    public void stop(){
-        setOwner(null);
-    }
+  @AfterAll
+  public static void removeIOweYou() {
+    HttpManager.setContext("MrsTest", "besttest");
+    setOwner(UserRepository.get("MrsTest"));
+    List<IOweYou> ious = IOweYouRepository.getByOwner(getOwner());
+    IOweYouRepository.delete(ious.get(ious.size() - 1));
+  }
 
-    @BeforeAll
-    public static void setup(){
-        HttpManager.setContext("MrsTest", "besttest");
-        FriendRepository.store(UserRepository.get("MrsTest").getId(), UserRepository.get("MrTest").getId());
-    }
+  @Override
+  public void start(Stage primaryStage) throws IOException {
+    HttpManager.setContext("MrsTest", "besttest");
+    setOwner(UserRepository.get("MrsTest"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/AddDrink.fxml"));
+    Parent parent = loader.load();
+    Scene scene = new Scene(parent);
+    primaryStage.setScene(scene);
+    primaryStage.show();
+    this.controller = loader.getController();
+  }
 
-    @Test
-    public void testControllerandOverviewButton() {
-        assertNotNull(this.controller);
-        clickOn("#showOverview");
-    }
+  @Override
+  public void stop() {
+    setOwner(null);
+  }
 
-    @Test
-    public void testAddDrinkandLogoutButton() {
-        List<IOweYou> oldList = IOweYouRepository.getByOwner(getOwner());
-        clickOn("#choiceBoxFriends");
-        type(KeyCode.DOWN, KeyCode.ENTER);
-        clickOn("#choiceBoxDrinks");
-        type(KeyCode.ENTER);
-        clickOn("#addDrink");
-        assertNotEquals(oldList, IOweYouRepository.getByOwner(getOwner()));
-        clickOn("#logout");
-        assertNull(getOwner());
-    }
+  @Test
+  public void testControllerandOverviewButton() {
+    assertNotNull(this.controller);
+    clickOn("#showOverview");
+  }
 
-    @Test
-    public void testFriendsButton(){
-        clickOn("#findFriendsButton");
-    }
+  @Test
+  public void testAddDrinkandLogoutButton() {
+    List<IOweYou> oldList = IOweYouRepository.getByOwner(getOwner());
+    clickOn("#choiceBoxFriends");
+    type(KeyCode.DOWN, KeyCode.ENTER);
+    clickOn("#choiceBoxDrinks");
+    type(KeyCode.ENTER);
+    clickOn("#addDrink");
+    assertNotEquals(oldList, IOweYouRepository.getByOwner(getOwner()));
+    clickOn("#logout");
+    assertNull(getOwner());
+  }
 
-    @AfterAll
-    public static void removeIOweYou(){
-        HttpManager.setContext("MrsTest", "besttest");
-        setOwner(UserRepository.get("MrsTest"));
-        List<IOweYou> ious = IOweYouRepository.getByOwner(getOwner());
-        IOweYouRepository.delete(ious.get(ious.size()-1));
-    }
+  @Test
+  public void testFriendsButton() {
+    clickOn("#findFriendsButton");
+  }
 }

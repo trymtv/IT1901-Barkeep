@@ -11,8 +11,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories("database")
 public class BarkeepApp {
 
-    public static void main(String[] args) {
-        SpringApplication.run(BarkeepApp.class, args);
-    }
+  public static void main(String[] args) {
+    SpringApplication.run(BarkeepApp.class, args);
+  }
 
 }

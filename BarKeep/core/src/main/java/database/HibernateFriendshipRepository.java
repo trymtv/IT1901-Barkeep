@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface HibernateFriendshipRepository extends JpaRepository<Friendship, Integer> {
-   @Query("SELECT f FROM Friendship f WHERE (f.user1 = ?1 AND f.user2 = ?2)"
-           + "OR (f.user1 = ?2 AND f.user2 = ?1)")
+  @Query("SELECT f FROM Friendship f WHERE (f.user1 = ?1 AND f.user2 = ?2)"
+      + "OR (f.user1 = ?2 AND f.user2 = ?1)")
 
-   public Friendship getFriendshipBetween(User user1, User user2);
+  public Friendship getFriendshipBetween(User user1, User user2);
 
-   public List<Friendship> getFriendshipByUser1OrUser2(User user1, User user2);
+  public List<Friendship> getFriendshipByUser1OrUser2(User user1, User user2);
 }
